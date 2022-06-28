@@ -6,11 +6,10 @@ setup faster and enable to start development for few minutes.
 
 ## commands
 ### project-setup list
-show registered temapltes
+show registered templates
 
 ### project-setup install <template-name>
-create new project of <template-name>
-
+create new project
 
 ## template registration
 create dir at ~/.project-setup/<template-name>
