@@ -17,5 +17,9 @@ and usage of using your command`,
 }
 
 func init() {
+	// get `template-name`
+	// check is `template-name` in `~/.project-setup`
+	// copy dir
+	
 	rootCmd.AddCommand(installCmd)
 }

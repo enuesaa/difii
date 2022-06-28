@@ -17,5 +17,7 @@ and usage of using your command`,
 }
 
 func init() {
+	// list dir of `~/.project-setup`
+
 	rootCmd.AddCommand(listCmd)
 }
