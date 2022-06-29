@@ -9,18 +9,36 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "project-setup",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application`,
+	Short: "setup faster and enable to start development for few minutes",
 }
 
 func Execute() {
+	disableDefaultSettings()
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
 }
 
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func disableDefaultSettings() {
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
+
+	const template=`{{with (or .Long .Short)}}{{. | trimTrailingWhitespaces}}{{end}}
+{{if .HasAvailableSubCommands}}
+Available Commands:{{range .Commands}}{{if (or .IsAvailableCommand)}}
+  {{rpad .Name .NamePadding }} {{.Short}}{{end}}{{end}}{{end}}{{if .HasAvailableLocalFlags}}
+
+Flags:
+{{.LocalFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}{{if .HasAvailableInheritedFlags}}
+
+Global Flags:
+{{.InheritedFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}{{if .HasHelpSubCommands}}
+
+Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
+  {{rpad .CommandPath .CommandPathPadding}} {{.Short}}{{end}}{{end}}{{end}}{{if .HasAvailableSubCommands}}
+{{end}}
+`
+	rootCmd.SetHelpTemplate(template)
 }
