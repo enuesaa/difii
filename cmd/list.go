@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -9,12 +11,31 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+    list()
 	},
 }
 
 func init() {
-	// list dir of `~/.project-setup`
-
 	rootCmd.AddCommand(listCmd)
+}
+
+func list() {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dir, err := os.Open(fmt.Sprintf("%s/.project-setup", home))
+	if err != nil {
+			log.Fatal(err)
+	}
+
+	files, err := dir.Readdir(-1)
+	if err != nil {
+			log.Fatal(err)
+	}
+
+	for _, f := range files {
+			fmt.Println(f.Name())
+	}
 }
