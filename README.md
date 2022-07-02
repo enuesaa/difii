@@ -8,14 +8,14 @@ move binary to /usr/local/bin/project-setup
 ### ```project-setup list```
 show registered templates
 
-### ```project-setup install <template-name>```
+### ```project-setup install --template-name <template-name>```
 create new project
 
 ## template registration
 create dir at ```~/.project-setup/<template-name>```
-### ~/.project-setup/<template-name>/template
+### ```~/.project-setup/<template-name>/template```
 template
-### ~/.project-setup/<template-name>/hooks
+### ```~/.project-setup/<template-name>/hooks```
 hook scripts
-### ~/.project-setup/<template-name>/config.toml
+### ```~/.project-setup/<template-name>/config.toml```
 configure file
