@@ -9,7 +9,7 @@ import (
 )
 
 var listCmd = &cobra.Command{
-	Use:   "list",
+	Use: "list",
 	Run: func(cmd *cobra.Command, args []string) {
     list()
 	},
@@ -27,15 +27,15 @@ func list() {
 
 	dir, err := os.Open(fmt.Sprintf("%s/.project-setup", home))
 	if err != nil {
-			log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	files, err := dir.Readdir(-1)
 	if err != nil {
-			log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	for _, f := range files {
-			fmt.Println(f.Name())
+		fmt.Println(f.Name())
 	}
 }
