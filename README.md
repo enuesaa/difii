@@ -1,4 +1,4 @@
-# project-setup
+# difii
 setup faster and enable to start development for few minutes.
 
 ## installation
