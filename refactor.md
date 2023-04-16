@@ -3,19 +3,21 @@
 
 ## Command Interface
 ```bash
-difii <from> <to> [--no-interactive]
+difii <from> <to>  [--only <filename>] [--no-interactive] [--overwrite]
 ```
 ### from
-存在するファイルもしくはディレクトリ
+取り込み元のディレクトリ
 ### to
-存在しなくてもよい. 存在しない場合にはファイルもしくはディレクトリを作成する
+取り込み先のディレクトリ
 ### 標準出力
 差分
 
 ## Example
 ### Normal
 ```bash
-difii ../../aaa/README.md ./README.md --no-interactive
+difii ../aaa . --no-interactive
+
+README.md has +1 -1 diff.
 + aa
 - bb
 ```
@@ -23,13 +25,14 @@ difii ../../aaa/README.md ./README.md --no-interactive
 ```bash
 difii 
 
-from: ../../aaa/README.md
-to: ./README.md
+from: ../aaa
+to: .
+only: README.md
+only: NOTEXISTS.md
 
-Do you overwrite ?
+README.md has +1 -1 diff.
 + aa
 - bb
-```
 
-## TODO
-- cp との違いはなんなのか
+Do you overwrite ?
+```
