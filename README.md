@@ -1,21 +1,38 @@
 # difii
-setup faster and enable to start development for few minutes.
+A cli tool to import diffs interactively.  
 
-## installation
-move binary to /usr/local/bin/project-setup
+## Command Interface
+```bash
+difii <from> <to>  [--only <filename>] [--no-interactive] [--overwrite]
+```
+### from
+取り込み元のディレクトリ
+### to
+取り込み先のディレクトリ
+### 標準出力
+差分
 
-## commands
-### ```project-setup list```
-show registered templates
+## Example
+### Normal
+```bash
+difii ../aaa . --no-interactive
 
-### ```project-setup install --template-name <template-name>```
-create new project
+README.md has +1 -1 diff.
++ aa
+- bb
+```
+### Interactive
+```bash
+difii 
 
-## template registration
-create dir at ```~/.project-setup/<template-name>```
-### ```~/.project-setup/<template-name>/template```
-template
-### ```~/.project-setup/<template-name>/hooks```
-hook scripts
-### ```~/.project-setup/<template-name>/config.toml```
-configure file
+from: ../aaa
+to: .
+only: README.md
+only: NOTEXISTS.md
+
+README.md has +1 -1 diff.
++ aa
+- bb
+
+Do you overwrite ?
+```
