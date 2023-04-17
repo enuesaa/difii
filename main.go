@@ -1,6 +1,6 @@
 package main
 
-import "github.com/nsrciog/project-setup/cmd"
+import "github.com/enuesaa/difii/cmd"
 
 func main() {
 	cmd.Execute()
