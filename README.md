@@ -3,7 +3,7 @@ A cli tool to import diffs interactively.
 
 ## Command Interface
 ```bash
-difii <from> <to>  [--only <filename>] [--no-interactive] [--overwrite]
+difii <from> <to> [--limit 1] [--only <filename>] [--no-interactive] [--overwrite]
 ```
 ### from
 取り込み元のディレクトリ

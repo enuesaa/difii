@@ -9,15 +9,13 @@ import (
 func init() {
 	var promenadeCmd = &cobra.Command{
 		Use: "promenade",
-		Run: func(cmd *cobra.Command, args []string) {
-			promenade()
-		},
+		Run: promenadeCmdHandler,
 	}
 
-	rootCmd.AddCommand(promenadeCmd)
+	RootCmd.AddCommand(promenadeCmd)
 }
 
-func promenade() {
+func promenadeCmdHandler(cmd *cobra.Command, args []string) {
 	prompt := promptui.Select{
 		Label: "selector",
 		Items: []string{
