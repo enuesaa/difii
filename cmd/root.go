@@ -9,20 +9,33 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "difii",
-	Args: cobra.MinimumNArgs(1),
+	Args: cobra.MinimumNArgs(2),
 	Run: rootCmdHandler,
 }
 
 func rootCmdHandler(cmd *cobra.Command, args []string)  {
-	dirname := args[0]
-	files, err := os.ReadDir(dirname)
+	fromdir := args[0]
+	fromfiles, err := os.ReadDir(fromdir)
 	if err != nil {
 		fmt.Printf("%+v", err)
 		os.Exit(1)
 	}
 
-	for _, file := range files {
-		fmt.Printf("%s", file)
+	todir := args[1]
+	tofiles, err := os.ReadDir(todir)
+	if err != nil {
+		fmt.Printf("%+v", err)
+		os.Exit(1)
+	}
+	fmt.Printf("%+v", tofiles)
+
+	for _, file := range fromfiles {
+		if file.IsDir() {
+			fmt.Printf("dir: %s\n", file.Name())
+		} else {
+			info, _ := file.Info()
+			fmt.Printf("file: %s %d\n", file.Name(), info.Size())
+		}
 	}
 
 	dmp := diffmatchpatch.New()
