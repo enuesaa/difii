@@ -3,8 +3,11 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"io"
+	"path/filepath"
 	"github.com/spf13/cobra"
 	"github.com/sergi/go-diff/diffmatchpatch"
+	"github.com/manifoldco/promptui"
 )
 
 var RootCmd = &cobra.Command{
@@ -15,30 +18,46 @@ var RootCmd = &cobra.Command{
 
 func rootCmdHandler(cmd *cobra.Command, args []string)  {
 	fromdir := args[0]
+	todir := args[1]
+
 	fromfiles, err := os.ReadDir(fromdir)
 	if err != nil {
 		fmt.Printf("%+v", err)
 		os.Exit(1)
 	}
 
-	todir := args[1]
-	tofiles, err := os.ReadDir(todir)
+	_, err = os.ReadDir(todir)
 	if err != nil {
 		fmt.Printf("%+v", err)
 		os.Exit(1)
 	}
-	fmt.Printf("%+v", tofiles)
 
 	for _, file := range fromfiles {
-		if file.IsDir() {
-			fmt.Printf("dir: %s\n", file.Name())
-		} else {
-			info, _ := file.Info()
-			fmt.Printf("file: %s %d\n", file.Name(), info.Size())
+		if !file.IsDir() {
+			fromPath := filepath.Join(fromdir, file.Name())
+			toPath := filepath.Join(todir, file.Name())
+			fmt.Printf("\nDo you overwrite `%s` to `%s`\n", fromPath, toPath)
+
+			prompt := promptui.Select{
+				Label: "",
+				Items: []string{
+					"stay",
+					"overwrite",
+				},
+			}
+			
+			_, result, _ := prompt.Run()
+			if result == "overwrite" {
+				fromFile, _ := os.Open(fromPath)
+				defer fromFile.Close()
+				toFile, _ := os.Create(toPath)
+				defer toFile.Close()
+				_, _ = io.Copy(toFile, fromFile)
+			}
 		}
 	}
 
 	dmp := diffmatchpatch.New()
-	diffs := dmp.DiffMain("あ", "あか", false)
-	fmt.Println(dmp.DiffPrettyText(diffs))
+	_ = dmp.DiffMain("あ", "あか", false)
+	// fmt.Println(dmp.DiffPrettyText(diffs))
 }
