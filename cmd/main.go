@@ -10,12 +10,58 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+// todo refactor
+// see https://github.com/manifoldco/promptui/blob/master/example_select_test.go
+func chooseDir(dir string) string {
+	files, _ := os.ReadDir(dir)
+	filenames := make([]string, 0)
+	filenames = append(filenames, "[ok]", "../")
+	for _, file := range files {
+		if file.IsDir() {
+			filenames = append(filenames, file.Name())
+		}
+	}
+
+	prompt := promptui.Select{
+		Label: "",
+		Items: filenames,
+		Size: len(filenames),
+	}
+	_, result, _ := prompt.Run()
+	if result == "../" {
+		fmt.Println(dir)
+		result = chooseDir(filepath.Dir(dir))
+	} else if result == "[ok]" {
+		result = dir
+	} else {
+		result = chooseDir(dir + "/" + result)
+	}
+	return result
+}
+
 var Command = &cobra.Command{
 	Use:   "difii",
-	Args: cobra.MinimumNArgs(2),
+	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		fromdir := args[0]
-		todir := args[1]
+		var fromdir string
+		if len(args) == 0 {
+			fmt.Println("Select from dir")
+			currentdir, _ := os.Getwd()
+			fromdir = chooseDir(currentdir)
+		} else {
+			fromdir = args[0]
+		}
+
+		var todir string
+		if len(args) == 0 {
+			fmt.Println("Select to dir")
+			currentdir, _ := os.Getwd()
+			todir = chooseDir(currentdir)
+		} else {
+			todir = args[1]
+		}
+		fmt.Println(fromdir)
+		fmt.Println(todir)
 
 		fromfiles, err := os.ReadDir(fromdir)
 		if err != nil {
