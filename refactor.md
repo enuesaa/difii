@@ -1,39 +1,36 @@
 ## Command Interface
 ```bash
-difii <from> <to> [--limit 1] [--only <filename>] [--no-interactive] [--overwrite]
+difii <fromfile> <tofile> [--no-interactive] [--overwrite]
 ```
-### from
-取り込み元のディレクトリ
-### to
-取り込み先のディレクトリ
+### fromfile
+取り込み元のファイル
+### tofile
+取り込み先のファイル
 ### 標準出力
 差分
 
 ## Example
 ### Normal
 ```bash
-difii ../aaa . --no-interactive
-
-README.md has +1 -1 diff.
+difii ../aaa.txt bb.txt --no-interactive
 + aa
-- bb
+bb
+- cc
 ```
 ### Interactive
 ```bash
 difii 
 
-from: ../aaa
-to: .
-only: README.md
-only: NOTEXISTS.md
+from: ../aaa.txt
+to: bb.txt
 
-README.md has +1 -1 diff.
 + aa
-- bb
+Do you overwrite ?
 
+bb
+- cc
 Do you overwrite ?
 ```
-
 
 ## Memo
 git diff のように行頭に+-が表示されるのがいいと思う.   
