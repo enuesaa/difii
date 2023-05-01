@@ -1,39 +1,29 @@
 ## Command Interface
 ```bash
-difii <fromfile> <tofile> [--no-interactive] [--overwrite]
+difii <source-dir> \
+    --destination <destination-dir> \
+    --only <filename> \
+    --overwrite \
+    --no-interactive \
+    --recursive
 ```
-### fromfile
-取り込み元のファイル
-### tofile
-取り込み先のファイル
+### source-dir
+取り込み元のディレクトリ.  
+### destination-dir
+取り込み先のディレクトリ. デフォルトは`./`
+
 ### 標準出力
-差分
-
-## Example
-### Normal
 ```bash
-difii ../aaa.txt bb.txt --no-interactive
-+ aa
-bb
-- cc
+## Summary
+|name|diff|
+|<filename>|+2 -1|
+|<dirname>|<dirname> is directory. skipped.|
+
+## Detail
+<filename> has +2 -1 diffs.
++ aaa
++ bbb
+- ccc
+
+Do you override ? [y/n] 
 ```
-### Interactive
-```bash
-difii 
-
-from: ../aaa.txt
-to: bb.txt
-
-+ aa
-Do you overwrite ?
-
-bb
-- cc
-Do you overwrite ?
-```
-
-## Memo
-git diff のように行頭に+-が表示されるのがいいと思う.   
-ハンクごとにdiffが表示するか.     
-加えて Github みたいに違う文字列が太字になっている方が良いと思う.   
-ベストは取り込んだ後に編集がいらないこと. 
