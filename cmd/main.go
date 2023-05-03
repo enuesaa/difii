@@ -4,47 +4,11 @@ import (
 	"fmt"
 	"os"
 	"io"
-	"strings"
-	"path/filepath"
 	"github.com/spf13/cobra"
 	"github.com/sergi/go-diff/diffmatchpatch"
 	"github.com/manifoldco/promptui"
+	"github.com/enuesaa/difii/pkg/prompt"
 )
-
-// todo refactor
-// see https://github.com/manifoldco/promptui/blob/master/example_select_test.go
-func chooseFile(dir string) string {
-	var choosed string
-
-	files, _ := os.ReadDir(dir)
-	filenames := make([]string, 0)
-	filenames = append(filenames, "../")
-	for _, file := range files {
-		if file.IsDir() {
-			filenames = append(filenames, file.Name() + "/")
-		} else {
-			filenames = append(filenames, file.Name())
-		}
-	}
-
-	prompt := promptui.Select{
-		Label: "",
-		Items: filenames,
-		Size: len(filenames),
-	}
-	_, result, _ := prompt.Run()
-	if strings.HasSuffix(result, "/") {
-		if result == "../" {
-			choosed = chooseFile(filepath.Dir(dir))
-		} else {
-			choosed = chooseFile(filepath.Join(dir, result))
-		}
-	} else {
-		choosed = filepath.Join(dir, result)
-	}
-
-	return choosed
-}
 
 var Command = &cobra.Command{
 	Use:   "difii",
@@ -54,7 +18,7 @@ var Command = &cobra.Command{
 		if len(args) == 0 {
 			fmt.Println("Select source file")
 			currentdir, _ := os.Getwd()
-			fromfilepath = chooseFile(currentdir)
+			fromfilepath = prompt.ChooseFile(currentdir)
 		} else {
 			fromfilepath = args[0]
 		}
@@ -63,7 +27,7 @@ var Command = &cobra.Command{
 		if len(args) == 0 {
 			fmt.Println("Select destination file")
 			currentdir, _ := os.Getwd()
-			tofilepath = chooseFile(currentdir)
+			tofilepath = prompt.ChooseFile(currentdir)
 		} else {
 			tofilepath = args[1]
 		}
