@@ -15,17 +15,20 @@ var Command = &cobra.Command{
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		var fromfilepath string
+
+		// choose source dir, not file.
 		if len(args) == 0 {
-			fmt.Println("Select source file")
+			fmt.Println("Select source dir")
 			currentdir, _ := os.Getwd()
 			fromfilepath = prompt.ChooseFile(currentdir)
 		} else {
 			fromfilepath = args[0]
 		}
 
+		// choose destination dir, not file.
 		var tofilepath string
 		if len(args) == 0 {
-			fmt.Println("Select destination file")
+			fmt.Println("Select destination dir")
 			currentdir, _ := os.Getwd()
 			tofilepath = prompt.ChooseFile(currentdir)
 		} else {
@@ -34,14 +37,9 @@ var Command = &cobra.Command{
 		fmt.Println(fromfilepath)
 		fmt.Println(tofilepath)
 
-		if _, err := os.Stat(fromfilepath); err != nil {
-			fmt.Printf("%+v", err)
-			os.Exit(1)
-		}
-		if _, err := os.Stat(tofilepath); err != nil {
-			fmt.Printf("%+v", err)
-			os.Exit(1)
-		}
+		// list files
+		// run diff here.
+		// show diff tables
 
 		fmt.Printf("\nDo you overwrite `%s` to `%s`\n", fromfilepath, tofilepath)
 		prompt := promptui.Select{

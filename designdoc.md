@@ -25,5 +25,5 @@ difii <source-dir> \
 + bbb
 - ccc
 
-Do you override ? [y/n] 
+Do you override ? [Y/n] 
 ```
