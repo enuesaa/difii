@@ -1,16 +1,13 @@
 ## Command Interface
 ```bash
-difii <source-dir> \
-    --destination <destination-dir> \
+difii <source-dir> <destination-dir> \
     --only <filename> \
-    --overwrite \
-    --no-interactive \
-    --recursive
+    --overwrite
 ```
 ### source-dir
-取り込み元のディレクトリ.  
+取り込み元のディレクトリ  
 ### destination-dir
-取り込み先のディレクトリ. デフォルトは`./`
+取り込み先のディレクトリ
 
 ### 標準出力
 ```bash
@@ -25,5 +22,5 @@ difii <source-dir> \
 + bbb
 - ccc
 
-Do you override ? [Y/n] 
+Do you overwrite ? [Y/n] 
 ```
