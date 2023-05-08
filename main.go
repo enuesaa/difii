@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	// "os"
 	// "io"
 	"fmt"
@@ -17,31 +16,13 @@ var RootCommand = &cobra.Command{
 	Args: cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		input := cli.ParseArgs(cmd, args)
+		if !input.IsSourceDirSelected() {
+			input.SourceDir = cli.ChooseSourceDir()
+		}
+		if !input.IsDestinationDirSelected() {
+			input.SourceDir = cli.ChooseDestinationDir()
+		}
 		fmt.Printf("%+v", input)
-		// overwrite, _ :=  cmd.Flags().GetBool("overwrite")
-		// fmt.Printf("%+v",overwrite)
-		// var fromfilepath string
-
-		// // choose source dir, not file.
-		// if len(args) == 0 {
-		// 	fmt.Println("Select source dir")
-		// 	currentdir, _ := os.Getwd()
-		// 	fromfilepath = prompt.ChooseFile(currentdir)
-		// } else {
-		// 	fromfilepath = args[0]
-		// }
-
-		// // choose destination dir, not file.
-		// var tofilepath string
-		// if len(args) == 0 {
-		// 	fmt.Println("Select destination dir")
-		// 	currentdir, _ := os.Getwd()
-		// 	tofilepath = prompt.ChooseFile(currentdir)
-		// } else {
-		// 	tofilepath = args[1]
-		// }
-		// fmt.Println(fromfilepath)
-		// fmt.Println(tofilepath)
 
 		// // list files
 		// // run diff here.

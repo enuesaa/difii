@@ -1,16 +1,24 @@
-package prompt
+package cli
 
 import (
 	"os"
 	"strings"
 	"path/filepath"
+
 	"github.com/manifoldco/promptui"
 )
 
-// todo refactor
-// see https://github.com/manifoldco/promptui/blob/master/example_select_test.go
-// see https://qiita.com/sueken/items/87093e5941bfbc09bea8
-func ChooseFile(dir string) string {
+func ChooseSourceDir() string {
+	current, _  := os.Getwd()
+	return chooseFile(current)
+}
+
+func ChooseDestinationDir() string {
+	current, _  := os.Getwd()
+	return chooseFile(current)
+}
+
+func chooseFile(dir string) string {
 	var choosed string
 
 	files, _ := os.ReadDir(dir)
@@ -32,9 +40,9 @@ func ChooseFile(dir string) string {
 	_, result, _ := prompt.Run()
 	if strings.HasSuffix(result, "/") {
 		if result == "../" {
-			choosed = ChooseFile(filepath.Dir(dir))
+			choosed = chooseFile(filepath.Dir(dir))
 		} else {
-			choosed = ChooseFile(filepath.Join(dir, result))
+			choosed = chooseFile(filepath.Join(dir, result))
 		}
 	} else {
 		choosed = filepath.Join(dir, result)

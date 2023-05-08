@@ -15,6 +15,13 @@ type CliInput struct {
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
+// なんか期待通りじゃない
+func (cli *CliInput) IsSourceDirSelected() bool {
+	return &cli.SourceDir != nil
+}
+func (cli *CliInput) IsDestinationDirSelected() bool {
+	return &cli.DestinationDir != nil
+}
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	input := CliInput{}
