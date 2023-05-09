@@ -3,13 +3,12 @@ package main
 import (
 	// "os"
 	// "io"
-	"fmt"
 
 	"github.com/spf13/cobra"
 	// "github.com/sergi/go-diff/diffmatchpatch"
 	// "github.com/manifoldco/promptui"
 	"github.com/enuesaa/difii/pkg/cli"
-	"github.com/enuesaa/difii/pkg/files"
+	// "github.com/enuesaa/difii/pkg/files"
 )
 
 var RootCommand = &cobra.Command{
@@ -20,15 +19,15 @@ var RootCommand = &cobra.Command{
 		if !input.IsSourceDirSelected() {
 			input.SourceDir = cli.ChooseSourceDir()
 		}
-		if !input.IsDestinationDirSelected() {
-			input.SourceDir = cli.ChooseDestinationDir()
-		}
-		fmt.Printf("%+v", input)
+		// if !input.IsDestinationDirSelected() {
+		// 	input.SourceDir = cli.ChooseDestinationDir()
+		// }
+		// fmt.Printf("%+v", input)
 
-		fmt.Printf("diff started...")
+		// fmt.Printf("diff started...")
 
-		filenames := files.ListFiles(input.SourceDir)
-		fmt.Printf("%+v", filenames)
+		// filenames := files.ListFiles(input.SourceDir)
+		// fmt.Printf("%+v", filenames)
 		// // run diff here.
 		// // show diff tables
 

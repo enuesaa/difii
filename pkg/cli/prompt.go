@@ -6,11 +6,31 @@ import (
 	"path/filepath"
 
 	"github.com/manifoldco/promptui"
+	"github.com/chzyer/readline"
+	"fmt"
+	"strconv"
 )
 
 func ChooseSourceDir() string {
-	current, _  := os.Getwd()
-	return chooseFile(current)
+
+	validate := func(input string) error {
+		_, err := strconv.ParseFloat(input, 64)
+		return err
+	}
+
+	prompt := promptui.Prompt{
+		Label:     "Spicy Level",
+		Validate:  validate,
+	}
+
+	result, _ := prompt.Run()
+	fmt.Printf("%+v", result)
+
+	readline.NewCancelableStdin(os.Stdout)
+	return ""
+
+	// current, _  := os.Getwd()
+	// return chooseFile(current)
 }
 
 func ChooseDestinationDir() string {
