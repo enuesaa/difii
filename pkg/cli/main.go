@@ -1,8 +1,6 @@
 package cli
 
 import (
-	// "fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -15,12 +13,11 @@ type CliInput struct {
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
-// なんか期待通りじゃない
 func (cli *CliInput) IsSourceDirSelected() bool {
-	return &cli.SourceDir != nil
+	return cli.SourceDir != ""
 }
 func (cli *CliInput) IsDestinationDirSelected() bool {
-	return &cli.DestinationDir != nil
+	return cli.DestinationDir != ""
 }
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {

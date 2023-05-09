@@ -9,6 +9,7 @@ import (
 	// "github.com/sergi/go-diff/diffmatchpatch"
 	// "github.com/manifoldco/promptui"
 	"github.com/enuesaa/difii/pkg/cli"
+	"github.com/enuesaa/difii/pkg/files"
 )
 
 var RootCommand = &cobra.Command{
@@ -24,7 +25,10 @@ var RootCommand = &cobra.Command{
 		}
 		fmt.Printf("%+v", input)
 
-		// // list files
+		fmt.Printf("diff started...")
+
+		filenames := files.ListFiles(input.SourceDir)
+		fmt.Printf("%+v", filenames)
 		// // run diff here.
 		// // show diff tables
 
@@ -53,6 +57,8 @@ var RootCommand = &cobra.Command{
 }
 
 func main() {
+	RootCommand.Flags().String("source", "", "Source directory.")
+	RootCommand.Flags().String("destination", "", "Destination directory.")
 	RootCommand.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
 	RootCommand.Flags().Bool("overwrite", false, "Overwrite destination file with source file.")
 	RootCommand.Execute()

@@ -1,13 +1,17 @@
 ## Command Interface
 ```bash
-difii <source-dir> <destination-dir> \
+difii 
+    --source <source-dir>
+    --destination <destination-dir> \
     --only <filename> \
-    --overwrite
+    --overwrite \
+    --no-interactive
 ```
 ### source-dir
 取り込み元のディレクトリ  
 ### destination-dir
 取り込み先のディレクトリ
+デフォルトは ./
 
 ### 標準出力
 ```bash
