@@ -1,32 +1,26 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"path/filepath"
 
 	"github.com/manifoldco/promptui"
-	"github.com/chzyer/readline"
-	"fmt"
-	"strconv"
+    // "github.com/AlecAivazis/survey/v2"
 )
 
 func ChooseSourceDir() string {
+	// name := ""
+	// prompt := &survey.Input{
+	// 	Message: "ping",
+	// }
+	// survey.AskOne(prompt, &name)
+	// see https://github.com/go-survey/survey/blob/master/terminal/display_posix.go#L10
+	fmt.Printf("aaaa\naaaa")
+	fmt.Printf("\x1b[%dK", 1)
+	fmt.Printf("\x1b[%dK", 1)
 
-	validate := func(input string) error {
-		_, err := strconv.ParseFloat(input, 64)
-		return err
-	}
-
-	prompt := promptui.Prompt{
-		Label:     "Spicy Level",
-		Validate:  validate,
-	}
-
-	result, _ := prompt.Run()
-	fmt.Printf("%+v", result)
-
-	readline.NewCancelableStdin(os.Stdout)
 	return ""
 
 	// current, _  := os.Getwd()
