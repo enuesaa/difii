@@ -3,64 +3,35 @@ package cli
 import (
 	"fmt"
 	"os"
-	"strings"
-	"path/filepath"
 
-	"github.com/manifoldco/promptui"
-    // "github.com/AlecAivazis/survey/v2"
+	"github.com/c-bata/go-prompt"
 )
 
-func ChooseSourceDir() string {
-	// name := ""
-	// prompt := &survey.Input{
-	// 	Message: "ping",
-	// }
-	// survey.AskOne(prompt, &name)
-	// see https://github.com/go-survey/survey/blob/master/terminal/display_posix.go#L10
-	fmt.Printf("aaaa\naaaa")
-	fmt.Printf("\x1b[%dK", 1)
-	fmt.Printf("\x1b[%dK", 1)
+func DoPrompt() {
+	suggests := make([]prompt.Suggest, 0)
 
-	return ""
-
-	// current, _  := os.Getwd()
-	// return chooseFile(current)
-}
-
-func ChooseDestinationDir() string {
-	current, _  := os.Getwd()
-	return chooseFile(current)
-}
-
-func chooseFile(dir string) string {
-	var choosed string
-
-	files, _ := os.ReadDir(dir)
-	filenames := make([]string, 0)
-	filenames = append(filenames, "../")
-	for _, file := range files {
-		if file.IsDir() {
-			filenames = append(filenames, file.Name() + "/")
+    in := prompt.Input("Select Dir ", func (in prompt.Document) []prompt.Suggest {
+		var dir string
+		if in.Text == "" {
+			dir = "./"
 		} else {
-			filenames = append(filenames, file.Name())
+			dir = in.Text
 		}
-	}
 
-	prompt := promptui.Select{
-		Label: "",
-		Items: filenames,
-		Size: len(filenames),
-	}
-	_, result, _ := prompt.Run()
-	if strings.HasSuffix(result, "/") {
-		if result == "../" {
-			choosed = chooseFile(filepath.Dir(dir))
-		} else {
-			choosed = chooseFile(filepath.Join(dir, result))
+		files, err := os.ReadDir(dir)
+		if err != nil {
+			return prompt.FilterHasPrefix(suggests, in.GetWordBeforeCursor(), true)
 		}
-	} else {
-		choosed = filepath.Join(dir, result)
-	}
+		suggests = nil
+		suggests := make([]prompt.Suggest, 0)
+		suggests = append(suggests, prompt.Suggest{ Text: "../" + in.Text })
 
-	return choosed
+		for _, fileinfo := range files {
+			if fileinfo.IsDir() {
+				suggests = append(suggests, prompt.Suggest{ Text: dir + fileinfo.Name() + "/" })
+			}
+		}
+		return prompt.FilterHasPrefix(suggests, in.GetWordBeforeCursor(), true)
+	})
+    fmt.Println("Your input: " + in)
 }
