@@ -21,19 +21,17 @@ func (cli *CliInput) IsDestinationDirSelected() bool {
 }
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
-	input := CliInput{}
-	if len(args) == 1 {
-		input.SourceDir = args[0]
-	}
-	if len(args) == 2 {
-		input.SourceDir = args[0]
-		input.DestinationDir = args[1]
-	}
+	source, _ := cmd.Flags().GetString("source")
+	destination, _ := cmd.Flags().GetString("destination")
 	overwrite, _ := cmd.Flags().GetBool("overwrite")
-	input.IsOverwrite = overwrite
-
 	filenames, _ := cmd.Flags().GetStringSlice("only")
-	input.Includes = filenames
+
+	input := CliInput {
+		SourceDir: source,
+		DestinationDir: destination,
+		IsOverwrite: overwrite,
+		Includes: filenames,
+	} 
 
 	return input
 }

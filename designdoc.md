@@ -5,12 +5,15 @@ difii
     --destination <destination-dir> \
     --only <filename> \
     --overwrite \
-    --no-interactive
+    --no-interactive \
+    --ignore <filename>
 ```
 ### source-dir
 取り込み元のディレクトリ  
 ### destination-dir
 取り込み先のディレクトリ
+### ignore
+ignore .git dir by default.
 
 ### 標準出力
 ```bash

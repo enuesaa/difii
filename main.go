@@ -1,14 +1,12 @@
 package main
 
 import (
-	// "os"
-	// "io"
+	"fmt"
 
-	"github.com/spf13/cobra"
-	// "github.com/sergi/go-diff/diffmatchpatch"
-	// "github.com/manifoldco/promptui"
 	"github.com/enuesaa/difii/pkg/cli"
-	// "github.com/enuesaa/difii/pkg/files"
+	"github.com/enuesaa/difii/pkg/diff"
+	"github.com/enuesaa/difii/pkg/files"
+	"github.com/spf13/cobra"
 )
 
 var RootCommand = &cobra.Command{
@@ -17,19 +15,26 @@ var RootCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		input := cli.ParseArgs(cmd, args)
 		if !input.IsSourceDirSelected() {
-			input.SourceDir = cli.ChooseSourceDir()
+			fmt.Println("source dir not selected")
+			// input.SourceDir = cli.ChooseSourceDir()
+			return;
 		}
-		// if !input.IsDestinationDirSelected() {
-		// 	input.SourceDir = cli.ChooseDestinationDir()
-		// }
-		// fmt.Printf("%+v", input)
+		if !input.IsDestinationDirSelected() {
+			fmt.Println("destination dir not selected")
+			// input.SourceDir = cli.ChooseDestinationDir()
+			return;
+		}
+		fmt.Printf("source dir: %s \n", input.SourceDir)
+		fmt.Printf("destination dir: %s \n", input.DestinationDir)
+		fmt.Println("")
 
-		// fmt.Printf("diff started...")
-
-		// filenames := files.ListFiles(input.SourceDir)
-		// fmt.Printf("%+v", filenames)
-		// // run diff here.
-		// // show diff tables
+		sourcefiles := files.ListFilesRecursively(input.SourceDir)
+		for _, filename := range sourcefiles {
+			sourcefile := files.Read(input.SourceDir, filename)
+			destinationfile := files.Read(input.DestinationDir, filename)
+			diff.Diff(sourcefile, destinationfile)
+			// run diff here.
+		}
 
 		// fmt.Printf("\nDo you overwrite `%s` to `%s`\n", fromfilepath, tofilepath)
 		// prompt := promptui.Select{
@@ -60,5 +65,6 @@ func main() {
 	RootCommand.Flags().String("destination", "", "Destination directory.")
 	RootCommand.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
 	RootCommand.Flags().Bool("overwrite", false, "Overwrite destination file with source file.")
+	RootCommand.Flags().StringSlice("ignore", make([]string, 0), "Filename to ignore. By default, .git dir is ignored. You can override this behavior.")
 	RootCommand.Execute()
 }
