@@ -16,6 +16,7 @@ var RootCommand = &cobra.Command{
 		input := cli.ParseArgs(cmd, args)
 		if !input.IsSourceDirSelected() {
 			fmt.Println("source dir not selected")
+			cli.DoPrompt()
 			// input.SourceDir = cli.ChooseSourceDir()
 			return;
 		}
