@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/difii/pkg/cli"
-	"github.com/enuesaa/difii/pkg/diff"
+	// "github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
 	"github.com/spf13/cobra"
 )
@@ -30,12 +30,14 @@ var RootCommand = &cobra.Command{
 		fmt.Println("")
 
 		sourcefiles := files.ListFilesRecursively(input.SourceDir)
-		for _, filename := range sourcefiles {
-			sourcefile := files.Read(input.SourceDir, filename)
-			destinationfile := files.Read(input.DestinationDir, filename)
-			diff.Diff(sourcefile, destinationfile)
-			// run diff here.
-		}
+		files.ReadStream(input.SourceDir, sourcefiles[0])
+
+		// for _, filename := range sourcefiles {
+		// 	sourcefile := files.Read(input.SourceDir, filename)
+		// 	destinationfile := files.Read(input.DestinationDir, filename)
+		// 	diff.Diff(sourcefile, destinationfile)
+		// 	// run diff here.
+		// }
 
 		// fmt.Printf("\nDo you overwrite `%s` to `%s`\n", fromfilepath, tofilepath)
 		// prompt := promptui.Select{
