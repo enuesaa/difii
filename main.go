@@ -30,7 +30,7 @@ var RootCommand = &cobra.Command{
 		fmt.Println("")
 
 		sourcefiles := files.ListFilesRecursively(input.SourceDir)
-		files.ReadStream(input.SourceDir, sourcefiles[0])
+		files.ReadStreamWithDiff(input.SourceDir, input.DestinationDir, sourcefiles[0])
 
 		// for _, filename := range sourcefiles {
 		// 	sourcefile := files.Read(input.SourceDir, filename)
