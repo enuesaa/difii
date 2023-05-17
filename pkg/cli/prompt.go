@@ -7,7 +7,17 @@ import (
 	"github.com/c-bata/go-prompt"
 )
 
-func DoPrompt() {
+func SelectSourceDir() string {
+	fmt.Println("source dir not selected")
+	return doPrompt()
+}
+
+func SelectDestinationDir() string {
+	fmt.Println("destination dir not selected")
+	return doPrompt()
+}
+
+func doPrompt() string {
 	suggests := make([]prompt.Suggest, 0)
 
     in := prompt.Input("Select Dir ", func (in prompt.Document) []prompt.Suggest {
@@ -33,5 +43,5 @@ func DoPrompt() {
 		}
 		return prompt.FilterHasPrefix(suggests, in.GetWordBeforeCursor(), true)
 	})
-    fmt.Println("Your input: " + in)
+	return in
 }
