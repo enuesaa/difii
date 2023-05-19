@@ -5,20 +5,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 func main() {
 	var command = &cobra.Command{
-		Use: "difii",
+		Use:  "difii",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
 			if !input.IsSourceDirSelected() {
 				input.SourceDir = cli.SelectSourceDir()
 			}
-			if !input.IsDestinationDirSelected() {
-				input.DestinationDir = cli.SelectDestinationDir()
-			}
-			cli.DiffFiles(input.SourceDir, input.DestinationDir)
+			// if !input.IsDestinationDirSelected() {
+			// 	input.DestinationDir = cli.SelectDestinationDir()
+			// }
+			// cli.DiffFiles(input.SourceDir, input.DestinationDir)
 		},
 	}
 
