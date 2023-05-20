@@ -26,7 +26,7 @@ func promptOptions() []prompt.Option {
 	options = append(options, prompt.OptionPrefixTextColor(prompt.Brown))
 	options = append(options, prompt.OptionCompletionOnDown())
 	options = append(options, prompt.OptionBreakLineCallback(func(d *prompt.Document) {
-		fmt.Println("a")
+		fmt.Printf("%s selected. \n", d.Text)
 	}))
 
 	return options

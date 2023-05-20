@@ -23,52 +23,56 @@ func listDirs(dir string) []string {
 	return dirs
 }
 
-func appendDefaultSuggests(suggests []prompt.Suggest) []prompt.Suggest {
-	suggests = append(suggests, prompt.Suggest {
-		Text: "./",
-	})
-	suggests = append(suggests, prompt.Suggest {
-		Text: "../",
-	})
+func isDirNamedLikeTextExist(text string) bool {
+	if text == "." || strings.HasSuffix(text, "/") {
+		return false
+	}
 
+	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
+	if _, err := os.Stat(text); !os.IsNotExist(err) {
+		return true
+	}
+	return false
+}
+
+func appendSuggest(suggests []prompt.Suggest, path string) []prompt.Suggest {
+	suggests = append(suggests, prompt.Suggest {
+		Text: path,
+	})
 	return suggests
+}
+
+func getSearchDir(text string) string {
+	if strings.HasSuffix(text, "/") {
+		return text
+	}
+	return filepath.Dir(text)
+}
+
+func getBasePath(text string) string {
+	base := ""
+	if strings.Contains(text, "/") {
+		base = filepath.Dir(text) + "/"
+	}
+	return base
 }
 
 func selectDir(in prompt.Document) []prompt.Suggest {
 	suggests := make([]prompt.Suggest, 0)
-	suggests = appendDefaultSuggests(suggests)
+	suggests = appendSuggest(suggests, "./")
+	suggests = appendSuggest(suggests, "../")
 
 	text := in.Text
-
-	var searchDir string
-	if strings.HasSuffix(text, "/") {
-		searchDir = text
-	} else {
-		searchDir = filepath.Dir(text)
-	}
+	searchDir := getSearchDir(text)
+	basePath := getBasePath(text)
 
 	for _, dir := range listDirs(searchDir) {
-		var suggestion string
-		if strings.Contains(text, "/") {
-			suggestion = filepath.Dir(text) + "/" + dir
-		} else {
-			suggestion = dir
-		}
-		suggests = append(suggests, prompt.Suggest {
-			Text: suggestion,
-		})
+		suggests = appendSuggest(suggests, basePath + dir)
 	}
 
-	// /の一つ手前で suggest したい
-	if text != "." && !strings.HasSuffix(text, "/") {
-		// see https://gist.github.com/mattes/d13e273314c3b3ade33f
-		if _, err := os.Stat(text); !os.IsNotExist(err) {
-			for _, dir := range listDirs(text) {
-				suggestion := text + "/" + dir
-				suggests = append(suggests, prompt.Suggest {
-					Text: suggestion,
-				})
-			}
+	if isDirNamedLikeTextExist(text) {
+		for _, dir := range listDirs(text) {
+			suggests = appendSuggest(suggests, text + "/" + dir)
 		}
 	}
 
