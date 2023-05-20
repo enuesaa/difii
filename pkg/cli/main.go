@@ -22,7 +22,7 @@ func (cli *CliInput) IsDestinationDirSelected() bool {
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	source, _ := cmd.Flags().GetString("source")
-	destination, _ := cmd.Flags().GetString("destination")
+	destination, _ := cmd.Flags().GetString("dest")
 	overwrite, _ := cmd.Flags().GetBool("overwrite")
 	filenames, _ := cmd.Flags().GetStringSlice("only")
 

@@ -1,38 +1,18 @@
 package prompt
 
 import (
-	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/c-bata/go-prompt"
+	"github.com/enuesaa/difii/pkg/files"
 )
-
-func listDirs(dir string) []string {
-	dirs := make([]string, 0)
-	files, err := os.ReadDir(dir)
-	if err != nil {
-		return dirs
-	}
-	for _, f := range files {
-		if f.IsDir() {
-			dirs = append(dirs, f.Name())
-		}
-	}
-
-	return dirs
-}
 
 func isDirNamedLikeTextExist(text string) bool {
 	if text == "." || strings.HasSuffix(text, "/") {
 		return false
 	}
-
-	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
-	if _, err := os.Stat(text); !os.IsNotExist(err) {
-		return true
-	}
-	return false
+	return files.IsDirExist(text)
 }
 
 func appendSuggest(suggests []prompt.Suggest, path string) []prompt.Suggest {
@@ -66,12 +46,12 @@ func selectDir(in prompt.Document) []prompt.Suggest {
 	searchDir := getSearchDir(text)
 	basePath := getBasePath(text)
 
-	for _, dir := range listDirs(searchDir) {
+	for _, dir := range files.ListDirs(searchDir) {
 		suggests = appendSuggest(suggests, basePath + dir)
 	}
 
 	if isDirNamedLikeTextExist(text) {
-		for _, dir := range listDirs(text) {
+		for _, dir := range files.ListDirs(text) {
 			suggests = appendSuggest(suggests, text + "/" + dir)
 		}
 	}

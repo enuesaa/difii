@@ -2,7 +2,7 @@
 ```bash
 difii 
     --source <source-dir>
-    --destination <destination-dir> \
+    --dest <destination-dir> \
     --only <filename> \
     --overwrite \
     --no-interactive \
