@@ -37,6 +37,16 @@ func getBasePath(text string) string {
 	return base
 }
 
+func filterGit(suggests []prompt.Suggest) []prompt.Suggest {
+	ret := make([]prompt.Suggest, 0)
+	for _, suggest := range suggests {
+		if !strings.HasSuffix(suggest.Text, ".git") {
+			ret = append(ret, suggest)
+		}
+	}
+	return ret
+}
+
 func selectDir(in prompt.Document) []prompt.Suggest {
 	suggests := make([]prompt.Suggest, 0)
 	suggests = appendSuggest(suggests, "./")
@@ -55,6 +65,8 @@ func selectDir(in prompt.Document) []prompt.Suggest {
 			suggests = appendSuggest(suggests, text + "/" + dir)
 		}
 	}
+
+	suggests = filterGit(suggests)
 
 	return prompt.FilterHasPrefix(suggests, text, false)
 }

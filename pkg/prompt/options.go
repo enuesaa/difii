@@ -25,5 +25,7 @@ func promptOptions() []prompt.Option {
 	options = append(options, prompt.OptionPrefixTextColor(prompt.Brown))
 	options = append(options, prompt.OptionCompletionOnDown())
 
+	// 選んでenterを押すと入力途中なのに完了してしまうのをなんとかしたい
+
 	return options
 }
