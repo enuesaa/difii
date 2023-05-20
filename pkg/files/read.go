@@ -1,8 +1,8 @@
 package files
 
 import (
-	"os"
 	"bufio"
+	"os"
 
 	"fmt"
 )
@@ -30,7 +30,6 @@ func ReadStream(dir string, filename string) {
 		fmt.Println(scanner.Text())
 	}
 }
-
 
 func ReadStreamWithDiff(sourceDir string, destinationDir string, filename string) {
 	source, err := os.Open(sourceDir + "/" + filename)

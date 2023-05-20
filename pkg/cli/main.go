@@ -5,11 +5,12 @@ import (
 )
 
 type CliInput struct {
-	SourceDir string
+	SourceDir      string
 	DestinationDir string
-	IsOverwrite bool
-	Includes []string
+	IsOverwrite    bool
+	Includes       []string
 }
+
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
@@ -26,12 +27,12 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	overwrite, _ := cmd.Flags().GetBool("overwrite")
 	filenames, _ := cmd.Flags().GetStringSlice("only")
 
-	input := CliInput {
-		SourceDir: source,
+	input := CliInput{
+		SourceDir:      source,
 		DestinationDir: destination,
-		IsOverwrite: overwrite,
-		Includes: filenames,
-	} 
+		IsOverwrite:    overwrite,
+		Includes:       filenames,
+	}
 
 	return input
 }

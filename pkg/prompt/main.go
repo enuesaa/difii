@@ -13,9 +13,9 @@ func SelectSourceDir() string {
 		dir := prompt.Input("Select source dir (--source)   : ", selectDir, promptOptions()...)
 		if files.IsDirExist(dir) {
 			return dir
-        }
+		}
 		fmt.Printf("Dir %s does not exist. \n", dir)
-    }
+	}
 }
 
 func SelectDestinationDir() string {
@@ -23,7 +23,7 @@ func SelectDestinationDir() string {
 		dir := prompt.Input("Select destination dir (--dest): ", selectDir, promptOptions()...)
 		if files.IsDirExist(dir) {
 			return dir
-        }
+		}
 		fmt.Printf("Dir %s does not exist. \n", dir)
-    }
+	}
 }

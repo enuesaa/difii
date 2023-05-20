@@ -11,11 +11,11 @@ func ListFiles(dir string) []string {
 	filenames := make([]string, 0)
 	for _, file := range files {
 		if file.Name() == ".git" {
-			continue;
+			continue
 		}
 		if file.IsDir() {
-			filenames = append(filenames, file.Name() + "/")
-			} else {
+			filenames = append(filenames, file.Name()+"/")
+		} else {
 			filenames = append(filenames, file.Name())
 		}
 	}
@@ -33,14 +33,14 @@ func ListFilesRecursively(dir string) []string {
 			return nil
 		}
 		if file.IsDir() {
-			return nil;
+			return nil
 		} else {
 			filenames = append(filenames, path)
 		}
 		return nil
 	})
 
-	return removeRelativePathFromFilenames(filenames, dir + "/")
+	return removeRelativePathFromFilenames(filenames, dir+"/")
 }
 
 func removeRelativePathFromFilenames(filenames []string, path string) []string {

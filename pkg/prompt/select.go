@@ -16,7 +16,7 @@ func isDirNamedLikeTextExist(text string) bool {
 }
 
 func appendSuggest(suggests []prompt.Suggest, path string) []prompt.Suggest {
-	suggests = append(suggests, prompt.Suggest {
+	suggests = append(suggests, prompt.Suggest{
 		Text: path,
 	})
 	return suggests
@@ -57,12 +57,12 @@ func selectDir(in prompt.Document) []prompt.Suggest {
 	basePath := getBasePath(text)
 
 	for _, dir := range files.ListDirs(searchDir) {
-		suggests = appendSuggest(suggests, basePath + dir)
+		suggests = appendSuggest(suggests, basePath+dir)
 	}
 
 	if isDirNamedLikeTextExist(text) {
 		for _, dir := range files.ListDirs(text) {
-			suggests = appendSuggest(suggests, text + "/" + dir)
+			suggests = appendSuggest(suggests, text+"/"+dir)
 		}
 	}
 
