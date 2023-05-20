@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/enuesaa/difii/pkg/cli"
+	"github.com/enuesaa/difii/pkg/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -12,11 +13,11 @@ func main() {
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
 			if !input.IsSourceDirSelected() {
-				input.SourceDir = cli.SelectSourceDir()
+				input.SourceDir = prompt.SelectSourceDir()
 			}
-			// if !input.IsDestinationDirSelected() {
-			// 	input.DestinationDir = cli.SelectDestinationDir()
-			// }
+			if !input.IsDestinationDirSelected() {
+				input.DestinationDir = prompt.SelectDestinationDir()
+			}
 			// cli.DiffFiles(input.SourceDir, input.DestinationDir)
 		},
 	}
