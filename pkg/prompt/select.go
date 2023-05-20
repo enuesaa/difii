@@ -10,10 +10,23 @@ import (
 
 func selectDir(in prompt.Document) []prompt.Suggest {
 	suggests := make([]prompt.Suggest, 0)
-	text := in.Text
+	suggests = append(suggests, prompt.Suggest {
+		Text: "./",
+	})
+	suggests = append(suggests, prompt.Suggest {
+		Text: "../",
+	})
 
-	searchDir := text
-	if !strings.HasSuffix(text, "/") {
+	text := in.Text
+	if text == "" {
+		text = "./"
+	}
+
+	var searchDir string
+	if strings.HasSuffix(text, "/") {
+		// /の一つ手前で suggest したい
+		searchDir = text
+	} else {
 		searchDir = filepath.Dir(text)
 	}
 
@@ -23,15 +36,16 @@ func selectDir(in prompt.Document) []prompt.Suggest {
 	}
 	for _, f := range files {
 		if f.IsDir() {
+			var suggestion string
 			if strings.Contains(text, "/") {
-				suggests = append(suggests, prompt.Suggest {
-					Text: filepath.Dir(text) + "/" + f.Name() + "/",
-				})
+				suggestion = filepath.Dir(text) + "/" + f.Name() + "/"
 			} else {
-				suggests = append(suggests, prompt.Suggest {
-					Text: f.Name() + "/",
-				})
+				suggestion = f.Name() + "/"
 			}
+
+			suggests = append(suggests, prompt.Suggest {
+				Text: suggestion,
+			})
 		}
 	}
 

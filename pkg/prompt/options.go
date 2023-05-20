@@ -1,6 +1,7 @@
 package prompt
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/c-bata/go-prompt"
@@ -16,6 +17,17 @@ func promptOptions() []prompt.Option {
 		},
 	}))
 	options = append(options, prompt.OptionShowCompletionAtStart())
+	options = append(options, prompt.OptionSuggestionBGColor(prompt.Black))
+	options = append(options, prompt.OptionSuggestionTextColor(prompt.White))
+	options = append(options, prompt.OptionSelectedSuggestionBGColor(prompt.Black))
+	options = append(options, prompt.OptionSelectedSuggestionTextColor(prompt.Cyan))
+	options = append(options, prompt.OptionMaxSuggestion(15))
+	options = append(options, prompt.OptionPrefixTextColor(prompt.Brown))
+	options = append(options, prompt.OptionCompletionOnDown())
+	options = append(options, prompt.OptionInitialBufferText("."))
+	options = append(options, prompt.OptionBreakLineCallback(func(d *prompt.Document) {
+		fmt.Println("a")
+	}))
 
 	return options
 }
