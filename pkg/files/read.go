@@ -7,6 +7,13 @@ import (
 	"fmt"
 )
 
+func ReadStream(path string) *os.File {
+	f, _ := os.Open(path)
+	// defer f.Close()
+
+	return f
+}
+
 func ReadStreamWithDiff(sourceDir string, destinationDir string, filename string) {
 	source, err := os.Open(sourceDir + "/" + filename)
 	if err != nil {

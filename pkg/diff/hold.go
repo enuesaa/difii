@@ -30,6 +30,7 @@ func (holder *Holder) Flush(text string) {
 	matched := holder.GetHoldIndex(text)
 	if matched == -1 {
 		// source text does not exist in dest. so mark this text as add-diff
+		// TODO: hunk の途中でたまたま一致してしまうとそれ以降の共通行が diff 扱いされてしまうので 見直した方がいい
 		holder.markAdd(text)
 		return;
 	}

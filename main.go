@@ -24,7 +24,7 @@ func main() {
 				fmt.Printf("Error: %s\n", err.Error())
 				return;
 			}
-			// cli.DiffFiles(input.SourceDir, input.DestinationDir)
+			cli.Diff(input)
 		},
 	}
 
