@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/difii/pkg/cli"
 	"github.com/enuesaa/difii/pkg/prompt"
 	"github.com/spf13/cobra"
@@ -17,6 +19,10 @@ func main() {
 			}
 			if !input.IsDestinationDirSelected() {
 				input.DestinationDir = prompt.SelectDestinationDir()
+			}
+			if err := input.Validate(); err != nil {
+				fmt.Printf("Error: %s\n", err.Error())
+				return;
 			}
 			// cli.DiffFiles(input.SourceDir, input.DestinationDir)
 		},

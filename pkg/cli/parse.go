@@ -1,6 +1,9 @@
 package cli
 
 import (
+	"errors"
+
+	"github.com/enuesaa/difii/pkg/files"
 	"github.com/spf13/cobra"
 )
 
@@ -19,6 +22,21 @@ func (cli *CliInput) IsSourceDirSelected() bool {
 }
 func (cli *CliInput) IsDestinationDirSelected() bool {
 	return cli.DestinationDir != ""
+}
+func (cli *CliInput) Validate() error {
+	if !cli.IsSourceDirSelected() {
+		return errors.New("required option --source is missing")
+	}
+	if !cli.IsDestinationDirSelected() {
+		return errors.New("required option --dest is missing")
+	}
+	if !files.IsDirExist(cli.SourceDir) {
+		return errors.New("invalid file path specified in --source")
+	}
+	if !files.IsDirExist(cli.DestinationDir) {
+		return errors.New("invalid file path specified in --dest")
+	}
+	return nil
 }
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
