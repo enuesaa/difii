@@ -18,30 +18,50 @@ func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 	}
 }
 
-func (anly *Analyzer) sourceHasNext() bool {
-	return anly.source.Scan()
-}
-func (anly *Analyzer) destHasNext() bool {
-	return anly.dest.Scan()
-}
-func (anly *Analyzer) sourceText() string {
-	return anly.source.Text()
-}
-func (anly *Analyzer) destText() string {
-	return anly.dest.Text()
+func (anly *Analyzer) next() (*Value, *Value) {
+	sourceHasNext := anly.source.Scan()
+	destHasNext := anly.dest.Scan()
+
+	var sourceNext string
+	if sourceHasNext {
+		sourceNext = anly.source.Text()
+	}
+	var destNext string
+	if destHasNext {
+		destNext = anly.dest.Text()
+	}
+
+	return &Value{ has: sourceHasNext, text: sourceNext }, &Value{ has: destHasNext, text: destNext }
 }
 
 func (anly *Analyzer) Analyze() {
-	for anly.sourceHasNext() {
-		if anly.destHasNext() {
-			if anly.sourceText() != anly.destText() {
-				anly.diffs.Add(anly.sourceText())
-				anly.diffs.Remove(anly.destText())
+	for {
+		sourceValue, destValue := anly.next()
+		if sourceValue.Has() {
+			if destValue.Has() {
+				if sourceValue.Text() != destValue.Text() {
+					anly.add(sourceValue.Text())
+					anly.remove(destValue.Text())
+				}
+			} else {
+				anly.add(sourceValue.Text())
 			}
 		} else {
-			anly.diffs.Add(anly.sourceText())
+			anly.remove(destValue.Text())
+
+			if !destValue.Has() {
+				break;
+			}
 		}
 	}
+}
+
+func (anly *Analyzer) add(text string) {
+	anly.diffs.Add(text)
+}
+
+func (anly *Analyzer) remove(text string) {
+	anly.diffs.Remove(text)
 }
 
 func (anly *Analyzer) GetDiffs() *Diffs {
