@@ -13,8 +13,7 @@ func TestNormal(t *testing.T) {
 	dest := strings.NewReader("bbbb")
 
 	analyzer := NewAnalyzer(source, dest)
-	analyzer.Analyze()
-	diff := analyzer.GetDiffs().Render()
+	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
 	+ aaaa
 	- bbbb
@@ -38,8 +37,7 @@ func TestHunked(t *testing.T) {
 	`))
 
 	analyzer := NewAnalyzer(source, dest)
-	analyzer.Analyze()
-	diff := analyzer.GetDiffs().Render()
+	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
 	+ cccccc
 	+ dddddd
