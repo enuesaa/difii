@@ -45,3 +45,27 @@ func TestHunked(t *testing.T) {
 	- ffffff
 	`), diff)
 }
+
+func TestHunkedWithEmptyLine(t *testing.T) {
+	source := strings.NewReader(heredoc.Doc(`
+	aaaa
+	bbbb
+	cccccc
+	eeeeee
+	gggg
+	`))
+	dest := strings.NewReader(heredoc.Doc(`
+	aaaa
+	bbbb
+
+	cccccc
+	eeeeee
+	gggg
+	`))
+
+	analyzer := NewAnalyzer(source, dest)
+	diff := analyzer.Analyze().Render()
+	assert.Equal(t, heredoc.Doc(`
+	+ 
+	`), diff)
+}
