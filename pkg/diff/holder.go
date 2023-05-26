@@ -6,38 +6,38 @@ import (
 
 // dest基準. dest の文字列を一旦 hold し source との共通文字列が見つかり次第 差分をpushする
 type Holder struct {
-	dest []string
-	source []string
+	dest []Value
+	source []Value
 	diffs Diffs
 }
 
 func NewHolder() *Holder {
 	return &Holder{
-		dest: make([]string, 0),
-		source: make([]string, 0),
+		dest: make([]Value, 0),
+		source: make([]Value, 0),
 		diffs: *NewDiffs(),
 	}
 }
 
-func (holder *Holder) HoldDest(text string) {
-	holder.dest = append(holder.dest, text)
+func (holder *Holder) HoldDest(value Value) {
+	holder.dest = append(holder.dest, value)
 }
 
-func (holder *Holder) HoldSource(text string) {
-	holder.source = append(holder.source, text)
+func (holder *Holder) HoldSource(value Value) {
+	holder.source = append(holder.source, value)
 }
 
-func (holder *Holder) GetHoldDestIndex(text string) int {
+func (holder *Holder) GetHoldDestIndex(source Value) int {
 	// see https://stackoverflow.com/questions/38654383/how-to-search-for-an-element-in-a-golang-slice
-	i := slices.IndexFunc(holder.dest, func(value string) bool {
-		return value == text
+	i := slices.IndexFunc(holder.dest, func(value Value) bool {
+		return value.Text() == source.Text()
 	})
 	return i
 }
 
 func (holder *Holder) Flush() {
-	for i, text := range holder.source {
-		matched := holder.GetHoldDestIndex(text)
+	for i, sourceValue := range holder.source {
+		matched := holder.GetHoldDestIndex(sourceValue)
 		if matched == -1 {
 			continue;
 		}
@@ -57,23 +57,23 @@ func (holder *Holder) FlushRest() {
 }
 
 func (holder *Holder) rebaseSource(baseIndex int) {
-	nextHolds := make([]string, 0)
-	for i, text := range holder.source {
+	nextHolds := make([]Value, 0)
+	for i, value := range holder.source {
 		if i < baseIndex {
 			// source text does not exist in dest. so mark this text as add-diff
-			holder.markAdd(text)
+			holder.markAdd(value)
 			continue;
 		}
 		if i == baseIndex {
 			continue;
 		}
-		nextHolds = append(nextHolds, text)
+		nextHolds = append(nextHolds, value)
 	}
 	holder.source = nextHolds
 }
 
 func (holder *Holder) rebaseDest(baseIndex int) {
-	nextHolds := make([]string, 0)
+	nextHolds := make([]Value, 0)
 	for i, value := range holder.dest {
 		if i < baseIndex {
 			// dest text does not exist in source. so mark this text as remove-diff
@@ -89,12 +89,12 @@ func (holder *Holder) rebaseDest(baseIndex int) {
 	holder.dest = nextHolds
 }
 
-func (holder *Holder) markAdd(text string) {
-	holder.diffs.Add(text)
+func (holder *Holder) markAdd(value Value) {
+	holder.diffs.Add(value)
 }
 
-func (holder *Holder) markRemove(text string) {
-	holder.diffs.Remove(text)
+func (holder *Holder) markRemove(value Value) {
+	holder.diffs.Remove(value)
 }
 
 func (holder *Holder) GetDiffs() *Diffs {

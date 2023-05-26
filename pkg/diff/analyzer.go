@@ -16,7 +16,7 @@ func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 	}
 }
 
-func (anly *Analyzer) next() (*Value, *Value) {
+func (anly *Analyzer) next(line int) (Value, Value) {
 	sourceHasNext := anly.source.Scan()
 	destHasNext := anly.dest.Scan()
 
@@ -29,19 +29,20 @@ func (anly *Analyzer) next() (*Value, *Value) {
 		destNext = anly.dest.Text()
 	}
 
-	return &Value{ has: sourceHasNext, text: sourceNext }, &Value{ has: destHasNext, text: destNext }
+	return *NewValue(line, sourceHasNext, sourceNext), *NewValue(line, destHasNext, destNext)
 }
 
 func (anly *Analyzer) Analyze() *Diffs {
 	holder := NewHolder()
 
+	line := 1
 	for {
-		sourceValue, destValue := anly.next()
+		sourceValue, destValue := anly.next(line)
 		if destValue.Has() {
-			holder.HoldDest(destValue.Text())
+			holder.HoldDest(destValue)
 		}
 		if sourceValue.Has() {
-			holder.HoldSource(sourceValue.Text())
+			holder.HoldSource(sourceValue)
 		}
 		holder.Flush()
 
@@ -49,6 +50,8 @@ func (anly *Analyzer) Analyze() *Diffs {
 			holder.FlushRest()
 			break;
 		}
+
+		line ++;
 	}
 
 	return holder.GetDiffs()

@@ -14,12 +14,12 @@ func NewDiffs() *Diffs {
 	}
 }
 
-func (diffs *Diffs) Add(text string) {
-	diffs.items = append(diffs.items, fmt.Sprintf("+ %s", text))
+func (diffs *Diffs) Add(value Value) {
+	diffs.items = append(diffs.items, fmt.Sprintf("%d + %s", value.Line(), value.Text()))
 }
 
-func (diffs *Diffs) Remove(text string) {
-	diffs.items = append(diffs.items, fmt.Sprintf("- %s", text))	
+func (diffs *Diffs) Remove(value Value) {
+	diffs.items = append(diffs.items, fmt.Sprintf("%d - %s", value.Line(), value.Text()))	
 }
 
 func (diffs *Diffs) ListItems() []string {

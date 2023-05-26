@@ -7,15 +7,6 @@ import (
 	"github.com/enuesaa/difii/pkg/files"
 )
 
-func DiffFiles(sourceDir string, destinationDir string) {
-	fmt.Printf("source dir: %s \n", sourceDir)
-	fmt.Printf("destination dir: %s \n", destinationDir)
-	fmt.Println("")
-
-	sourcefiles := files.ListFilesRecursively(sourceDir)
-	files.ReadStreamWithDiff(sourceDir, destinationDir, sourcefiles[0])
-}
-
 func Diff(input CliInput) {
 	fmt.Printf("source dir: %s \n", input.SourceDir)
 	fmt.Printf("destination dir: %s \n", input.DestinationDir)
