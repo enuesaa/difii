@@ -7,15 +7,24 @@ import (
 // dest基準. dest の文字列を一旦 hold し source との共通文字列が見つかり次第 差分をpushする
 type Holder struct {
 	holds []string
+	holdAdds []string
 	diffs Diffs
 }
 
 func NewHolder() *Holder {
-	return &Holder{ holds: make([]string, 0), diffs: *NewDiffs() }
+	return &Holder{
+		holds: make([]string, 0),
+		holdAdds: make([]string, 0),
+		diffs: *NewDiffs(),
+	}
 }
 
 func (holder *Holder) Hold(text string) {
 	holder.holds = append(holder.holds, text)
+}
+
+func (holder *Holder) HoldAdd(text string) {
+	holder.holdAdds = append(holder.holdAdds, text)
 }
 
 func (holder *Holder) GetHoldIndex(text string) int {
@@ -26,32 +35,46 @@ func (holder *Holder) GetHoldIndex(text string) int {
 	return i
 }
 
-func (holder *Holder) Flush(text string) {
-	matched := holder.GetHoldIndex(text)
-	if matched == -1 {
-		// source text does not exist in dest. so mark this text as add-diff
-		// TODO: dest の途中に1行remove-diffがあると、それ以降の行が diff 扱いされてしまうので 見直した方がいい
-		holder.markAdd(text)
-		return;
-	}
+func (holder *Holder) Flush() {
+	for j, text := range holder.holdAdds {
+		matched := holder.GetHoldIndex(text)
+		if matched == -1 {
+			// source text does not exist in dest. so mark this text as add-diff
+			// TODO: dest の途中に1行remove-diffがあると、それ以降の行が diff 扱いされてしまうので 見直した方がいい
+			// holder.holdAdd(text)
+			return;
+		} else {
+			nextHoldAdds := make([]string, 0)
+			for l, add := range holder.holdAdds {
+				if l == j {
+					continue;
+				}
+				nextHoldAdds = append(nextHoldAdds, add)
+			}
+			holder.holdAdds = nextHoldAdds
+		}
 
-	nextHolds := make([]string, 0)
-	for i, value := range holder.holds {
-		if i < matched {
-			// dest text does not exist in source. so mark this text as remove-diff
-			holder.markRemove(value)
-			continue;
+		nextHolds := make([]string, 0)
+		for i, value := range holder.holds {
+			if i < matched {
+				// dest text does not exist in source. so mark this text as remove-diff
+				holder.markRemove(value)
+				continue;
+			}
+			if i == matched {
+				// source text exists in dest. so do nothing.
+				continue;
+			}
+			nextHolds = append(nextHolds, value)
 		}
-		if i == matched {
-			// source text exists in dest. so do nothing.
-			continue;
-		}
-		nextHolds = append(nextHolds, value)
+		holder.holds = nextHolds
 	}
-	holder.holds = nextHolds
 }
 
 func (holder *Holder) FlushRest() {
+	for _, value := range holder.holdAdds {
+		holder.markAdd(value)
+	}
 	for _, value := range holder.holds {
 		holder.markRemove(value)
 	}

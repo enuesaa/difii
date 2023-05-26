@@ -66,6 +66,6 @@ func TestHunkedWithEmptyLine(t *testing.T) {
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
-	+ 
+	- 
 	`), diff)
 }

@@ -42,8 +42,10 @@ func (anly *Analyzer) Analyze() *Diffs {
 		}
 
 		if sourceValue.Has() {
-			holder.Flush(sourceValue.Text())
+			holder.HoldAdd(sourceValue.Text())
 		}
+
+		holder.Flush()
 
 		if !destValue.Has() && !sourceValue.Has() {
 			holder.FlushRest()
