@@ -38,13 +38,11 @@ func (anly *Analyzer) Analyze() *Diffs {
 	for {
 		sourceValue, destValue := anly.next()
 		if destValue.Has() {
-			holder.Hold(destValue.Text())
+			holder.HoldDest(destValue.Text())
 		}
-
 		if sourceValue.Has() {
-			holder.HoldAdd(sourceValue.Text())
+			holder.HoldSource(sourceValue.Text())
 		}
-
 		holder.Flush()
 
 		if !destValue.Has() && !sourceValue.Has() {

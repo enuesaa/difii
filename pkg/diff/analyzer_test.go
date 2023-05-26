@@ -47,6 +47,8 @@ func TestHunked(t *testing.T) {
 }
 
 func TestHunkedWithEmptyLine(t *testing.T) {
+	// dest の途中に remove-diff があるとき、それ以降の行が diff 扱いされてしまわないよう
+
 	source := strings.NewReader(heredoc.Doc(`
 	aaaa
 	bbbb

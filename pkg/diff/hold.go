@@ -6,78 +6,87 @@ import (
 
 // dest基準. dest の文字列を一旦 hold し source との共通文字列が見つかり次第 差分をpushする
 type Holder struct {
-	holds []string
-	holdAdds []string
+	dest []string
+	source []string
 	diffs Diffs
 }
 
 func NewHolder() *Holder {
 	return &Holder{
-		holds: make([]string, 0),
-		holdAdds: make([]string, 0),
+		dest: make([]string, 0),
+		source: make([]string, 0),
 		diffs: *NewDiffs(),
 	}
 }
 
-func (holder *Holder) Hold(text string) {
-	holder.holds = append(holder.holds, text)
+func (holder *Holder) HoldDest(text string) {
+	holder.dest = append(holder.dest, text)
 }
 
-func (holder *Holder) HoldAdd(text string) {
-	holder.holdAdds = append(holder.holdAdds, text)
+func (holder *Holder) HoldSource(text string) {
+	holder.source = append(holder.source, text)
 }
 
-func (holder *Holder) GetHoldIndex(text string) int {
+func (holder *Holder) GetHoldDestIndex(text string) int {
 	// see https://stackoverflow.com/questions/38654383/how-to-search-for-an-element-in-a-golang-slice
-	i := slices.IndexFunc(holder.holds, func(value string) bool {
+	i := slices.IndexFunc(holder.dest, func(value string) bool {
 		return value == text
 	})
 	return i
 }
 
 func (holder *Holder) Flush() {
-	for j, text := range holder.holdAdds {
-		matched := holder.GetHoldIndex(text)
+	for i, text := range holder.source {
+		matched := holder.GetHoldDestIndex(text)
 		if matched == -1 {
-			// source text does not exist in dest. so mark this text as add-diff
-			// TODO: dest の途中に1行remove-diffがあると、それ以降の行が diff 扱いされてしまうので 見直した方がいい
-			// holder.holdAdd(text)
-			return;
-		} else {
-			nextHoldAdds := make([]string, 0)
-			for l, add := range holder.holdAdds {
-				if l == j {
-					continue;
-				}
-				nextHoldAdds = append(nextHoldAdds, add)
-			}
-			holder.holdAdds = nextHoldAdds
+			continue;
 		}
 
-		nextHolds := make([]string, 0)
-		for i, value := range holder.holds {
-			if i < matched {
-				// dest text does not exist in source. so mark this text as remove-diff
-				holder.markRemove(value)
-				continue;
-			}
-			if i == matched {
-				// source text exists in dest. so do nothing.
-				continue;
-			}
-			nextHolds = append(nextHolds, value)
-		}
-		holder.holds = nextHolds
+		holder.rebaseSource(i)
+		holder.rebaseDest(matched)
 	}
 }
 
 func (holder *Holder) FlushRest() {
-	for _, value := range holder.holdAdds {
+	for _, value := range holder.source {
 		holder.markAdd(value)
 	}
-	for _, value := range holder.holds {
+	for _, value := range holder.dest {
 		holder.markRemove(value)
 	}
+}
+
+func (holder *Holder) rebaseSource(baseIndex int) {
+	nextHolds := make([]string, 0)
+	for i, text := range holder.source {
+		if i < baseIndex {
+			// source text does not exist in dest. so mark this text as add-diff
+			holder.markAdd(text)
+			continue;
+		}
+		if i == baseIndex {
+			continue;
+		}
+		nextHolds = append(nextHolds, text)
+	}
+	holder.source = nextHolds
+}
+
+func (holder *Holder) rebaseDest(baseIndex int) {
+	nextHolds := make([]string, 0)
+	for i, value := range holder.dest {
+		if i < baseIndex {
+			// dest text does not exist in source. so mark this text as remove-diff
+			holder.markRemove(value)
+			continue;
+		}
+		if i == baseIndex {
+			// source text exists in dest. so do nothing.
+			continue;
+		}
+		nextHolds = append(nextHolds, value)
+	}
+	holder.dest = nextHolds
 }
 
 func (holder *Holder) markAdd(text string) {
