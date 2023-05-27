@@ -42,17 +42,17 @@ func (holder *Holder) Flush() {
 			continue;
 		}
 
-		holder.rebaseSource(i)
 		holder.rebaseDest(matched)
+		holder.rebaseSource(i)
 	}
 }
 
 func (holder *Holder) FlushRest() {
-	for _, value := range holder.source {
-		holder.markAdd(value)
-	}
 	for _, value := range holder.dest {
 		holder.markRemove(value)
+	}
+	for _, value := range holder.source {
+		holder.markAdd(value)
 	}
 }
 
