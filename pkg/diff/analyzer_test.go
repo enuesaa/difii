@@ -15,8 +15,8 @@ func TestNormal(t *testing.T) {
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
-	1 - bbbb
-	1 + aaaa
+	- bbbb
+	+ aaaa
 	`), diff)
 }
 
@@ -39,10 +39,10 @@ func TestHunked(t *testing.T) {
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
-	3 - ffffff
-	3 + cccccc
-	4 + dddddd
-	5 + eeeeee
+	- ffffff
+	+ cccccc
+	+ dddddd
+	+ eeeeee
 	`), diff)
 }
 
@@ -68,6 +68,6 @@ func TestHunkedWithEmptyLine(t *testing.T) {
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().Render()
 	assert.Equal(t, heredoc.Doc(`
-	3 - 
+	- 
 	`), diff)
 }

@@ -19,7 +19,7 @@ func Diff(input CliInput) {
 		dest := files.ReadStream(input.DestinationDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
-		fmt.Println(diffs.Render())
+		fmt.Println(diffs.RenderWithColor())
 	}
 
 	// search source files
