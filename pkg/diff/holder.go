@@ -4,7 +4,6 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-// dest基準. dest の文字列を一旦 hold し source との共通文字列が見つかり次第 差分をpushする
 type Holder struct {
 	dest []Value
 	source []Value
