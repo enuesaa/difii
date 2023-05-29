@@ -21,21 +21,19 @@ func Diff(input CliInput) {
 		diffs := analyzer.Analyze()
 		fmt.Println(diffs.RenderWithColor())
 	}
+}
 
-	// search source files
-	// for file in files
-	//    read source file,
-	//    read dest file,
-	//    print diff
-	// 
-
-	// sourcePath := input.SourceDir + "/theme.ts"
-	// destPath := input.DestinationDir + "/theme.ts"
-
-	// source := files.ReadStream(sourcePath)
-	// dest := files.ReadStream(destPath)
-
-	// analyzer := diff.NewAnalyzer(source, dest)
-	// diffs := analyzer.Analyze()
-	// fmt.Println(diffs.Render())
+func Summary(input CliInput) {
+	fmt.Printf("source dir: %s \n", input.SourceDir)
+	fmt.Printf("destination dir: %s \n", input.DestinationDir)
+	fmt.Printf("\n")
+	fmt.Println("Summary")
+	sourcefiles := files.ListFilesRecursively(input.SourceDir)
+	for _, filename := range sourcefiles {
+		source := files.ReadStream(input.SourceDir + "/" + filename)
+		dest := files.ReadStream(input.DestinationDir + "/" + filename)
+		analyzer := diff.NewAnalyzer(source, dest)
+		diffs := analyzer.Analyze()
+		fmt.Printf("%s\t%s\n", diffs.Summary(), filename)
+	}
 }

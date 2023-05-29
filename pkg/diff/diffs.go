@@ -40,5 +40,18 @@ func (diffs *Diffs) RenderWithColor() string {
 			ret += color.RedString(item + "\n")
 		}
 	}
-	return ret;
+	return ret
+}
+
+func (diffs *Diffs) Summary() string {
+	add := 0
+	remove := 0
+	for _, item := range diffs.items {
+		if strings.HasPrefix(item, "+") {
+			add += 1
+		} else {
+			remove += 1
+		}
+	}
+	return fmt.Sprintf("+%d -%d", add, remove)
 }

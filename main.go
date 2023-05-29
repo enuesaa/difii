@@ -24,7 +24,11 @@ func main() {
 				fmt.Printf("Error: %s\n", err.Error())
 				return;
 			}
-			cli.Diff(input)
+			if input.IsSummaryOnly() {
+				cli.Summary(input)
+			} else {
+				cli.Diff(input)
+			}
 		},
 	}
 
@@ -32,6 +36,7 @@ func main() {
 	command.Flags().String("dest", "", "Destination dir.")
 	command.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
 	command.Flags().Bool("overwrite", false, "Overwrite destination file with source file.")
+	command.Flags().Bool("summary", false, "Show summary.")
 	command.Flags().StringSlice("ignore", make([]string, 0), "Filename to ignore. By default, .git dir is ignored. You can override this behavior.")
 
 	command.Execute()
