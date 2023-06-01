@@ -18,11 +18,11 @@ func Summary(input CliInput) {
 
 	for _, filename := range sourcefiles {
 		sourcePath := input.SourceDir + "/" + filename
-		destPath := input.DestDir + "/" + filename
+		destPath := input.DestDir + "/" + filename // dest が存在しないとき赤色になったほしい
 		source := files.ReadStream(sourcePath)
 		dest := files.ReadStream(destPath)
 		analyzer := diff.NewAnalyzer(source, dest)
-		diffs := analyzer.Analyze()
+		diffs := analyzer.Analyze() // 色つける
 		table.Append([]string{filename, diffs.Summary(), sourcePath, destPath})
 	}
 	table.Render()
