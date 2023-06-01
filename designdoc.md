@@ -4,20 +4,25 @@
 ```bash
 difii 
     --source <source-dir>
-    --dest <destination-dir> \
+    --dest <dest-dir> \
     --only <filename> \
-    --overwrite \
+    --include-git \
     --no-interactive \
-    --ignore <filename> \
-    --summary
+    --overwrite
 ```
 
-### source-dir
+### `--source <source-dir>`
 取り込み元のディレクトリ  
-### destination-dir
+### `--dest <dest-dir>`
 取り込み先のディレクトリ
-### ignore
-ignore .git dir by default.
+### `--only <filename>`
+diff対象のファイルを指定する. 複数指定可能
+### `--include-git`
+By default, .git directory is ignored. If you pass this option, you can also diff git directory.
+### `--no-interactive`
+Disable interactive prompt.
+### `--overwrite`
+Overwrite all files. This behavior is same as cp command.
 
 ### 標準出力
 ```bash
