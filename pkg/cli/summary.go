@@ -10,8 +10,8 @@ import (
 )
 
 func Summary(input CliInput) {
-	fmt.Printf("source dir: %s \n", input.SourceDir)
-	fmt.Printf("destination dir: %s \n", input.DestinationDir)
+	fmt.Printf("Source dir: %s \n", input.SourceDir)
+	fmt.Printf("Destination dir: %s \n", input.DestinationDir)
 	fmt.Printf("\n")
 	fmt.Println("Summary")
 	sourcefiles := files.ListFilesRecursively(input.SourceDir)

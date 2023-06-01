@@ -11,7 +11,6 @@ type CliInput struct {
 	SourceDir      string
 	DestinationDir string
 	IsOverwrite    bool
-	IsSummary      bool
 	Includes       []string
 }
 
@@ -23,9 +22,6 @@ func (cli *CliInput) IsSourceDirSelected() bool {
 }
 func (cli *CliInput) IsDestinationDirSelected() bool {
 	return cli.DestinationDir != ""
-}
-func (cli *CliInput) IsSummaryOnly() bool {
-	return cli.IsSummary
 }
 func (cli *CliInput) Validate() error {
 	if !cli.IsSourceDirSelected() {
@@ -47,14 +43,12 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	source, _ := cmd.Flags().GetString("source")
 	destination, _ := cmd.Flags().GetString("dest")
 	overwrite, _ := cmd.Flags().GetBool("overwrite")
-	summary, _ := cmd.Flags().GetBool("summary")
 	filenames, _ := cmd.Flags().GetStringSlice("only")
 
 	input := CliInput{
 		SourceDir:      source,
 		DestinationDir: destination,
 		IsOverwrite:    overwrite,
-		IsSummary:      summary,
 		Includes:       filenames,
 	}
 
