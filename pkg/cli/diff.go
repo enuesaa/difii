@@ -16,7 +16,9 @@ func Diff(input CliInput) {
 		dest := files.ReadStream(input.DestinationDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
-		fmt.Println(diffs.RenderWithColor())
+
+		renderer := diff.NewHunkedRenderer(*diffs)
+		renderer.Render()
 	}
 
 	// ハンクにまとめて
