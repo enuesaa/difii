@@ -17,8 +17,8 @@ func main() {
 			if !input.IsSourceDirSelected() {
 				input.SourceDir = prompt.SelectSourceDir()
 			}
-			if !input.IsDestinationDirSelected() {
-				input.DestinationDir = prompt.SelectDestinationDir()
+			if !input.IsDestDirSelected() {
+				input.DestDir = prompt.SelectDestinationDir()
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
@@ -32,8 +32,9 @@ func main() {
 	command.Flags().String("source", "", "Source dir.")
 	command.Flags().String("dest", "", "Destination dir.")
 	command.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
+	command.Flags().Bool("include-git", false, "By default, .git directory is ignored. If you pass this option, you can also diff git directory.")
+	command.Flags().Bool("no-interactive", false, "Disable interactive prompt.")
 	command.Flags().Bool("overwrite", false, "Overwrite destination file with source file.")
-	command.Flags().StringSlice("ignore", make([]string, 0), "Filename to ignore. By default, .git dir is ignored. You can override this behavior.")
 
 	command.Execute()
 }

@@ -9,7 +9,7 @@ import (
 
 type CliInput struct {
 	SourceDir      string
-	DestinationDir string
+	DestDir string
 	IsOverwrite    bool
 	Includes       []string
 }
@@ -20,20 +20,20 @@ func (cli *CliInput) IsFileSpecified() bool {
 func (cli *CliInput) IsSourceDirSelected() bool {
 	return cli.SourceDir != ""
 }
-func (cli *CliInput) IsDestinationDirSelected() bool {
-	return cli.DestinationDir != ""
+func (cli *CliInput) IsDestDirSelected() bool {
+	return cli.DestDir != ""
 }
 func (cli *CliInput) Validate() error {
 	if !cli.IsSourceDirSelected() {
 		return errors.New("required option --source is missing")
 	}
-	if !cli.IsDestinationDirSelected() {
+	if !cli.IsDestDirSelected() {
 		return errors.New("required option --dest is missing")
 	}
 	if !files.IsDirExist(cli.SourceDir) {
 		return errors.New("invalid file path specified in --source")
 	}
-	if !files.IsDirExist(cli.DestinationDir) {
+	if !files.IsDirExist(cli.DestDir) {
 		return errors.New("invalid file path specified in --dest")
 	}
 	return nil
@@ -47,7 +47,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 
 	input := CliInput{
 		SourceDir:      source,
-		DestinationDir: destination,
+		DestDir: destination,
 		IsOverwrite:    overwrite,
 		Includes:       filenames,
 	}

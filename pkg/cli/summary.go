@@ -18,7 +18,7 @@ func Summary(input CliInput) {
 
 	for _, filename := range sourcefiles {
 		sourcePath := input.SourceDir + "/" + filename
-		destPath := input.DestinationDir + "/" + filename
+		destPath := input.DestDir + "/" + filename
 		source := files.ReadStream(sourcePath)
 		dest := files.ReadStream(destPath)
 		analyzer := diff.NewAnalyzer(source, dest)

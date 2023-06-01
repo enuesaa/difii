@@ -13,7 +13,7 @@ func Diff(input CliInput) {
 		fmt.Printf("\n")
 		fmt.Printf("%s\n", filename)
 		source := files.ReadStream(input.SourceDir + "/" + filename)
-		dest := files.ReadStream(input.DestinationDir + "/" + filename)
+		dest := files.ReadStream(input.DestDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 
