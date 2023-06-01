@@ -21,4 +21,7 @@ func Diff(input CliInput) {
 		diffs := analyzer.Analyze()
 		fmt.Println(diffs.RenderWithColor())
 	}
+
+	// ハンクにまとめて
+	// overwrite prompt
 }
