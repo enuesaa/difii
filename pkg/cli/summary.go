@@ -6,8 +6,8 @@ import (
 
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
-	"github.com/olekukonko/tablewriter"
 	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
 )
 
 func Summary(input CliInput) {

@@ -7,12 +7,13 @@ import (
 
 type Analyzer struct {
 	source bufio.Scanner
-	dest bufio.Scanner
+	dest   bufio.Scanner
 }
+
 func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
-	return &Analyzer {
+	return &Analyzer{
 		source: *bufio.NewScanner(source),
-		dest: *bufio.NewScanner(dest),
+		dest:   *bufio.NewScanner(dest),
 	}
 }
 
@@ -48,10 +49,10 @@ func (anly *Analyzer) Analyze() *Diffs {
 
 		if !destValue.Has() && !sourceValue.Has() {
 			holder.FlushRest()
-			break;
+			break
 		}
 
-		line ++;
+		line++
 	}
 
 	return holder.GetDiffs()

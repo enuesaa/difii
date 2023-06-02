@@ -12,7 +12,7 @@ import (
 func Diff(input CliInput) {
 	sourcefiles := files.ListFilesRecursively(input.SourceDir)
 	for _, filename := range sourcefiles {
-		fmt.Printf("\n")
+		fmt.Println("")
 		fmt.Printf("%s\n", filename)
 		source := files.ReadStream(input.SourceDir + "/" + filename)
 		dest := files.ReadStream(input.DestDir + "/" + filename)
@@ -24,7 +24,7 @@ func Diff(input CliInput) {
 			for _, item := range hunk.ListItems() {
 				renderDiffLine(item)
 			}
-			prompt.Input("Do you overwrite ? [Y/n] ", func (in prompt.Document) []prompt.Suggest {
+			prompt.Input("Do you overwrite ? [Y/n] ", func(in prompt.Document) []prompt.Suggest {
 				return make([]prompt.Suggest, 0)
 			})
 		}

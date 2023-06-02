@@ -8,10 +8,10 @@ import (
 )
 
 type CliInput struct {
-	SourceDir      string
-	DestDir string
-	IsOverwrite    bool
-	Includes       []string
+	SourceDir   string
+	DestDir     string
+	IsOverwrite bool
+	Includes    []string
 }
 
 func (cli *CliInput) IsFileSpecified() bool {
@@ -46,10 +46,10 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	filenames, _ := cmd.Flags().GetStringSlice("only")
 
 	input := CliInput{
-		SourceDir:      source,
-		DestDir: destination,
-		IsOverwrite:    overwrite,
-		Includes:       filenames,
+		SourceDir:   source,
+		DestDir:     destination,
+		IsOverwrite: overwrite,
+		Includes:    filenames,
 	}
 
 	return input

@@ -5,16 +5,16 @@ import (
 )
 
 type Holder struct {
-	dest []Value
+	dest   []Value
 	source []Value
-	diffs Diffs
+	diffs  Diffs
 }
 
 func NewHolder() *Holder {
 	return &Holder{
-		dest: make([]Value, 0),
+		dest:   make([]Value, 0),
 		source: make([]Value, 0),
-		diffs: *NewDiffs(),
+		diffs:  *NewDiffs(),
 	}
 }
 
@@ -38,7 +38,7 @@ func (holder *Holder) Flush() {
 	for i, sourceValue := range holder.source {
 		matched := holder.GetHoldDestIndex(sourceValue)
 		if matched == -1 {
-			continue;
+			continue
 		}
 
 		holder.rebaseDest(matched)
@@ -61,10 +61,10 @@ func (holder *Holder) rebaseSource(baseIndex int) {
 		if i < baseIndex {
 			// source text does not exist in dest. so mark this text as add-diff
 			holder.markAdd(value)
-			continue;
+			continue
 		}
 		if i == baseIndex {
-			continue;
+			continue
 		}
 		nextHolds = append(nextHolds, value)
 	}
@@ -77,11 +77,11 @@ func (holder *Holder) rebaseDest(baseIndex int) {
 		if i < baseIndex {
 			// dest text does not exist in source. so mark this text as remove-diff
 			holder.markRemove(value)
-			continue;
+			continue
 		}
 		if i == baseIndex {
 			// source text exists in dest. so do nothing.
-			continue;
+			continue
 		}
 		nextHolds = append(nextHolds, value)
 	}

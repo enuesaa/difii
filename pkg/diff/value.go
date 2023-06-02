@@ -2,7 +2,7 @@ package diff
 
 type Value struct {
 	line int
-	has bool
+	has  bool
 	text string
 }
 

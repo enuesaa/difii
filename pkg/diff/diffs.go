@@ -5,6 +5,7 @@ import "golang.org/x/exp/slices"
 type Diffs struct {
 	items []Diffline
 }
+
 func NewDiffs() *Diffs {
 	return &Diffs{
 		items: make([]Diffline, 0),
@@ -18,7 +19,7 @@ func (diffs *Diffs) Add(value Value) {
 
 // todo change name to deleted
 func (diffs *Diffs) Remove(value Value) {
-	diffs.items = append(diffs.items,  *NewDiffline(value, false))	
+	diffs.items = append(diffs.items, *NewDiffline(value, false))
 }
 
 func (diffs *Diffs) ListItems() []Diffline {
@@ -43,7 +44,7 @@ func (diffs *Diffs) ListHunks() []Hunk {
 			continue
 		}
 
-		if slices.Contains(staging, line - 1) || slices.Contains(staging, line + 1) {
+		if slices.Contains(staging, line-1) || slices.Contains(staging, line+1) {
 			hunk.Push(item)
 			staging = append(staging, item.Line())
 			continue

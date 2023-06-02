@@ -22,7 +22,7 @@ func main() {
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
-				return;
+				return
 			}
 			cli.Summary(input)
 			cli.Diff(input)

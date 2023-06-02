@@ -1,15 +1,15 @@
 package diff
 
 type Diffline struct {
-	line int
-	text string
+	line  int
+	text  string
 	added bool // TODO enum
 }
 
 func NewDiffline(value Value, added bool) *Diffline {
 	return &Diffline{
-		line: value.Line(),
-		text: value.Text(),
+		line:  value.Line(),
+		text:  value.Text(),
 		added: added,
 	}
 }
