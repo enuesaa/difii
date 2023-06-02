@@ -1,8 +1,6 @@
 package diff
 
-import (
-	"github.com/fatih/color"
-)
+import "golang.org/x/exp/slices"
 
 type Diffs struct {
 	items []Diffline
@@ -39,27 +37,56 @@ func (diffs *Diffs) Render() string {
 	return ret
 }
 
-func (diffs *Diffs) RenderWithColor() string {
-	ret := ""
+func (diffs *Diffs) ListHunks() []Hunk {
+	hunks := make([]Hunk, 0)
+	staging := make([]int, 0)
+
+	hunk := NewHunk()
 	for _, item := range diffs.items {
-		if item.Added() {
-			ret += color.GreenString("+ " + item.Text() + "\n")
-		} else {
-			ret += color.RedString("- " + item.Text() + "\n")
+		line := item.Line()
+		if len(staging) == 0 {
+			hunk.Push(item)
+			staging = append(staging, item.Line())
+			continue
 		}
+
+		if slices.Contains(staging, line) {
+			hunk.Push(item)
+			continue
+		}
+
+		if slices.Contains(staging, line - 1) || slices.Contains(staging, line + 1) {
+			hunk.Push(item)
+			staging = append(staging, item.Line())
+			continue
+		}
+
+		hunk.Push(item)
+		hunks = append(hunks, *hunk)
+		hunk = NewHunk()
+		staging = make([]int, 0)
+		staging = append(staging, item.Line())
 	}
-	return ret
+
+	return hunks
 }
 
-func (diffs *Diffs) Summary() string {
+func (diffs *Diffs) CountAdd() int {
 	add := 0
-	remove := 0
 	for _, item := range diffs.items {
 		if item.Added() {
 			add += 1
-		} else {
+		}
+	}
+	return add
+}
+
+func (diffs *Diffs) CountRemove() int {
+	remove := 0
+	for _, item := range diffs.items {
+		if !item.Added() {
 			remove += 1
 		}
 	}
-	return color.RedString("-%d", remove) + color.GreenString("+%d", add)
+	return remove
 }

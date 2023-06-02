@@ -7,6 +7,7 @@ import (
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
 	"github.com/olekukonko/tablewriter"
+	"github.com/fatih/color"
 )
 
 func Summary(input CliInput) {
@@ -23,7 +24,12 @@ func Summary(input CliInput) {
 		dest := files.ReadStream(destPath)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
-		table.Append([]string{filename, diffs.Summary(), sourcePath, destPath})
+		table.Append([]string{
+			filename,
+			color.RedString("-%d", diffs.CountRemove()) + color.GreenString("+%d", diffs.CountAdd()),
+			sourcePath,
+			destPath,
+		})
 	}
 	table.Render()
 }
