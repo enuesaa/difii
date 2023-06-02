@@ -1,7 +1,6 @@
 package diff
 
 import (
-	"fmt"
 	"github.com/fatih/color"
 )
 
@@ -62,5 +61,5 @@ func (diffs *Diffs) Summary() string {
 			remove += 1
 		}
 	}
-	return fmt.Sprintf("+%d -%d", add, remove)
+	return color.RedString("-%d", remove) + color.GreenString("+%d", add)
 }

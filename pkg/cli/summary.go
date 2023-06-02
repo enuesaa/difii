@@ -22,7 +22,7 @@ func Summary(input CliInput) {
 		source := files.ReadStream(sourcePath)
 		dest := files.ReadStream(destPath)
 		analyzer := diff.NewAnalyzer(source, dest)
-		diffs := analyzer.Analyze() // 色つける
+		diffs := analyzer.Analyze()
 		table.Append([]string{filename, diffs.Summary(), sourcePath, destPath})
 	}
 	table.Render()
