@@ -2,6 +2,8 @@ package diff
 
 import (
 	"fmt"
+
+	"github.com/c-bata/go-prompt"
 	"github.com/fatih/color"
 	"golang.org/x/exp/slices"
 )
@@ -11,6 +13,7 @@ type Renderer interface {
 	Render() // できればここで値を返したい
 }
 
+// これをデフォルトにして、色とかは Option にしたい
 type HunkedRenderer struct {
 	diffs Diffs
 }
@@ -41,6 +44,10 @@ func (ren *HunkedRenderer) Render() {
 			hunked = append(hunked, item.Line())
 			continue
 		}
+
+		prompt.Input("Do you overwrite ? [Y/n] ", func (in prompt.Document) []prompt.Suggest {
+			return make([]prompt.Suggest, 0)
+		})
 
 		fmt.Println("")
 		ren.renderLine(item)
