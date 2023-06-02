@@ -13,11 +13,11 @@ func TestNormal(t *testing.T) {
 	dest := strings.NewReader("bbbb")
 
 	analyzer := NewAnalyzer(source, dest)
-	diff := analyzer.Analyze().Render()
-	assert.Equal(t, heredoc.Doc(`
-	- bbbb
-	+ aaaa
-	`), diff)
+	diff := analyzer.Analyze().ListItems()
+	assert.Equal(t, []Diffline{
+		{ line: 1, text: "bbbb", added: false },
+		{ line: 1, text: "aaaa", added: true },
+	}, diff)
 }
 
 func TestHunked(t *testing.T) {
@@ -37,18 +37,16 @@ func TestHunked(t *testing.T) {
 	`))
 
 	analyzer := NewAnalyzer(source, dest)
-	diff := analyzer.Analyze().Render()
-	assert.Equal(t, heredoc.Doc(`
-	- ffffff
-	+ cccccc
-	+ dddddd
-	+ eeeeee
-	`), diff)
+	diff := analyzer.Analyze().ListItems()
+	assert.Equal(t, []Diffline{
+		{ line: 3, text: "ffffff", added: false },
+		{ line: 3, text: "cccccc", added: true },
+		{ line: 4, text: "dddddd", added: true },
+		{ line: 5, text: "eeeeee", added: true },
+	}, diff)
 }
 
 func TestHunkedWithEmptyLine(t *testing.T) {
-	// dest の途中に remove-diff があるとき、それ以降の行が diff 扱いされてしまわないよう
-
 	source := strings.NewReader(heredoc.Doc(`
 	aaaa
 	bbbb
@@ -66,8 +64,8 @@ func TestHunkedWithEmptyLine(t *testing.T) {
 	`))
 
 	analyzer := NewAnalyzer(source, dest)
-	diff := analyzer.Analyze().Render()
-	assert.Equal(t, heredoc.Doc(`
-	- 
-	`), diff)
+	diff := analyzer.Analyze().ListItems()
+	assert.Equal(t, []Diffline{
+		{ line: 3, text: "", added: false },
+	}, diff)
 }

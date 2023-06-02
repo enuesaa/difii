@@ -25,18 +25,6 @@ func (diffs *Diffs) ListItems() []Diffline {
 	return diffs.items
 }
 
-func (diffs *Diffs) Render() string {
-	ret := ""
-	for _, item := range diffs.items {
-		if item.Added() {
-			ret += "+ " + item.Text() + "\n"
-		} else {
-			ret += "- " + item.Text() + "\n"
-		}
-	}
-	return ret
-}
-
 func (diffs *Diffs) ListHunks() []Hunk {
 	hunks := make([]Hunk, 0)
 	staging := make([]int, 0)
