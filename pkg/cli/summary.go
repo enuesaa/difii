@@ -24,6 +24,7 @@ func Summary(input CliInput) {
 		dest := files.ReadStream(destPath)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
+		// source path とかいらない
 		table.Append([]string{
 			filename,
 			color.RedString("-%d", diffs.CountRemove()) + color.GreenString("+%d", diffs.CountAdd()),

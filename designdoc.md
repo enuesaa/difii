@@ -6,25 +6,21 @@ difii
     --source <source-dir>
     --dest <dest-dir> \
     --only <filename> \
-    --include-git \
-    --no-interactive \
-    --overwrite
+    --include-git
 ```
+差分を出力するのみ。
 
 ### `--source <source-dir>`
 取り込み元のディレクトリ  
 ### `--dest <dest-dir>`
-取り込み先のディレクトリ
+取り込み先のディレクトリ. Current dir is default.
 ### `--only <filename>`
 diff対象のファイルを指定する. 複数指定可能
 ### `--include-git`
 By default, .git directory is ignored. If you pass this option, you can also diff git directory.
-### `--no-interactive`
-Disable interactive prompt.
-### `--overwrite`
-Overwrite all files. This behavior is same as cp command.
 
 ### 標準出力
+左に source, 右にdestを表示する
 ```bash
 <filename> has +2 -1 diffs.
 + aaa
@@ -41,3 +37,24 @@ Do you overwrite ? [Y/n]
 |<filename>|+2 -1|
 |<dirname>|<dirname> is directory. skipped.|
 ```
+
+## Usage of Plan command
+```bash
+difii plan
+    --source <source-dir>
+    --dest <dest-dir> \
+    --only <filename> \
+    --include-git
+```
+import処理の実行計画を表示する
+
+## Usage of Apply command
+```bash
+difii apply
+    --source <source-dir>
+    --dest <dest-dir> \
+    --only <filename> \
+    --include-git \
+    --auto-approve
+```
+import処理をする
