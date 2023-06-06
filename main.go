@@ -25,16 +25,13 @@ func main() {
 				return
 			}
 			cli.Summary(input)
-			cli.Diff(input)
 		},
 	}
 
 	command.Flags().String("source", "", "Source dir.")
 	command.Flags().String("dest", "", "Destination dir.")
 	command.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
-	command.Flags().Bool("include-git", false, "By default, .git directory is ignored. If you pass this option, you can also diff git directory.")
 	command.Flags().Bool("no-interactive", false, "Disable interactive prompt.")
-	command.Flags().Bool("overwrite", false, "Overwrite destination file with source file.")
 
 	command.Execute()
 }
