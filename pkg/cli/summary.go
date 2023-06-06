@@ -15,21 +15,16 @@ func Summary(input CliInput) {
 	sourcefiles := files.ListFilesRecursively(input.SourceDir)
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"filename", "diffs", "source", "dest"})
+	table.SetHeader([]string{"filename", "diffs"})
 
 	for _, filename := range sourcefiles {
-		sourcePath := input.SourceDir + "/" + filename
-		destPath := input.DestDir + "/" + filename // dest が存在しないとき赤色になったほしい
-		source := files.ReadStream(sourcePath)
-		dest := files.ReadStream(destPath)
+		source := files.ReadStream(input.SourceDir + "/" + filename)
+		dest := files.ReadStream(input.DestDir + "/" + filename) // dest が存在しないとき赤色になったほしい
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
-		// source path とかいらない
 		table.Append([]string{
 			filename,
 			color.RedString("-%d", diffs.CountRemove()) + color.GreenString("+%d", diffs.CountAdd()),
-			sourcePath,
-			destPath,
 		})
 	}
 	table.Render()
