@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// TODO: cli 配下に移す
 	var command = &cobra.Command{
 		Use:  "difii",
 		Args: cobra.MinimumNArgs(0),
@@ -28,6 +29,7 @@ func main() {
 		},
 	}
 
+	// TODO: global option なので、これはこのまま
 	command.Flags().String("source", "", "Source dir.")
 	command.Flags().String("dest", "", "Destination dir.")
 	command.Flags().StringSlice("only", make([]string, 0), "Filename to compare")
