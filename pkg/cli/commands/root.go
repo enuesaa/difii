@@ -24,9 +24,9 @@ func createRootCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-
-			// summary というより terraform のように diffs を逐次的に出力する
+			fmt.Printf("\nRunning command below..\n  difii --source %s --dest %s\n", input.SourceDir, input.DestDir)
 			cli.Summaryline(input)
+			cli.Diff(input)
 		},
 	}
 
