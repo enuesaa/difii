@@ -10,7 +10,7 @@ import (
 
 func createImportCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "import",
+		Use:  "difii import",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
