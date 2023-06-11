@@ -11,24 +11,12 @@ difii
 ## Commands
 ```bash
 difii        # show diffs
-difii plan   # dry run import
 difii import # run import
 ```
 
 ### difii (root command)
 - summaryを出力する
 - 左に source, 右にdestを表示する
-
-### difii plan
-import処理の実行計画を表示する
-```bash
-difii plan
-
-<filename> has +2 -1 diffs.
-+ aaa
-+ bbb
-- ccc
-```
 
 ### difii import
 import処理をする
