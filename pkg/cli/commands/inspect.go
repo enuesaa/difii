@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func createImportCmd() *cobra.Command {
+func createInspectCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "import",
+		Use:  "inspect",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
@@ -24,6 +24,9 @@ func createImportCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
+			fmt.Printf("\n")
+
+			cli.Diff(input)
 		},
 	}
 
