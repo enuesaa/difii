@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/enuesaa/difii/pkg/commands"
+	"github.com/enuesaa/difii/pkg/cli/commands"
 )
 
 func main() {

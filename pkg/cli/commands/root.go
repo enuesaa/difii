@@ -4,16 +4,16 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/difii/pkg/prompt"
-	"github.com/enuesaa/difii/pkg/commands/common"
+	"github.com/enuesaa/difii/pkg/cli"
 	"github.com/spf13/cobra"
 )
 
-func createImportCmd() *cobra.Command {
+func createRootCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "difii import",
+		Use:  "difii",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
-			input := common.ParseArgs(cmd, args)
+			input := cli.ParseArgs(cmd, args)
 			if !input.IsSourceDirSelected() {
 				input.SourceDir = prompt.SelectSourceDir()
 			}
@@ -24,6 +24,9 @@ func createImportCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
+
+			// summary というより terraform のように diffs を逐次的に出力する
+			cli.Summaryline(input)
 		},
 	}
 

@@ -4,16 +4,16 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/difii/pkg/prompt"
-	"github.com/enuesaa/difii/pkg/commands/common"
+	"github.com/enuesaa/difii/pkg/cli"
 	"github.com/spf13/cobra"
 )
 
-func createRootCmd() *cobra.Command {
+func createImportCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "difii",
+		Use:  "difii import",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
-			input := common.ParseArgs(cmd, args)
+			input := cli.ParseArgs(cmd, args)
 			if !input.IsSourceDirSelected() {
 				input.SourceDir = prompt.SelectSourceDir()
 			}
@@ -24,7 +24,6 @@ func createRootCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			common.Summary(input)
 		},
 	}
 
