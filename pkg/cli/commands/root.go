@@ -24,9 +24,12 @@ func createRootCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			fmt.Printf("\nRunning command below..\n  difii --source %s --dest %s\n", input.SourceDir, input.DestDir)
 			cli.Summaryline(input)
-			cli.Diff(input)
+
+			fmt.Printf("\n")
+			fmt.Printf("To inspect diffs, please run command below.\n")
+			fmt.Printf("  difii --source %s --dest %s inspect\n", input.SourceDir, input.DestDir)
+			fmt.Printf("\n")
 		},
 	}
 

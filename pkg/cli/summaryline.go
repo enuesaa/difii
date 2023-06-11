@@ -9,7 +9,8 @@ import (
 )
 
 func Summaryline(input CliInput) {
-	fmt.Printf("\nChecking diffs..\n")
+	fmt.Printf("\n")
+	fmt.Printf("Diffs Summary\n")
 	sourcefiles := files.ListFilesRecursively(input.SourceDir)
 
 	for _, filename := range sourcefiles {
