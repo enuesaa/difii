@@ -23,3 +23,9 @@ import処理をする
 ```bash
 difii import --auto-approve
 ```
+
+## Development Plans
+### v0.1
+### v0.2
+- use bubbletea.
+- implements interavive prompt.

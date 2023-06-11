@@ -27,8 +27,6 @@ func createRootCmd() *cobra.Command {
 			fmt.Printf("\nRunning command below..\n  difii --source %s --dest %s\n", input.SourceDir, input.DestDir)
 			cli.Summaryline(input)
 			cli.Diff(input)
-
-			prompt.Pager()
 		},
 	}
 
