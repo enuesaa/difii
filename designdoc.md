@@ -1,5 +1,4 @@
 # designdoc
-A cli tool to inspect diffs interactively.  
 
 ## Global Options
 ```bash
@@ -8,19 +7,6 @@ difii
     --dest <dest-dir> \     # 取り込み先のディレクトリ. default value is current dir.
     --only <filename>       # diff対象のファイルを絞り込む. 複数指定可能
 ```
-
-## Commands
-```bash
-difii         # show summary
-difii inspect # show diffs 
-difii import  # import diffs
-```
-
-### difii (root command)
-This command shows diff summary.
-
-### difii inspect
-This command shows diff details.
 
 ### difii apply
 This command apply diffs to dest directory.
