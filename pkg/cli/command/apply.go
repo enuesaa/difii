@@ -1,16 +1,16 @@
-package commands
+package command
 
 import (
 	"fmt"
 
-	"github.com/enuesaa/difii/pkg/prompt"
 	"github.com/enuesaa/difii/pkg/cli"
+	"github.com/enuesaa/difii/pkg/cli/prompt"
 	"github.com/spf13/cobra"
 )
 
-func createRootCmd() *cobra.Command {
+func createApplyCmd() *cobra.Command {
 	var cmd = &cobra.Command{
-		Use:  "difii",
+		Use:  "apply",
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
@@ -24,12 +24,6 @@ func createRootCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			cli.Summaryline(input)
-
-			fmt.Printf("\n")
-			fmt.Printf("To inspect diffs, please run command below.\n")
-			fmt.Printf("  difii --source %s --dest %s inspect\n", input.SourceDir, input.DestDir)
-			fmt.Printf("\n")
 		},
 	}
 

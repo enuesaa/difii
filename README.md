@@ -1,3 +1,3 @@
 **Work in progress...**
 # difii
-A cli tool to import diffs interactively.  
+A cli tool to inspect diffs interactively.  

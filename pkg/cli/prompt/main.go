@@ -10,7 +10,7 @@ import (
 // see https://github.com/c-bata/go-prompt/issues/8
 func SelectSourceDir() string {
 	for {
-		dir := prompt.Input("Select source dir (--source)   : ", selectDir, promptOptions()...)
+		dir := prompt.Input("Source dir (--source): ", selectDir, promptOptions()...)
 		if files.IsDirExist(dir) {
 			return dir
 		}
@@ -20,7 +20,7 @@ func SelectSourceDir() string {
 
 func SelectDestinationDir() string {
 	for {
-		dir := prompt.Input("Select destination dir (--dest): ", selectDir, promptOptions()...)
+		dir := prompt.Input("Destination dir (--dest): ", selectDir, promptOptions()...)
 		if files.IsDirExist(dir) {
 			return dir
 		}

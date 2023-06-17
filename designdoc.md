@@ -1,4 +1,6 @@
 # designdoc
+A cli tool to inspect diffs interactively.  
+
 ## Global Options
 ```bash
 difii
@@ -20,10 +22,10 @@ This command shows diff summary.
 ### difii inspect
 This command shows diff details.
 
-### difii import
-import処理をする
+### difii apply
+This command apply diffs to dest directory.
 ```bash
-difii import --auto-approve
+difii apply --auto-approve
 ```
 
 ## Development Plans
