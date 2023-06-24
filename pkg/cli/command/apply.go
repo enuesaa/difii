@@ -24,6 +24,8 @@ func createApplyCmd() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
+
+			// todo apply
 		},
 	}
 

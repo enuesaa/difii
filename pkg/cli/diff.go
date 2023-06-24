@@ -34,3 +34,5 @@ func renderDiffLine(item diff.Diffline) {
 		fmt.Println(color.RedString("- " + item.Text()))
 	}
 }
+
+// overwrite
