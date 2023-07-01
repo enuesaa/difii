@@ -6,13 +6,13 @@ require (
 	github.com/MakeNowJust/heredoc/v2 v2.0.1
 	github.com/c-bata/go-prompt v0.2.6
 	github.com/fatih/color v1.15.0
-	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.8.3
 	golang.org/x/exp v0.0.0-20230519143937-03e91628a987
+	golang.org/x/term v0.9.0
 )
 
-require golang.org/x/sys v0.6.0 // indirect
+require golang.org/x/sys v0.9.0 // indirect
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

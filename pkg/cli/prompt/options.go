@@ -12,6 +12,7 @@ func promptOptions() []prompt.Option {
 	options = append(options, prompt.OptionAddKeyBind(prompt.KeyBind{
 		Key: prompt.ControlC,
 		Fn: func(*prompt.Buffer) {
+			restoreState()
 			os.Exit(0)
 		},
 	}))
