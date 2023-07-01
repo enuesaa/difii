@@ -14,11 +14,11 @@ func createRootCmd() *cobra.Command {
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
-			if !input.IsSourceDirSelected() {
-				input.SourceDir = prompt.SelectSourceDir()
+			if !input.IsCompareDirSelected() {
+				input.CompareDir = prompt.SelectCompareDir()
 			}
-			if !input.IsDestDirSelected() {
-				input.DestDir = prompt.SelectDestinationDir()
+			if !input.IsWorkDirSelected() {
+				input.WorkDir = "."
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
@@ -40,8 +40,8 @@ func CreateCli() *cobra.Command {
 	cli.AddCommand(createInspectCmd())
 
 	// global options
-	cli.PersistentFlags().String("source", "", "Source dir.")
-	cli.PersistentFlags().String("dest", "", "Destination dir.")
+	cli.PersistentFlags().String("compare", "", "Compare dir.")
+	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	// cli.Flags().Bool("no-interactive", false, "Disable interactive prompt.")
 

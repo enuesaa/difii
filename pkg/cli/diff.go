@@ -9,11 +9,11 @@ import (
 )
 
 func ShowDiffs(input CliInput) {
-	sourcefiles := files.ListFilesRecursively(input.SourceDir)
+	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 	for _, filename := range sourcefiles {
 		fmt.Printf("%s\n", filename)
-		source := files.ReadStream(input.SourceDir + "/" + filename)
-		dest := files.ReadStream(input.DestDir + "/" + filename)
+		source := files.ReadStream(input.CompareDir + "/" + filename)
+		dest := files.ReadStream(input.WorkDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 

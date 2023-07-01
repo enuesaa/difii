@@ -8,19 +8,9 @@ import (
 )
 
 // see https://github.com/c-bata/go-prompt/issues/8
-func SelectSourceDir() string {
+func SelectCompareDir() string {
 	for {
-		dir := prompt.Input("Source dir (--source): ", selectDir, promptOptions()...)
-		if files.IsDirExist(dir) {
-			return dir
-		}
-		fmt.Printf("Dir %s does not exist. \n", dir)
-	}
-}
-
-func SelectDestinationDir() string {
-	for {
-		dir := prompt.Input("Destination dir (--dest): ", selectDir, promptOptions()...)
+		dir := prompt.Input("Compare dir (--compare): ", selectDir, promptOptions()...)
 		if files.IsDirExist(dir) {
 			return dir
 		}

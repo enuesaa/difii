@@ -3,8 +3,8 @@
 ## Global Options
 ```bash
 difii
-    --source <source-dir> \ # 取り込み元のディレクトリ
-    --dest <dest-dir> \     # 取り込み先のディレクトリ. default value is current dir.
+    --compare <compare-dir> \ # 取り込み元のディレクトリ
+    --workdir <work-dir> \    # 取り込み先のディレクトリ. default value is current dir.
     --only <filename>       # diff対象のファイルを絞り込む. 複数指定可能
 ```
 

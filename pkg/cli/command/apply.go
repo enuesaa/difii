@@ -14,11 +14,11 @@ func createApplyCmd() *cobra.Command {
 		Args: cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
-			if !input.IsSourceDirSelected() {
-				input.SourceDir = prompt.SelectSourceDir()
+			if !input.IsCompareDirSelected() {
+				input.CompareDir = prompt.SelectCompareDir()
 			}
-			if !input.IsDestDirSelected() {
-				input.DestDir = prompt.SelectDestinationDir()
+			if !input.IsWorkDirSelected() {
+				input.WorkDir = "."
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())

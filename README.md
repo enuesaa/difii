@@ -4,7 +4,7 @@ A cli tool to inspect diffs interactively.
 
 ## Usage
 ```bash
-$ difii --source ./appp-aaa/styles --dest ./app-bbb/styles
+$ difii --compare ./appp-aaa/styles
 
 Diffs Summary
  -4  +0 diffs in emotion.d.ts
@@ -13,7 +13,7 @@ Diffs Summary
  -0  +0 diffs in use.ts
 
 To inspect diffs:
-  difii --source ./appp-aaa/styles --dest ./app-bbb/styles inspect
+  difii --compare ./appp-aaa/styles inspect
 ```
 
 ## Commands

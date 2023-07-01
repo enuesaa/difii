@@ -10,14 +10,20 @@ import (
 
 func ShowDiffsSummary(input CliInput) {
 	fmt.Printf("Diffs Summary\n")
-	sourcefiles := files.ListFilesRecursively(input.SourceDir)
+	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
 	for _, filename := range sourcefiles {
-		source := files.ReadStream(input.SourceDir + "/" + filename)
-		dest := files.ReadStream(input.DestDir + "/" + filename)
-		analyzer := diff.NewAnalyzer(source, dest)
+		compareDir := files.ReadStream(input.CompareDir + "/" + filename)
+		workDir := files.ReadStream(input.WorkDir + "/" + filename)
+		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
-		fmt.Printf("%12s %12s diffs in %s \n", color.RedString("-%d", diffs.CountRemove()), color.GreenString("+%d", diffs.CountAdd()), filename)
+
+		fmt.Printf(
+			"%12s %12s diffs in %s \n",
+			color.RedString("-%d", diffs.CountRemove()),
+			color.GreenString("+%d", diffs.CountAdd()),
+			filename,
+		)
 	}
 	fmt.Printf("\n")
 }
