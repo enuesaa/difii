@@ -20,5 +20,12 @@ To inspect diffs:
 ```bash
 difii         # show summary
 difii inspect # show diffs 
-difii apply   # import diffs. work in progress..
+```
+
+## Global Options
+```bash
+difii
+    --compare <compare-dir> \ 
+    --workdir <work-dir> \    # Default value is current dir.
+    --only <filename>         # Specify files to diff.
 ```
