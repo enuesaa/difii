@@ -12,6 +12,10 @@ func ShowDiffsSummary(input CliInput) {
 	fmt.Printf("Diffs Summary\n")
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
+	if input.IsFileSpecified() {
+		sourcefiles = files.FilterFiles(sourcefiles, input.Includes)
+	}
+
 	for _, filename := range sourcefiles {
 		compareDir := files.ReadStream(input.CompareDir + "/" + filename)
 		workDir := files.ReadStream(input.WorkDir + "/" + filename)

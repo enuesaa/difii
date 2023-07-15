@@ -10,6 +10,11 @@ import (
 
 func ShowDiffs(input CliInput) {
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
+
+	if input.IsFileSpecified() {
+		sourcefiles = files.FilterFiles(sourcefiles, input.Includes)
+	}
+
 	for _, filename := range sourcefiles {
 		fmt.Printf("%s\n", filename)
 		source := files.ReadStream(input.CompareDir + "/" + filename)
