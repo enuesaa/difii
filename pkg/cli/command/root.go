@@ -11,7 +11,9 @@ import (
 func createRootCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:  "difii",
+		Short: "A CLI tool to inspect diffs interactively.",
 		Args: cobra.MinimumNArgs(0),
+		Version: "0.1.0",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := cli.ParseArgs(cmd, args)
 			if !input.IsCompareDirSelected() {
