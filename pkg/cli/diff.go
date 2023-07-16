@@ -9,6 +9,11 @@ import (
 )
 
 func ShowDiffs(input CliInput) {
+	fmt.Printf("Inspecting diffs..\n")
+	fmt.Printf("  %s\n", input.WorkDir)
+	fmt.Printf("  %s\n", input.CompareDir)
+	fmt.Printf("\n")
+
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
 	if input.IsFileSpecified() {
@@ -16,11 +21,17 @@ func ShowDiffs(input CliInput) {
 	}
 
 	for _, filename := range sourcefiles {
-		fmt.Printf("%s\n", filename)
 		source := files.ReadStream(input.CompareDir + "/" + filename)
 		dest := files.ReadStream(input.WorkDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
+
+		fmt.Printf(
+			"%s has %s %s diffs\n",
+			filename,
+			color.RedString("-%d", diffs.CountRemove()),
+			color.GreenString("+%d", diffs.CountAdd()),
+		)
 
 		for _, hunk := range diffs.ListHunks() {
 			for _, item := range hunk.ListItems() {
