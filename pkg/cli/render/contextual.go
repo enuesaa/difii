@@ -43,15 +43,18 @@ func (ren *ContextualRenderer) Render() {
 //   last:6, next:10  .. 次のhunk
 //   last:11, next:-1 .. 最後
 func (ren *ContextualRenderer) renderSameLine(current int) {
+	if ren.last > current {
+		return;
+	}
 	// -1 
 	if ren.last == current - 1 {
 		ren.dest.Scan()
 		ren.last += 1
 		return;
 	}
-	for i := ren.last; i < current; i++ {
+	for i := ren.last; i < current - 1; i++ {
 		ren.dest.Scan()
-		if i > current - 3 {
+		if i >= current - 2 {
 			fmt.Println(ren.dest.Text())
 		}
 	}
