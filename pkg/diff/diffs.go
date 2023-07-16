@@ -14,12 +14,10 @@ func NewDiffs() *Diffs {
 	}
 }
 
-// todo change name to added
 func (diffs *Diffs) Add(value Value) {
 	diffs.items = append(diffs.items, *NewDiffline(value, Added))
 }
 
-// todo change name to deleted
 func (diffs *Diffs) Remove(value Value) {
 	diffs.items = append(diffs.items, *NewDiffline(value, Removed))
 }

@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"io"
+	"strings"
 
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
@@ -33,22 +35,31 @@ func ShowDiffs(input CliInput) {
 			color.GreenString("+%d", diffs.CountAdd()),
 		)
 
-		for _, hunk := range diffs.ListHunks() {
-			for _, item := range hunk.ListItems() {
-				renderDiffLine(item)
+		renderHunks(diffs.ListHunks(), files.ReadStream(input.WorkDir + "/" + filename))
+	}
+}
+
+func renderHunks(hunks []diff.Hunk, dest io.Reader) {
+	// see https://forum.golangbridge.org/t/how-can-i-read-desired-line-from-the-file/4268/2
+	raw, _ := io.ReadAll(dest)
+	lines := strings.Split(string(raw), "\n")
+
+	scanned := 0
+	for _, hunk := range hunks {
+		for i, item := range hunk.ListItems() {
+			if i == 0 && len(lines) > item.Line() {
+				fmt.Println(lines[item.Line() - 2])
 			}
-			fmt.Printf("\n")
+			if item.Added() {
+				fmt.Println(color.GreenString("+ " + item.Text()))
+			} else {
+				fmt.Println(color.RedString("- " + item.Text()))
+			}
+			scanned = item.Line()
 		}
-		fmt.Printf("\n")
+		if len(lines) > scanned {
+			fmt.Println(lines[scanned])
+		}
 	}
+	fmt.Printf("\n")
 }
-
-func renderDiffLine(item diff.Diffline) {
-	if item.Added() {
-		fmt.Println(color.GreenString("+ " + item.Text()))
-	} else {
-		fmt.Println(color.RedString("- " + item.Text()))
-	}
-}
-
-// overwrite
