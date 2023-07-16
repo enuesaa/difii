@@ -1,6 +1,8 @@
 package diff
 
-import "golang.org/x/exp/slices"
+import (
+	"golang.org/x/exp/slices"
+)
 
 type Diffs struct {
 	items []Diffline
@@ -30,12 +32,6 @@ func (diffs *Diffs) ListHunks() []Hunk {
 	hunks := make([]Hunk, 0)
 	staging := make([]int, 0)
 
-	list := make([]string, 0)
-	list = append(list, "orange")
-	list = append(list, "apple")
-	list = append(list, "blueberry")
-	list = append(list, "cherry")
-
 	hunk := NewHunk()
 	for _, item := range diffs.items {
 		line := item.Line()
@@ -56,9 +52,9 @@ func (diffs *Diffs) ListHunks() []Hunk {
 			continue
 		}
 
-		hunk.Push(item)
 		hunks = append(hunks, *hunk)
 		hunk = NewHunk()
+		hunk.Push(item)
 		staging = make([]int, 0)
 		staging = append(staging, item.Line())
 	}
