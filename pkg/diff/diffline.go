@@ -1,16 +1,23 @@
 package diff
 
+type Differ int
+
+const (
+    Added Differ = iota
+    Removed
+)
+
 type Diffline struct {
-	line  int
-	text  string
-	added bool // TODO enum
+	line   int
+	text   string
+	differ Differ
 }
 
-func NewDiffline(value Value, added bool) *Diffline {
+func NewDiffline(value Value, differ Differ) *Diffline {
 	return &Diffline{
 		line:  value.Line(),
 		text:  value.Text(),
-		added: added,
+		differ: differ,
 	}
 }
 
@@ -23,5 +30,5 @@ func (v *Diffline) Text() string {
 }
 
 func (l *Diffline) Added() bool {
-	return l.added
+	return l.differ == Added
 }
