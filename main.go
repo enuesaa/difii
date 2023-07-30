@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/enuesaa/difii/pkg/cli/command"
+	"github.com/enuesaa/difii/pkg/cli"
 )
 
 func main() {
-	var cli = command.CreateCli()
-	cli.Execute()
+	app := cli.CreateCli()
+	app.Execute()
 }

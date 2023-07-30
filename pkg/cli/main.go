@@ -1,10 +1,9 @@
-package command
+package cli
 
 import (
-	"fmt"
+	// "fmt"
 
-	"github.com/enuesaa/difii/pkg/cli"
-	"github.com/enuesaa/difii/pkg/cli/prompt"
+	// "github.com/enuesaa/difii/pkg/cli/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -15,21 +14,25 @@ func createRootCmd() *cobra.Command {
 		Args: cobra.MinimumNArgs(0),
 		Version: "0.1.0",
 		Run: func(cmd *cobra.Command, args []string) {
-			input := cli.ParseArgs(cmd, args)
-			if !input.IsCompareDirSelected() {
-				input.CompareDir = prompt.SelectCompareDir()
-			}
-			if !input.IsWorkDirSelected() {
-				input.WorkDir = "."
-			}
-			if err := input.Validate(); err != nil {
-				fmt.Printf("Error: %s\n", err.Error())
-				return
-			}
+			// input := cli.ParseArgs(cmd, args)
+			// if !input.IsCompareDirSelected() {
+			// 	input.CompareDir = prompt.SelectCompareDir()
+			// }
+			// if !input.IsWorkDirSelected() {
+			// 	input.WorkDir = "."
+			// }
+			// if err := input.Validate(); err != nil {
+			// 	fmt.Printf("Error: %s\n", err.Error())
+			// 	return
+			// }
 
-			fmt.Printf("\n")
-			cli.ShowDiffsSummary(input)
-			cli.RecommendInspectCmd(input)
+			// fmt.Printf("\n")
+			// cli.ShowDiffsSummary(input)
+			// cli.RecommendInspectCmd(input)
+
+			// inspect
+			// cli.ShowDiffs(input)
+
 		},
 	}
 
@@ -38,8 +41,6 @@ func createRootCmd() *cobra.Command {
 
 func CreateCli() *cobra.Command {
 	var cli = createRootCmd()
-	cli.AddCommand(createApplyCmd())
-	cli.AddCommand(createInspectCmd())
 
 	// global options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
