@@ -41,15 +41,17 @@ func createRootCmd() *cobra.Command {
 			}
 			if input.Inspect {
 				ShowDiffs(input)
+			} else {
+				RecommendInspectFlag(input)
 			}
 
-			if !input.Apply && input.Interactive {
-				input.Apply = prompt.ConfirmToApply()
-			}
-			if input.Apply {
-				fmt.Printf("applying...\n")
-				// apply
-			}
+			// if !input.Apply && input.Interactive {
+			// 	input.Apply = prompt.ConfirmToApply()
+			// }
+			// if input.Apply {
+			// 	fmt.Printf("applying...\n")
+			// 	// apply
+			// }
 		},
 	}
 
