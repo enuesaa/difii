@@ -37,17 +37,14 @@ func createRootCmd() *cobra.Command {
 			ShowDiffsSummary(input)
 
 			if !input.Inspect && input.Interactive {
-				// todo prompt
-				input.Inspect = true
+				input.Inspect = prompt.ConfirmToInspect()
 			}
 			if input.Inspect {
-				fmt.Printf("inspecting...\n")
 				ShowDiffs(input)
 			}
 
 			if !input.Apply && input.Interactive {
-				// todo prompt
-				input.Apply = true
+				input.Apply = prompt.ConfirmToApply()
 			}
 			if input.Apply {
 				fmt.Printf("applying...\n")

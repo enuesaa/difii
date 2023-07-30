@@ -7,8 +7,8 @@ import (
 	"github.com/enuesaa/difii/pkg/files"
 )
 
-// see https://github.com/c-bata/go-prompt/issues/8
 func SelectCompareDir() string {
+	// see https://github.com/c-bata/go-prompt/issues/8
 	saveState()
 	for {
 		dir := prompt.Input("Compare dir (--compare): ", selectDir, promptOptions()...)
