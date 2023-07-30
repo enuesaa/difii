@@ -10,6 +10,7 @@ import (
 type CliInput struct {
 	CompareDir   string
 	WorkDir     string
+	Interactive bool
 	IsOverwrite bool
 	Includes    []string
 }
@@ -45,6 +46,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	input := CliInput{
 		CompareDir:  compareDir,
 		WorkDir:     workDir,
+		Interactive: false,
 		IsOverwrite: overwrite,
 		Includes:    filenames,
 	}

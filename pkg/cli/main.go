@@ -1,9 +1,9 @@
 package cli
 
 import (
-	// "fmt"
+	"fmt"
 
-	// "github.com/enuesaa/difii/pkg/cli/prompt"
+	"github.com/enuesaa/difii/pkg/cli/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -14,24 +14,28 @@ func createRootCmd() *cobra.Command {
 		Args: cobra.MinimumNArgs(0),
 		Version: "0.1.0",
 		Run: func(cmd *cobra.Command, args []string) {
-			// input := cli.ParseArgs(cmd, args)
-			// if !input.IsCompareDirSelected() {
-			// 	input.CompareDir = prompt.SelectCompareDir()
-			// }
-			// if !input.IsWorkDirSelected() {
-			// 	input.WorkDir = "."
-			// }
-			// if err := input.Validate(); err != nil {
-			// 	fmt.Printf("Error: %s\n", err.Error())
-			// 	return
-			// }
+			input := ParseArgs(cmd, args)
+			if input.Interactive {
+				if !input.IsCompareDirSelected() {
+					input.CompareDir = prompt.SelectCompareDir()
+				}
+				if !input.IsWorkDirSelected() {
+					input.WorkDir = "."
+				}
+			}
+			if err := input.Validate(); err != nil {
+				fmt.Printf("Error: %s\n", err.Error())
+				cmd.Help()
 
-			// fmt.Printf("\n")
-			// cli.ShowDiffsSummary(input)
-			// cli.RecommendInspectCmd(input)
+				return
+			}
+
+			fmt.Printf("\n")
+			ShowDiffsSummary(input)
+			RecommendInspectCmd(input)
 
 			// inspect
-			// cli.ShowDiffs(input)
+			ShowDiffs(input)
 
 		},
 	}
@@ -46,7 +50,9 @@ func CreateCli() *cobra.Command {
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
-	// cli.Flags().Bool("no-interactive", false, "Disable interactive prompt.")
+	cli.PersistentFlags().Bool("inspect", false, "Inspect diffs.")
+	cli.PersistentFlags().Bool("apply", false, "Overwrite working files with comparison.")
+	cli.PersistentFlags().Bool("interactive", false, "Enable interactive prompt.")
 
 	// disable default
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
