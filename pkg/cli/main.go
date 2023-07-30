@@ -15,28 +15,44 @@ func createRootCmd() *cobra.Command {
 		Version: "0.1.0",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
+			if input.HasNoFlags() {
+				cmd.Help()
+				return
+			}
+
 			if input.Interactive {
 				if !input.IsCompareDirSelected() {
 					input.CompareDir = prompt.SelectCompareDir()
 				}
-				if !input.IsWorkDirSelected() {
-					input.WorkDir = "."
-				}
+			}
+			if !input.IsWorkDirSelected() {
+				input.WorkDir = "."
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
-				cmd.Help()
-
 				return
 			}
 
 			fmt.Printf("\n")
 			ShowDiffsSummary(input)
-			RecommendInspectCmd(input)
 
-			// inspect
-			ShowDiffs(input)
+			if !input.Inspect && input.Interactive {
+				// todo prompt
+				input.Inspect = true
+			}
+			if input.Inspect {
+				fmt.Printf("inspecting...\n")
+				ShowDiffs(input)
+			}
 
+			if !input.Apply && input.Interactive {
+				// todo prompt
+				input.Apply = true
+			}
+			if input.Apply {
+				fmt.Printf("applying...\n")
+				// apply
+			}
 		},
 	}
 
@@ -46,7 +62,7 @@ func createRootCmd() *cobra.Command {
 func CreateCli() *cobra.Command {
 	var cli = createRootCmd()
 
-	// global options
+	// options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
@@ -54,7 +70,7 @@ func CreateCli() *cobra.Command {
 	cli.PersistentFlags().Bool("apply", false, "Overwrite working files with comparison.")
 	cli.PersistentFlags().Bool("interactive", false, "Enable interactive prompt.")
 
-	// disable default
+	// disable default behavior.
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
 	cli.PersistentFlags().BoolP("help", "", false, "Show help information")
 	cli.CompletionOptions.DisableDefaultCmd = true

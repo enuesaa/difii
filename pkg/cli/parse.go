@@ -8,21 +8,25 @@ import (
 )
 
 type CliInput struct {
-	CompareDir   string
+	CompareDir  string
 	WorkDir     string
-	Interactive bool
-	IsOverwrite bool
 	Includes    []string
+	Apply       bool
+	Inspect     bool
+	Interactive bool
 }
 
-func (cli *CliInput) IsFileSpecified() bool {
-	return len(cli.Includes) > 0
-}
 func (cli *CliInput) IsCompareDirSelected() bool {
 	return cli.CompareDir != ""
 }
 func (cli *CliInput) IsWorkDirSelected() bool {
 	return cli.WorkDir != ""
+}
+func (cli *CliInput) IsFileSpecified() bool {
+	return len(cli.Includes) > 0
+}
+func (cli *CliInput) HasNoFlags() bool {
+	return !cli.IsCompareDirSelected() && !cli.Apply && !cli.Inspect && !cli.Interactive
 }
 func (cli *CliInput) Validate() error {
 	if !cli.IsCompareDirSelected() {
@@ -40,15 +44,18 @@ func (cli *CliInput) Validate() error {
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	compareDir, _ := cmd.Flags().GetString("compare")
 	workDir, _ := cmd.Flags().GetString("workdir")
-	overwrite, _ := cmd.Flags().GetBool("overwrite")
-	filenames, _ := cmd.Flags().GetStringSlice("only")
+	apply, _ := cmd.Flags().GetBool("apply")
+	inspect, _ := cmd.Flags().GetBool("inspect")
+	interactive, _ := cmd.Flags().GetBool("interactive")
+	includes, _ := cmd.Flags().GetStringSlice("only")
 
 	input := CliInput{
 		CompareDir:  compareDir,
 		WorkDir:     workDir,
-		Interactive: false,
-		IsOverwrite: overwrite,
-		Includes:    filenames,
+		Includes:    includes,
+		Apply:       apply,
+		Inspect:     inspect,
+		Interactive: interactive,
 	}
 
 	return input
