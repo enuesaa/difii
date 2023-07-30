@@ -20,7 +20,8 @@ func createRootCmd() *cobra.Command {
 				return
 			}
 
-			if !input.IsCompareDirSelected() {
+			// prompt for global options
+			if input.Interactive && !input.IsCompareDirSelected() {
 				input.CompareDir = prompt.SelectCompareDir()
 			}
 			if !input.IsWorkDirSelected() {
@@ -32,22 +33,19 @@ func createRootCmd() *cobra.Command {
 			}
 			fmt.Printf("\n")
 
+			// operations
 			if input.Summary {
 				ShowDiffsSummary(input)
 			}
 			if input.Inspect {
 				ShowDiffs(input)
-			} else {
-				RecommendInspectFlag(input)
 			}
-
 			if input.Apply {
-				prompt.ConfirmToApply()
+				if input.Interactive && !prompt.ConfirmToApply() {
+					return;
+				}
 				// todo
 			}
-			// else {
-			// 	RecommendApplyFlag(input)
-			// }
 		},
 	}
 
@@ -61,11 +59,13 @@ func CreateCli() *cobra.Command {
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
+	cli.PersistentFlags().Bool("no-interactive", false, "Disable interactive prompt.")
+
+	// operations
+	cli.PersistentFlags().Bool("summary", false, "Show diffs summary.")
 	cli.PersistentFlags().Bool("inspect", false, "Inspect diffs.")
 	cli.PersistentFlags().Bool("apply", false, "Overwrite working files with comparison.")
-	cli.PersistentFlags().Bool("summary", false, "Show diffs summary.")
 	// cli.PersistentFlags().Bool("report", false, "Report file name.")
-	// cli.PersistentFlags().Bool("no-interactive", false, "Disable interactive prompt.")
 
 	// disable default behavior.
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})

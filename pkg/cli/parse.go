@@ -11,6 +11,7 @@ type CliInput struct {
 	CompareDir  string
 	WorkDir     string
 	Includes    []string
+	Interactive bool
 	Summary     bool
 	Inspect     bool
 	Apply       bool
@@ -45,17 +46,20 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	compareDir, _ := cmd.Flags().GetString("compare")
 	workDir, _ := cmd.Flags().GetString("workdir")
 	includes, _ := cmd.Flags().GetStringSlice("only")
+	noInteractive, _ := cmd.Flags().GetBool("no-interactive")
+
 	summary, _ := cmd.Flags().GetBool("summary")
 	inspect, _ := cmd.Flags().GetBool("inspect")
 	apply, _ := cmd.Flags().GetBool("apply")
 
 	input := CliInput{
-		CompareDir: compareDir,
-		WorkDir:    workDir,
-		Includes:   includes,
-		Summary:    summary,
-		Inspect:    inspect,
-		Apply:      apply,
+		CompareDir:  compareDir,
+		WorkDir:     workDir,
+		Includes:    includes,
+		Interactive: !noInteractive,
+		Summary:     summary,
+		Inspect:     inspect,
+		Apply:       apply,
 	}
 
 	return input
