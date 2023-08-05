@@ -36,7 +36,7 @@ func ShowDiffs(input CliInput) {
 
 		renderer := render.NewContextualRenderer(
 			*diffs,
-			files.ReadStream(input.WorkDir + "/" + filename),
+			files.ReadStream(input.WorkDir+"/"+filename),
 		)
 		renderer.Render()
 	}

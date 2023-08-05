@@ -46,7 +46,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	compareDir, _ := cmd.Flags().GetString("compare")
 	workDir, _ := cmd.Flags().GetString("workdir")
 	includes, _ := cmd.Flags().GetStringSlice("only")
-	noInteractive, _ := cmd.Flags().GetBool("no-interactive")
+	interactive, _ := cmd.Flags().GetBool("interactive")
 
 	summary, _ := cmd.Flags().GetBool("summary")
 	inspect, _ := cmd.Flags().GetBool("inspect")
@@ -56,7 +56,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		CompareDir:  compareDir,
 		WorkDir:     workDir,
 		Includes:    includes,
-		Interactive: !noInteractive,
+		Interactive: interactive,
 		Summary:     summary,
 		Inspect:     inspect,
 		Apply:       apply,

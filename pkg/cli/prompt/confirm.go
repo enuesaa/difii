@@ -10,7 +10,7 @@ import (
 func ConfirmToApply() bool {
 	saveState()
 	for {
-		answer := prompt.Input("Override diffs ? [y/n]", func (in prompt.Document) []prompt.Suggest {
+		answer := prompt.Input("Override diffs ? [y/n]", func(in prompt.Document) []prompt.Suggest {
 			return make([]prompt.Suggest, 0)
 		})
 

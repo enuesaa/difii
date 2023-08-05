@@ -17,7 +17,7 @@ type ContextualRenderer struct {
 func NewContextualRenderer(diffs diff.Diffs, dest io.Reader) *ContextualRenderer {
 	raw, _ := io.ReadAll(dest)
 	lines := strings.Split(string(raw), "\n")
-	
+
 	return &ContextualRenderer{
 		diffs: diffs,
 		lines: lines,

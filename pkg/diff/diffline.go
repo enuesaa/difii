@@ -3,8 +3,8 @@ package diff
 type Differ int
 
 const (
-    Added Differ = iota
-    Removed
+	Added Differ = iota
+	Removed
 )
 
 type Diffline struct {
@@ -15,8 +15,8 @@ type Diffline struct {
 
 func NewDiffline(value Value, differ Differ) *Diffline {
 	return &Diffline{
-		line:  value.Line(),
-		text:  value.Text(),
+		line:   value.Line(),
+		text:   value.Text(),
 		differ: differ,
 	}
 }
