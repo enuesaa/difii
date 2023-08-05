@@ -47,10 +47,10 @@ func CreateCli() *cobra.Command {
 	}
 
 	// options
-	cli.PersistentFlags().String("compare", "", "Compare dir.")
-	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
-	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
-	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
+	cli.InheritedFlags().String("compare", "", "Compare dir.")
+	cli.InheritedFlags().String("workdir", "", "Working dir. Default value is current dir.")
+	cli.InheritedFlags().StringSlice("only", make([]string, 0), "Filename to compare")
+	cli.InheritedFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
 
 	// operations
 	cli.PersistentFlags().Bool("summary", false, "Show diffs summary.")
