@@ -46,24 +46,33 @@ func CreateCli() *cobra.Command {
 		},
 	}
 
+	// operations
+	cli.Flags().Bool("summary", false, "Show diffs summary.")
+	cli.Flags().Bool("inspect", false, "Inspect diffs.")
+	cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
+	// cli.Flags().Bool("auto-approve", false, "Auto approve.")
+	// cli.Flags().Bool("report", false, "Output report file.")
+	// cli.Flags().String("report-file", false, "report filename.")
+
 	// options
 	cli.InheritedFlags().String("compare", "", "Compare dir.")
 	cli.InheritedFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.InheritedFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	cli.InheritedFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
 
-	// operations
-	cli.PersistentFlags().Bool("summary", false, "Show diffs summary.")
-	cli.PersistentFlags().Bool("inspect", false, "Inspect diffs.")
-	cli.PersistentFlags().Bool("apply", false, "Overwrite working files with comparison.")
-	// cli.PersistentFlags().Bool("auto-approve", false, "Auto approve.")
-	// cli.PersistentFlags().Bool("report", false, "Output report file.")
-	// cli.PersistentFlags().String("report-file", false, "report filename.")
-
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
-	cli.PersistentFlags().BoolP("help", "", false, "Show help information")
 	cli.CompletionOptions.DisableDefaultCmd = true
+	cli.InheritedFlags().SortFlags = false
+
+	// see https://github.com/spf13/cobra/issues/1328
+	cli.InitDefaultHelpFlag()
+	cli.Flags().MarkHidden("help")
+	cli.InheritedFlags().BoolP("help", "", false, "help")
+
+	cli.InitDefaultVersionFlag()
+	cli.Flags().MarkHidden("version")
+	cli.InheritedFlags().BoolP("version", "", false, "version")
 
 	return cli
 }
