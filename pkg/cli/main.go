@@ -50,29 +50,29 @@ func CreateCli() *cobra.Command {
 	cli.Flags().Bool("summary", false, "Show diffs summary.")
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 	cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
-	// cli.Flags().Bool("auto-approve", false, "Auto approve.")
-	// cli.Flags().Bool("report", false, "Output report file.")
-	// cli.Flags().String("report-file", false, "report filename.")
 
+	// todo: change help message.
 	// options
-	cli.InheritedFlags().String("compare", "", "Compare dir.")
-	cli.InheritedFlags().String("workdir", "", "Working dir. Default value is current dir.")
-	cli.InheritedFlags().StringSlice("only", make([]string, 0), "Filename to compare")
-	cli.InheritedFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
+	cli.PersistentFlags().String("compare", "", "Compare dir.")
+	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
+	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
+	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
+	// cli.PersistentFlags().BoolP("auto-approve", "", false, "Auto approve.")
+	// cli.PersistentFlags().String("report-file", "", "report filename.")
 
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
 	cli.CompletionOptions.DisableDefaultCmd = true
-	cli.InheritedFlags().SortFlags = false
+	cli.PersistentFlags().SortFlags = false
 
 	// see https://github.com/spf13/cobra/issues/1328
 	cli.InitDefaultHelpFlag()
 	cli.Flags().MarkHidden("help")
-	cli.InheritedFlags().BoolP("help", "", false, "help")
+	cli.PersistentFlags().BoolP("help", "", false, "help")
 
 	cli.InitDefaultVersionFlag()
 	cli.Flags().MarkHidden("version")
-	cli.InheritedFlags().BoolP("version", "", false, "version")
+	cli.PersistentFlags().BoolP("version", "", false, "version")
 
 	return cli
 }
