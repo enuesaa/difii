@@ -4,6 +4,26 @@ A CLI tool to inspect diffs interactively.
 
 ## Usage
 ```bash
+$ difii --help
+Usage:
+  difii [flags]
+
+Flags:
+      --apply     Overwrite working files with comparison.
+      --inspect   Inspect diffs.
+      --summary   Show diffs summary.
+
+Global Flags:
+      --compare string   Compare dir.
+      --workdir string   Working dir. Default value is current dir.
+      --only strings     Filename to compare
+  -i, --interactive      Start interactive prompt.
+      --help             help
+      --version          version
+```
+
+### Show diffs summary
+```bash
 $ difii --compare ./sample-app/styles --summary
 
 Diffs Summary

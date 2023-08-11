@@ -51,7 +51,6 @@ func CreateCli() *cobra.Command {
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 	cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
 
-	// todo: change help message.
 	// options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
@@ -73,6 +72,17 @@ func CreateCli() *cobra.Command {
 	cli.InitDefaultVersionFlag()
 	cli.Flags().MarkHidden("version")
 	cli.PersistentFlags().BoolP("version", "", false, "version")
+
+	cli.SetHelpTemplate(`Usage:{{if .Runnable}}
+  {{.UseLine}}{{end}}{{if .HasAvailableSubCommands}}
+  {{.CommandPath}} [command]{{end}}{{if .HasAvailableFlags}}
+
+Flags:
+{{.LocalNonPersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}{{if .HasAvailablePersistentFlags}}
+
+Global Flags:
+{{.PersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}
+`)
 
 	return cli
 }
