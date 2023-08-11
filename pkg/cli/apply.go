@@ -11,4 +11,6 @@ func Apply(input CliInput) {
 		return
 	}
 	fmt.Printf("applying...")
+
+	// todo
 }

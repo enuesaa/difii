@@ -1,5 +1,5 @@
 # designdoc
-## Commands
+## Usage
 ```bash
 difii -i
 difii --compare <dir>

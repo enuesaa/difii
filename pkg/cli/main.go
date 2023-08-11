@@ -15,12 +15,12 @@ func CreateCli() *cobra.Command {
 		Version: "0.1.0",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
-			if input.HasNoFlags() {
+			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {
 				cmd.Help()
 				return
 			}
 
-			// global options
+			// options
 			if input.Interactive && !input.IsCompareDirSelected() {
 				input.CompareDir = prompt.SelectCompareDir()
 			}
@@ -34,11 +34,14 @@ func CreateCli() *cobra.Command {
 			fmt.Printf("\n")
 
 			// operations
+			if input.Interactive {
+				// todo: do you want to run summary?
+			}
 			if input.Summary {
 				ShowDiffsSummary(input)
 			}
 			if input.Inspect {
-				ShowDiffs(input)
+				Inspect(input)
 			}
 			if input.Apply {
 				Apply(input)
@@ -62,17 +65,11 @@ func CreateCli() *cobra.Command {
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
 	cli.CompletionOptions.DisableDefaultCmd = true
+	// see https://github.com/spf13/cobra/issues/340
+	cli.SilenceUsage = true
 	cli.PersistentFlags().SortFlags = false
-
-	// see https://github.com/spf13/cobra/issues/1328
-	cli.InitDefaultHelpFlag()
-	cli.Flags().MarkHidden("help")
 	cli.PersistentFlags().BoolP("help", "", false, "help")
-
-	cli.InitDefaultVersionFlag()
-	cli.Flags().MarkHidden("version")
 	cli.PersistentFlags().BoolP("version", "", false, "version")
-
 	cli.SetHelpTemplate(`Usage:{{if .Runnable}}
   {{.UseLine}}{{end}}{{if .HasAvailableSubCommands}}
   {{.CommandPath}} [command]{{end}}{{if .HasAvailableFlags}}

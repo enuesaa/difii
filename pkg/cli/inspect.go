@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func ShowDiffs(input CliInput) {
+func Inspect(input CliInput) {
 	fmt.Printf("Inspecting diffs..\n")
 	fmt.Printf("  %s\n", input.WorkDir)
 	fmt.Printf("  %s\n", input.CompareDir)

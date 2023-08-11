@@ -26,8 +26,11 @@ func (cli *CliInput) IsWorkDirSelected() bool {
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
-func (cli *CliInput) HasNoFlags() bool {
-	return !cli.IsCompareDirSelected() && !cli.Summary && !cli.Inspect && !cli.Apply
+func (cli *CliInput) HasNoOperationFlags() bool {
+	return !cli.Summary && !cli.Inspect && !cli.Apply
+}
+func (cli *CliInput) HasNoGlobalFlags() bool {
+	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
 func (cli *CliInput) Validate() error {
 	if !cli.IsCompareDirSelected() {
