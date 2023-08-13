@@ -43,16 +43,16 @@ func CreateCli() *cobra.Command {
 			if input.Inspect {
 				Inspect(input)
 			}
-			if input.Apply {
-				Apply(input)
-			}
+			// if input.Apply {
+			// 	Apply(input)
+			// }
 		},
 	}
 
 	// operations
 	cli.Flags().Bool("summary", false, "Show diffs summary.")
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
-	cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
+	// cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
 
 	// options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")

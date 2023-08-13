@@ -4,7 +4,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/MakeNowJust/heredoc/v2"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,20 +20,20 @@ func TestNormal(t *testing.T) {
 }
 
 func TestHunked(t *testing.T) {
-	source := strings.NewReader(heredoc.Doc(`
-	aaaa
-	bbbb
-	cccccc
-	dddddd
-	eeeeee
-	gggg
-	`))
-	dest := strings.NewReader(heredoc.Doc(`
-	aaaa
-	bbbb
-	ffffff
-	gggg
-	`))
+	source := strings.NewReader(`
+aaaa
+bbbb
+cccccc
+dddddd
+eeeeee
+gggg
+`)
+	dest := strings.NewReader(`
+aaaa
+bbbb
+ffffff
+gggg
+`)
 
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().ListItems()
@@ -47,21 +46,21 @@ func TestHunked(t *testing.T) {
 }
 
 func TestHunkedWithEmptyLine(t *testing.T) {
-	source := strings.NewReader(heredoc.Doc(`
-	aaaa
-	bbbb
-	cccccc
-	eeeeee
-	gggg
-	`))
-	dest := strings.NewReader(heredoc.Doc(`
-	aaaa
-	bbbb
+	source := strings.NewReader(`
+aaaa
+bbbb
+cccccc
+eeeeee
+gggg
+`)
+	dest := strings.NewReader(`
+aaaa
+bbbb
 
-	cccccc
-	eeeeee
-	gggg
-	`))
+cccccc
+eeeeee
+gggg
+`)
 
 	analyzer := NewAnalyzer(source, dest)
 	diff := analyzer.Analyze().ListItems()

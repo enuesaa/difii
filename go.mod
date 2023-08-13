@@ -3,7 +3,6 @@ module github.com/enuesaa/difii
 go 1.21.0
 
 require (
-	github.com/MakeNowJust/heredoc/v2 v2.0.1
 	github.com/c-bata/go-prompt v0.2.6
 	github.com/fatih/color v1.15.0
 	github.com/spf13/cobra v1.7.0
