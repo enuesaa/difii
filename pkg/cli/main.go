@@ -33,19 +33,18 @@ func CreateCli() *cobra.Command {
 			}
 			fmt.Printf("\n")
 
-			// operations
 			if input.Interactive {
-				// todo: do you want to run summary?
+				input.Summary = prompt.ConfirmToRunSummary()
 			}
 			if input.Summary {
 				ShowDiffsSummary(input)
 			}
+			if input.Interactive {
+				input.Inspect = prompt.ConfirmToRunInspect()
+			}
 			if input.Inspect {
 				Inspect(input)
 			}
-			// if input.Apply {
-			// 	Apply(input)
-			// }
 		},
 	}
 
