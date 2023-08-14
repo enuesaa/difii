@@ -20,16 +20,14 @@ func TestNormal(t *testing.T) {
 }
 
 func TestHunked(t *testing.T) {
-	source := strings.NewReader(`
-aaaa
+	source := strings.NewReader(`aaaa
 bbbb
 cccccc
 dddddd
 eeeeee
 gggg
 `)
-	dest := strings.NewReader(`
-aaaa
+	dest := strings.NewReader(`aaaa
 bbbb
 ffffff
 gggg
@@ -46,15 +44,13 @@ gggg
 }
 
 func TestHunkedWithEmptyLine(t *testing.T) {
-	source := strings.NewReader(`
-aaaa
+	source := strings.NewReader(`aaaa
 bbbb
 cccccc
 eeeeee
 gggg
 `)
-	dest := strings.NewReader(`
-aaaa
+	dest := strings.NewReader(`aaaa
 bbbb
 
 cccccc
