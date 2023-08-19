@@ -25,6 +25,7 @@ func NewContextualRenderer(diffs diff.Diffs, dest io.Reader) *ContextualRenderer
 }
 
 func (ren *ContextualRenderer) Render() {
+	// TODO: fix ListHunks() does not include diffs when comparing testdata/aa-simple.
 	for _, hunk := range ren.diffs.ListHunks() {
 		var last int
 		for i, item := range hunk.ListItems() {
@@ -40,7 +41,6 @@ func (ren *ContextualRenderer) Render() {
 		}
 		fmt.Println(ren.getLine(last))
 	}
-	// ren.renderSameLine(-1)
 	fmt.Printf("\n")
 }
 
