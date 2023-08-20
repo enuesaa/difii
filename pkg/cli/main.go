@@ -31,19 +31,20 @@ func CreateCli() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			fmt.Printf("\n")
+			renderer := Renderer {}
+			renderer.Printf("\n")
 
 			if input.Interactive {
 				input.Summary = prompt.ConfirmToRunSummary()
 			}
 			if input.Summary {
-				ShowDiffsSummary(input)
+				ShowDiffsSummary(&renderer, input)
 			}
 			if input.Interactive {
 				input.Inspect = prompt.ConfirmToRunInspect()
 			}
 			if input.Inspect {
-				Inspect(input)
+				Inspect(&renderer, input)
 			}
 		},
 	}

@@ -1,17 +1,15 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/enuesaa/difii/pkg/cli/render"
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
 	"github.com/fatih/color"
 )
 
-func Inspect(input CliInput) {
-	fmt.Printf("Inspecting diffs..\n")
-	fmt.Printf("\n")
+func Inspect(renderer RendererInterface, input CliInput) {
+	renderer.Printf("Inspecting diffs..\n")
+	renderer.Printf("\n")
 
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
@@ -25,17 +23,17 @@ func Inspect(input CliInput) {
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 
-		fmt.Printf(
+		renderer.Printf(
 			"%s has %s %s diffs\n",
 			filename,
 			color.RedString("-%d", diffs.CountRemove()),
 			color.GreenString("+%d", diffs.CountAdd()),
 		)
 
-		renderer := render.NewContextualRenderer(
+		conrenderer := render.NewContextualRenderer(
 			*diffs,
 			files.ReadStream(input.WorkDir+"/"+filename),
 		)
-		renderer.Render()
+		conrenderer.Render()
 	}
 }
