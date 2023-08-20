@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"github.com/enuesaa/difii/pkg/cli/render"
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
 	"github.com/fatih/color"
@@ -30,10 +29,19 @@ func Inspect(renderer RendererInterface, input CliInput) {
 			color.GreenString("+%d", diffs.CountAdd()),
 		)
 
-		conrenderer := render.NewContextualRenderer(
-			*diffs,
-			files.ReadStream(input.WorkDir+"/"+filename),
-		)
-		conrenderer.Render()
+		renderWithHunks(renderer, *diffs)
 	}
+}
+
+func renderWithHunks(renderer RendererInterface, diffs diff.Diffs) {
+	for _, hunk := range diffs.ListHunks() {
+		for _, item := range hunk.ListItems() {
+			if item.Added() {
+				renderer.Printf("%s\n", color.GreenString("+ " + item.Text()))
+			} else {
+				renderer.Printf("%s\n", color.RedString("- " + item.Text()))
+			}
+		}
+	}
+	renderer.Printf("\n")
 }
