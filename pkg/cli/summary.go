@@ -1,13 +1,20 @@
 package cli
 
 import (
+	"github.com/enuesaa/difii/pkg/cli/prompt"
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
 	"github.com/fatih/color"
 )
 
-func ShowDiffsSummary(renderer RendererInterface, input CliInput) {
-	renderer.Printf("Diffs Summary\n")
+type SummaryService struct {}
+
+func (srv *SummaryService) Confirm() bool {
+	return prompt.Confirm("Would you like to show diffs summary?")
+}
+
+func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
+	ren.Printf("Diffs Summary\n")
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
 	if input.IsFileSpecified() {
@@ -20,12 +27,12 @@ func ShowDiffsSummary(renderer RendererInterface, input CliInput) {
 		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
-		renderer.Printf(
+		ren.Printf(
 			"%s %s diffs in %s \n",
 			color.RedString("-%d", diffs.CountRemove()),
 			color.GreenString("+%d", diffs.CountAdd()),
 			filename,
 		)
 	}
-	renderer.Printf("\n")
+	ren.Printf("\n")
 }

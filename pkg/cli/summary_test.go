@@ -17,6 +17,8 @@ func TestNormal(t *testing.T) {
 		Inspect: false,
 		Apply: false,
 	}
-	ShowDiffsSummary(renderer, input)
+
+	summarySrv := SummaryService{}
+	summarySrv.Render(renderer, input)
 	assert.Equal(t, "Diffs Summary\n-1 +0 diffs in main.md \n\n", renderer.Out)
 }

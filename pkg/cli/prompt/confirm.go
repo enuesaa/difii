@@ -20,11 +20,3 @@ func Confirm(message string) bool {
 	}
 	return false
 }
-
-func ConfirmToRunSummary() bool {
-	return Confirm("Would you like to show diffs summary?")
-}
-
-func ConfirmToRunInspect() bool {
-	return Confirm("Would you like to inspect diffs?")
-}

@@ -32,19 +32,21 @@ func CreateCli() *cobra.Command {
 				return
 			}
 			renderer := NewRenderer()
-			renderer.Printf("\n")
 
+			summarySrv := SummaryService{}
 			if input.Interactive {
-				input.Summary = prompt.ConfirmToRunSummary()
+				input.Summary = summarySrv.Confirm()
 			}
 			if input.Summary {
-				ShowDiffsSummary(renderer, input)
+				summarySrv.Render(renderer, input)
 			}
+
+			inspectSrv := InspectService{}
 			if input.Interactive {
-				input.Inspect = prompt.ConfirmToRunInspect()
+				input.Inspect = inspectSrv.Confirm()
 			}
 			if input.Inspect {
-				Inspect(renderer, input)
+				inspectSrv.Render(renderer, input)
 			}
 		},
 	}
