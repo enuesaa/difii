@@ -1,6 +1,6 @@
 **Work in progress...**
 # difii
-A CLI tool to inspect diffs interactively.  
+A CLI tool to compare two directories.  
 
 ## Usage
 ```bash

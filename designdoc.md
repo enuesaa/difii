@@ -11,13 +11,10 @@ difii --compare <dir> --report --report-file report.html
 
 ## dev command
 ```bash
-go run . --inspect --compare testdata/aa-simple --workdir testdata/aa-simpler --summary
+go run . --inspect --compare testdata/tourism-a --workdir testdata/tourism-b --summary
 ```
 
 ## Development Plan
-### Summary
-- 問題なし
-
 ### Inspect
 - とりあえず差分がわかれば良い
 - 前後2行くらい出力する
