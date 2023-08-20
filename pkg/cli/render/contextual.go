@@ -26,26 +26,13 @@ func NewContextualRenderer(diffs diff.Diffs, dest io.Reader) *ContextualRenderer
 
 func (ren *ContextualRenderer) Render() {
 	for _, hunk := range ren.diffs.ListHunks() {
-		var last int
-		for i, item := range hunk.ListItems() {
-			last = item.Line()
-			if i == 0 {
-				fmt.Println(ren.getLine(last - 2))
-			}
+		for _, item := range hunk.ListItems() {
 			if item.Added() {
 				fmt.Println(color.GreenString("+ " + item.Text()))
 			} else {
 				fmt.Println(color.RedString("- " + item.Text()))
 			}
 		}
-		fmt.Println(ren.getLine(last))
 	}
 	fmt.Printf("\n")
-}
-
-func (ren *ContextualRenderer) getLine(line int) string {
-	if len(ren.lines) > line {
-		return ren.lines[line]
-	}
-	return ""
 }

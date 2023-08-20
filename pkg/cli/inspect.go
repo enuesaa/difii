@@ -11,8 +11,6 @@ import (
 
 func Inspect(input CliInput) {
 	fmt.Printf("Inspecting diffs..\n")
-	fmt.Printf("  %s\n", input.WorkDir)
-	fmt.Printf("  %s\n", input.CompareDir)
 	fmt.Printf("\n")
 
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
