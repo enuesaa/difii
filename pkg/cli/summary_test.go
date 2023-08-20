@@ -16,8 +16,8 @@ func TestNormal(t *testing.T) {
 	os.Stdout = w
 
 	input := CliInput {
-		CompareDir: "../../testdata/aa-simple",
-		WorkDir: "../../testdata/aa-simpler",
+		CompareDir: "../../testdata/simple-a",
+		WorkDir: "../../testdata/simple-b",
 		Includes: make([]string, 0),
 		Interactive: false,
 		Summary: true,
@@ -34,5 +34,5 @@ func TestNormal(t *testing.T) {
 		fmt.Println("failed")
 		return
 	}
-	assert.Equal(t, "Diffs Summary\n          -1           +0 diffs in aa.txt \n\n", string(buf))
+	assert.Equal(t, "Diffs Summary\n          -1           +0 diffs in main.md \n\n", string(buf))
 }
