@@ -9,7 +9,6 @@ Usage:
   difii [flags]
 
 Flags:
-      --apply     Overwrite working files with comparison.
       --inspect   Inspect diffs.
       --summary   Show diffs summary.
 
