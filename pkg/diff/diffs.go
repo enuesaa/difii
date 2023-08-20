@@ -57,6 +57,11 @@ func (diffs *Diffs) ListHunks() []Hunk {
 		staging = append(staging, item.Line())
 	}
 
+	// last loop
+	if len(staging) > 0 {
+		hunks = append(hunks, *hunk)
+	}
+
 	return hunks
 }
 
