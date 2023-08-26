@@ -45,7 +45,7 @@ func (cli *CliInput) Validate() error {
 	return nil
 }
 
-func ParseArgs(cmd *cobra.Command, args []string) CliInput {
+func ParseArgs(cmd *cobra.Command) CliInput {
 	compareDir, _ := cmd.Flags().GetString("compare")
 	workDir, _ := cmd.Flags().GetString("workdir")
 	includes, _ := cmd.Flags().GetStringSlice("only")
