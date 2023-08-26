@@ -14,7 +14,6 @@ func (srv *InspectService) Confirm() bool {
 }
 
 func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
-	ren.Printf("\n")
 	ren.Printf("Inspecting diffs..\n")
 	ren.Printf("\n")
 
