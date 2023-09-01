@@ -26,8 +26,8 @@ func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
 
 	for _, filename := range sourcefiles {
 		compareDir := files.ReadStream(input.CompareDir + "/" + filename)
-		workDir := files.ReadStream(input.WorkDir + "/" + filename)
-		analyzer := diff.NewAnalyzer(compareDir, workDir)
+		baseDir := files.ReadStream(input.BaseDir + "/" + filename)
+		analyzer := diff.NewAnalyzer(compareDir, baseDir)
 		diffs := analyzer.Analyze()
 
 		ren.Printf(

@@ -29,7 +29,7 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 
 	for _, filename := range sourcefiles {
 		source := files.ReadStream(input.CompareDir + "/" + filename)
-		dest := files.ReadStream(input.WorkDir + "/" + filename)
+		dest := files.ReadStream(input.BaseDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 

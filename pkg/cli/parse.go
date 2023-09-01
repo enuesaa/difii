@@ -9,7 +9,7 @@ import (
 
 type CliInput struct {
 	CompareDir  string
-	WorkDir     string
+	BaseDir     string
 	Includes    []string
 	Interactive bool
 	Summary     bool
@@ -20,8 +20,8 @@ type CliInput struct {
 func (cli *CliInput) IsCompareDirSelected() bool {
 	return cli.CompareDir != ""
 }
-func (cli *CliInput) IsWorkDirSelected() bool {
-	return cli.WorkDir != ""
+func (cli *CliInput) IsBaseDirSelected() bool {
+	return cli.BaseDir != ""
 }
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
@@ -30,7 +30,7 @@ func (cli *CliInput) HasNoOperationFlags() bool {
 	return !cli.Summary && !cli.Inspect && !cli.Apply
 }
 func (cli *CliInput) HasNoGlobalFlags() bool {
-	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
+	return !cli.IsCompareDirSelected() && !cli.IsBaseDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
 func (cli *CliInput) Validate() error {
 	if !cli.IsCompareDirSelected() {
@@ -39,15 +39,15 @@ func (cli *CliInput) Validate() error {
 	if !files.IsDirExist(cli.CompareDir) {
 		return errors.New("invalid file path specified in --compare")
 	}
-	if !files.IsDirExist(cli.WorkDir) {
-		return errors.New("invalid file path specified in --workdir")
+	if !files.IsDirExist(cli.BaseDir) {
+		return errors.New("invalid file path specified in --base")
 	}
 	return nil
 }
 
 func ParseArgs(cmd *cobra.Command) CliInput {
 	compareDir, _ := cmd.Flags().GetString("compare")
-	workDir, _ := cmd.Flags().GetString("workdir")
+	baseDir, _ := cmd.Flags().GetString("base")
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
@@ -57,7 +57,7 @@ func ParseArgs(cmd *cobra.Command) CliInput {
 
 	input := CliInput{
 		CompareDir:  compareDir,
-		WorkDir:     workDir,
+		BaseDir:     baseDir,
 		Includes:    includes,
 		Interactive: interactive,
 		Summary:     summary,

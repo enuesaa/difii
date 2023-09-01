@@ -24,8 +24,8 @@ func CreateCli() *cobra.Command {
 			if input.Interactive && !input.IsCompareDirSelected() {
 				input.CompareDir = prompt.SelectCompareDir()
 			}
-			if !input.IsWorkDirSelected() {
-				input.WorkDir = "."
+			if !input.IsBaseDirSelected() {
+				input.BaseDir = "."
 			}
 			if err := input.Validate(); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
@@ -58,7 +58,7 @@ func CreateCli() *cobra.Command {
 
 	// options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
-	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
+	cli.PersistentFlags().String("base", "", "Base dir. Deault value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
 	// cli.PersistentFlags().BoolP("auto-approve", "", false, "Auto approve.")
