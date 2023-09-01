@@ -14,7 +14,10 @@ func (srv *SummaryService) Confirm() bool {
 }
 
 func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
-	ren.Printf("Diffs Summary\n")
+	ren.Printf("-----------\n")
+	ren.Printf("\n")
+	ren.Printf("Summary\n")
+	ren.Printf("\n")
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
 
 	if input.IsFileSpecified() {

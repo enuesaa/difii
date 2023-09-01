@@ -44,6 +44,6 @@ func TestParse(t *testing.T) {
 		summarySrv := SummaryService{}
 		renderer := NewMockRenderer()
 		summarySrv.Render(renderer, input)
-		assert.Equal(t, "Diffs Summary\n" + tc.diff + " diffs in main.md \n\n", renderer.Out)
+		assert.Equal(t, "-----------\n\nSummary\n\n" + tc.diff + " diffs in main.md \n\n", renderer.Out)
 	}
 }

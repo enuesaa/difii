@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/enuesaa/difii/pkg/cli/prompt"
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
@@ -14,7 +16,9 @@ func (srv *InspectService) Confirm() bool {
 }
 
 func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
-	ren.Printf("Inspecting diffs..\n")
+	ren.Printf("-----------\n")
+	ren.Printf("\n")
+	ren.Printf("Inspect\n")
 	ren.Printf("\n")
 
 	sourcefiles := files.ListFilesRecursively(input.CompareDir)
@@ -29,25 +33,26 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 
-		ren.Printf(
-			"%s has %s %s diffs\n",
-			filename,
-			color.RedString("-%d", diffs.CountRemove()),
-			color.GreenString("+%d", diffs.CountAdd()),
-		)
+		// ren.Printf(
+		// 	"%s has %s %s diffs\n",
+		// 	filename,
+		// 	color.RedString("-%d", diffs.CountRemove()),
+		// 	color.GreenString("+%d", diffs.CountAdd()),
+		// )
 
-		srv.renderHunks(ren, *diffs)
+		srv.renderHunks(ren, filename, *diffs)
 		ren.Printf("\n")
 	}
 }
 
-func (srv *InspectService) renderHunks(ren RendererInterface, diffs diff.Diffs) {
+func (srv *InspectService) renderHunks(ren RendererInterface, filename string, diffs diff.Diffs) {
 	for _, hunk := range diffs.ListHunks() {
 		for _, item := range hunk.ListItems() {
+			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				ren.Printf("%s\n", color.GreenString("+ " + item.Text()))
+				ren.Printf("%s\t%s\n", color.HiWhiteString(filename + ":" + line), color.GreenString("+ " + item.Text()))
 			} else {
-				ren.Printf("%s\n", color.RedString("- " + item.Text()))
+				ren.Printf("%s\t%s\n", color.HiWhiteString(filename + ":" + line), color.RedString("- " + item.Text()))
 			}
 		}
 	}
