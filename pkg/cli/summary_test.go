@@ -47,3 +47,36 @@ func TestSummary(t *testing.T) {
 		assert.Equal(t, "-----------\n\nSummary\n\n" + tc.diff + " diffs in main.md \n\n", renderer.Out)
 	}
 }
+
+
+func TestSummaryForMultiFiles(t *testing.T) {
+	cases := []struct{
+		baseDir string
+		compareDir string
+		diff string
+	} {
+		{
+			baseDir: "../../testdata/tourism-a",
+			compareDir: "../../testdata/tourism-filename-changed",
+			diff: "-8 +0  diffs in main.md \n -0 +8  diffs in changed.md",
+		},
+	}
+
+    for _, tc := range cases {
+		input := CliInput {
+			CompareDir: tc.compareDir,
+			BaseDir: tc.baseDir,
+			Includes: make([]string, 0),
+			Interactive: false,
+			Summary: true,
+			Inspect: false,
+			Apply: false,
+		}
+	
+		summarySrv := SummaryService{}
+		renderer := NewMockRenderer()
+		summarySrv.Render(renderer, input)
+		assert.Equal(t, "-----------\n\nSummary\n\n" + tc.diff + " \n\n", renderer.Out)
+	}
+}
+
