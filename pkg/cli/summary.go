@@ -19,16 +19,16 @@ func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
 	ren.Printf("Summary\n")
 	ren.Printf("\n")
 
-	targetfiles := files.ListFilesInDirs(input.BaseDir, input.CompareDir)
+	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {
 		targetfiles = files.FilterFiles(targetfiles, input.Includes)
 	}
 
 	for _, filename := range targetfiles {
-		baseDir := files.ReadStream(input.BaseDir + "/" + filename)
+		workDir := files.ReadStream(input.WorkDir + "/" + filename)
 		compareDir := files.ReadStream(input.CompareDir + "/" + filename)
-		analyzer := diff.NewAnalyzer(compareDir, baseDir)
+		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
 		ren.Printf(

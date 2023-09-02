@@ -21,7 +21,7 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 	ren.Printf("Inspect\n")
 	ren.Printf("\n")
 
-	targetfiles := files.ListFilesInDirs(input.BaseDir, input.CompareDir)
+	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {
 		targetfiles = files.FilterFiles(targetfiles, input.Includes)
@@ -29,7 +29,7 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 
 	for _, filename := range targetfiles {
 		source := files.ReadStream(input.CompareDir + "/" + filename)
-		dest := files.ReadStream(input.BaseDir + "/" + filename)
+		dest := files.ReadStream(input.WorkDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 

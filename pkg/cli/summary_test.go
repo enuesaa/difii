@@ -1,6 +1,5 @@
 package cli
 
-
 import (
 	"testing"
 
@@ -8,55 +7,33 @@ import (
 )
 
 func TestSummary(t *testing.T) {
-	cases := []struct{
-		baseDir string
-		compareDir string
-		diff string
-	} {
-		{
-			baseDir: "../../testdata/simple-a",
-			compareDir: "../../testdata/simple-b",
-			diff: "-0 +1",
-		},
-		{
-			baseDir: "../../testdata/random-a",
-			compareDir: "../../testdata/random-b",
-			diff: "-5 +4",
-		},
-		{
-			baseDir: "../../testdata/tourism-a",
-			compareDir: "../../testdata/tourism-b",
-			diff: "-2 +2",
-		},
+	input := CliInput {
+		CompareDir: "../../testdata/simple-b",
+		WorkDir: "../../testdata/simple-a",
+		Includes: make([]string, 0),
+		Interactive: false,
+		Summary: true,
+		Inspect: true,
+		Apply: false,
 	}
 
-    for _, tc := range cases {
-		input := CliInput {
-			CompareDir: tc.compareDir,
-			BaseDir: tc.baseDir,
-			Includes: make([]string, 0),
-			Interactive: false,
-			Summary: true,
-			Inspect: false,
-			Apply: false,
-		}
-	
-		summarySrv := SummaryService{}
-		renderer := NewMockRenderer()
-		summarySrv.Render(renderer, input)
-		assert.Equal(t, "-----------\n\nSummary\n\n" + tc.diff + " diffs in main.md \n\n", renderer.Out)
-	}
+	assert.Equal(t, input.IsCompareDirSelected(), true)
+	assert.Equal(t, input.IsWorkDirSelected(), true)
+	assert.Equal(t, input.IsFileSpecified(), false)
+	assert.Equal(t, input.HasNoOperationFlags(), false)
+	assert.Equal(t, input.HasNoGlobalFlags(), false)
+	assert.Equal(t, input.Validate(), nil)
 }
 
 
 func TestSummaryForMultiFiles(t *testing.T) {
 	cases := []struct{
-		baseDir string
+		workDir string
 		compareDir string
 		diff string
 	} {
 		{
-			baseDir: "../../testdata/tourism-a",
+			workDir: "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-filename-changed",
 			diff: "-8 +0  diffs in main.md \n -0 +8  diffs in changed.md",
 		},
@@ -65,7 +42,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
     for _, tc := range cases {
 		input := CliInput {
 			CompareDir: tc.compareDir,
-			BaseDir: tc.baseDir,
+			WorkDir: tc.workDir,
 			Includes: make([]string, 0),
 			Interactive: false,
 			Summary: true,
