@@ -23,28 +23,22 @@ func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 
 // todo refactor
 func (anly *Analyzer) next(line int) (Value, Value) {
-	sourceHasNext := anly.sourceReading
-	destHasNext := anly.destReading
+	// bufio.Scanner misses last empty line.
+	// to prevent this, use anly.sourceReading as reading status.
+	sourceValue := *NewValue(line, anly.sourceReading, "")
+	destValue := *NewValue(line, anly.destReading, "")
 
-	var sourceNext string
-	if anly.source.Scan() {
-		sourceNext = anly.source.Text()
-		anly.sourceReading = true
-		sourceHasNext = true
-	} else {
-		anly.sourceReading = false
+	anly.sourceReading = anly.source.Scan()
+	if anly.sourceReading {
+		sourceValue = *NewValue(line, anly.sourceReading, anly.source.Text())
+	}
+	
+	anly.destReading = anly.dest.Scan()
+	if anly.destReading {
+		destValue = *NewValue(line, anly.destReading, anly.dest.Text())
 	}
 
-	var destNext string
-	if anly.dest.Scan() {
-		destNext = anly.dest.Text()
-		anly.destReading = true
-		destHasNext = true
-	} else {
-		anly.destReading = false
-	}
-
-	return *NewValue(line, sourceHasNext, sourceNext), *NewValue(line, destHasNext, destNext)
+	return sourceValue, destValue
 }
 
 func (anly *Analyzer) Analyze() *Diffs {
