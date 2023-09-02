@@ -21,24 +21,17 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 	ren.Printf("Inspect\n")
 	ren.Printf("\n")
 
-	sourcefiles := files.ListFilesRecursively(input.CompareDir)
+	targetfiles := files.ListFilesInDirs(input.BaseDir, input.CompareDir)
 
 	if input.IsFileSpecified() {
-		sourcefiles = files.FilterFiles(sourcefiles, input.Includes)
+		targetfiles = files.FilterFiles(targetfiles, input.Includes)
 	}
 
-	for _, filename := range sourcefiles {
+	for _, filename := range targetfiles {
 		source := files.ReadStream(input.CompareDir + "/" + filename)
 		dest := files.ReadStream(input.BaseDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
-
-		// ren.Printf(
-		// 	"%s has %s %s diffs\n",
-		// 	filename,
-		// 	color.RedString("-%d", diffs.CountRemove()),
-		// 	color.GreenString("+%d", diffs.CountAdd()),
-		// )
 
 		srv.renderHunks(ren, filename, *diffs)
 		ren.Printf("\n")

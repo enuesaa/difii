@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"golang.org/x/exp/slices"
 )
 
 func ListFilesRecursively(dir string) []string {
@@ -32,4 +34,18 @@ func removeRelativePathFromFilenames(filenames []string, path string) []string {
 		converted = append(converted, strings.TrimPrefix(filename, path))
 	}
 	return converted
+}
+
+func ListFilesInDirs(dirs ...string) []string {
+	list := make([]string, 0)
+
+	for _, dir := range dirs {
+		list = append(list, ListFilesRecursively(dir)...)
+	}
+
+	// remove duplicates.
+	// see https://zenn.dev/orangekame/articles/dad6d0e9382660
+	slices.Sort(list)
+	list = slices.Compact(list)
+	return list
 }
