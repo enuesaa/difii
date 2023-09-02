@@ -22,6 +22,10 @@ func (v *Value) Has() bool {
 	return v.has
 }
 
+func (v *Value) Last() bool {
+	return !v.has
+}
+
 func (v *Value) Text() string {
 	return v.text
 }

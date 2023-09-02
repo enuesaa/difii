@@ -8,26 +8,40 @@ import (
 type Analyzer struct {
 	source bufio.Scanner
 	dest   bufio.Scanner
+	sourceReading bool
+	destReading bool
 }
 
 func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 	return &Analyzer{
 		source: *bufio.NewScanner(source),
 		dest:   *bufio.NewScanner(dest),
+		sourceReading: false,
+		destReading: false,
 	}
 }
 
+// todo refactor
 func (anly *Analyzer) next(line int) (Value, Value) {
-	sourceHasNext := anly.source.Scan()
-	destHasNext := anly.dest.Scan()
+	sourceHasNext := anly.sourceReading
+	destHasNext := anly.destReading
 
 	var sourceNext string
-	if sourceHasNext {
+	if anly.source.Scan() {
 		sourceNext = anly.source.Text()
+		anly.sourceReading = true
+		sourceHasNext = true
+	} else {
+		anly.sourceReading = false
 	}
+
 	var destNext string
-	if destHasNext {
+	if anly.dest.Scan() {
 		destNext = anly.dest.Text()
+		anly.destReading = true
+		destHasNext = true
+	} else {
+		anly.destReading = false
 	}
 
 	return *NewValue(line, sourceHasNext, sourceNext), *NewValue(line, destHasNext, destNext)
