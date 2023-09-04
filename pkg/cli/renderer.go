@@ -8,7 +8,8 @@ type RendererInterface interface {
 	Printf(format string, a ...any)
 }
 
-type Renderer struct {}
+type Renderer struct{}
+
 func NewRenderer() *Renderer {
 	return &Renderer{}
 }
@@ -19,6 +20,7 @@ func (ren *Renderer) Printf(format string, a ...any) {
 type MockRenderer struct {
 	Out string
 }
+
 func NewMockRenderer() *MockRenderer {
 	return &MockRenderer{}
 }

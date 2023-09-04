@@ -9,7 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
-type InspectService struct {}
+type InspectService struct{}
 
 func (srv *InspectService) Confirm() bool {
 	return prompt.Confirm("Would you like to inspect diffs?")
@@ -43,9 +43,9 @@ func (srv *InspectService) renderHunks(ren RendererInterface, filename string, d
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				ren.Printf("%s\t%s\n", color.HiWhiteString(filename + ":" + line), color.GreenString("+ " + item.Text()))
+				ren.Printf("%s\t%s\n", color.HiWhiteString(filename+":"+line), color.GreenString("+ "+item.Text()))
 			} else {
-				ren.Printf("%s\t%s\n", color.HiWhiteString(filename + ":" + line), color.RedString("- " + item.Text()))
+				ren.Printf("%s\t%s\n", color.HiWhiteString(filename+":"+line), color.RedString("- "+item.Text()))
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package cli
 
-
 import (
 	"testing"
 
@@ -8,42 +7,42 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	cases := []struct{
-		workDir string
+	cases := []struct {
+		workDir    string
 		compareDir string
-		diff string
-	} {
+		diff       string
+	}{
 		{
-			workDir: "../../testdata/simple-a",
+			workDir:    "../../testdata/simple-a",
 			compareDir: "../../testdata/simple-b",
-			diff: "-0 +1",
+			diff:       "-0 +1",
 		},
 		{
-			workDir: "../../testdata/random-a",
+			workDir:    "../../testdata/random-a",
 			compareDir: "../../testdata/random-b",
-			diff: "-5 +4",
+			diff:       "-5 +4",
 		},
 		{
-			workDir: "../../testdata/tourism-a",
+			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-b",
-			diff: "-2 +2",
+			diff:       "-2 +2",
 		},
 	}
 
-    for _, tc := range cases {
-		input := CliInput {
-			CompareDir: tc.compareDir,
-			WorkDir: tc.workDir,
-			Includes: make([]string, 0),
+	for _, tc := range cases {
+		input := CliInput{
+			CompareDir:  tc.compareDir,
+			WorkDir:     tc.workDir,
+			Includes:    make([]string, 0),
 			Interactive: false,
-			Summary: true,
-			Inspect: false,
-			Apply: false,
+			Summary:     true,
+			Inspect:     false,
+			Apply:       false,
 		}
-	
+
 		summarySrv := SummaryService{}
 		renderer := NewMockRenderer()
 		summarySrv.Render(renderer, input)
-		assert.Equal(t, "-----------\n\nSummary\n\n" + tc.diff + " diffs in main.md \n\n", renderer.Out)
+		assert.Equal(t, "-----------\n\nSummary\n\n"+tc.diff+" diffs in main.md \n\n", renderer.Out)
 	}
 }

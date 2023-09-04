@@ -7,7 +7,7 @@ import (
 	"github.com/fatih/color"
 )
 
-type SummaryService struct {}
+type SummaryService struct{}
 
 func (srv *SummaryService) Confirm() bool {
 	return prompt.Confirm("Would you like to show diffs summary?")

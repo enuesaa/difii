@@ -6,18 +6,18 @@ import (
 )
 
 type Analyzer struct {
-	source bufio.Scanner
-	dest   bufio.Scanner
+	source        bufio.Scanner
+	dest          bufio.Scanner
 	sourceReading bool
-	destReading bool
+	destReading   bool
 }
 
 func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 	return &Analyzer{
-		source: *bufio.NewScanner(source),
-		dest:   *bufio.NewScanner(dest),
+		source:        *bufio.NewScanner(source),
+		dest:          *bufio.NewScanner(dest),
 		sourceReading: false,
-		destReading: false,
+		destReading:   false,
 	}
 }
 
@@ -32,7 +32,7 @@ func (anly *Analyzer) next(line int) (Value, Value) {
 	if anly.sourceReading {
 		sourceValue = *NewValue(line, anly.sourceReading, anly.source.Text())
 	}
-	
+
 	anly.destReading = anly.dest.Scan()
 	if anly.destReading {
 		destValue = *NewValue(line, anly.destReading, anly.dest.Text())

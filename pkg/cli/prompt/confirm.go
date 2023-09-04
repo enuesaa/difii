@@ -9,7 +9,7 @@ import (
 
 func Confirm(message string) bool {
 	saveState()
-	answer := prompt.Input(message + " (y/N) ", confirmSuggestion, confirmPromptOptions()...)
+	answer := prompt.Input(message+" (y/N) ", confirmSuggestion, confirmPromptOptions()...)
 	answer = strings.TrimSpace(answer)
 	answer = strings.ToLower(answer)
 
