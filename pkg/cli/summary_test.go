@@ -1,12 +1,13 @@
 package cli
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSummary(t *testing.T) {
+func TestSummaryDiffsCount(t *testing.T) {
 	cases := []struct {
 		workDir    string
 		compareDir string
@@ -56,12 +57,19 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-filename-changed",
-			diff:       "-0 +8 diffs in changed.md \n-8 +0 diffs in main.md",
+			diff:       `
+-0 +8 diffs in changed.md 
+-8 +0 diffs in main.md 
+`,
 		},
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-sub-files",
-			diff:       "-0 +0 diffs in main.md \n-0 +2 diffs in sub.md \n-0 +2 diffs in subsub.md",
+			diff:       `
+-0 +0 diffs in main.md 
+-0 +2 diffs in sub.md 
+-0 +2 diffs in subsub.md 
+`,
 		},
 	}
 
@@ -79,6 +87,10 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		summarySrv := SummaryService{}
 		renderer := NewMockRenderer()
 		summarySrv.Render(renderer, input)
-		assert.Equal(t, "-----------\n\nSummary\n\n"+tc.diff+" \n\n", renderer.Out)
+		assert.Equal(t, fmt.Sprintf(`-----------
+
+Summary
+%s
+`, tc.diff), renderer.Out)
 	}
 }
