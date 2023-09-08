@@ -1,6 +1,6 @@
 **Work in progress...**
 # difii
-A CLI tool to compare two directories.  
+A CLI tool to diff 2 directories.
 
 ## Usage
 ```bash
@@ -21,13 +21,23 @@ Global Flags:
       --version          version
 ```
 
-### Show diffs summary
+### `--summary` flag shows diffs summary.
 ```bash
-$ difii --compare ./sample-app/styles --summary
+$ difii --compare ../another-styles --summary
 
-Diffs Summary
- -4  +0 diffs in emotion.d.ts
--20  +5 diffs in global.ts
--47 +29 diffs in theme.ts
- -0  +0 diffs in use.ts
+Comparing..
+
+- .
+- ../another-styles
+
+I'll show you any additions or deletions in [.] when compared to [../another-styles].
+
+-----------
+
+Summary
+
+-4 +0 diffs in emotion.d.ts
+-2 +5 diffs in global.ts
+-4 +2 diffs in theme.ts
+-0 +0 diffs in use.ts
 ```

@@ -1,6 +1,7 @@
 package cli
 
 func Plan(ren RendererInterface, input CliInput) {
+	ren.Printf("\n")
 	ren.Printf("Comparing..\n")
 	ren.Printf("\n")
 	ren.Printf("- %s\n", input.WorkDir)
