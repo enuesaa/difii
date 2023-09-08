@@ -34,7 +34,6 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 		diffs := analyzer.Analyze()
 
 		srv.renderHunks(ren, filename, *diffs)
-		ren.Printf("\n")
 	}
 }
 
@@ -48,5 +47,8 @@ func (srv *InspectService) renderHunks(ren RendererInterface, filename string, d
 				ren.Printf("%s\t%s\n", color.HiWhiteString(filename+":"+line), color.RedString("- "+item.Text()))
 			}
 		}
+	}
+	if len(diffs.ListItems()) > 0 {
+		ren.Printf("\n")
 	}
 }

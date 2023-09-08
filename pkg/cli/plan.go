@@ -1,9 +1,5 @@
 package cli
 
-import (
-	// "fmt"
-)
-
 func Plan(ren RendererInterface, input CliInput) {
 	ren.Printf("Comparing..\n")
 	ren.Printf("\n")
