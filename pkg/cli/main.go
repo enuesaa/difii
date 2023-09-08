@@ -32,6 +32,7 @@ func CreateCli() *cobra.Command {
 				return
 			}
 			renderer := NewRenderer()
+			Plan(renderer, input)
 
 			summarySrv := SummaryService{}
 			if input.Interactive {
