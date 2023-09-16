@@ -3,12 +3,26 @@ package files
 import (
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
-
-	"golang.org/x/exp/slices"
 )
 
-func ListFilesRecursively(dir string) []string {
+func ListFilesInDirs(dirs ...string) []string {
+	list := make([]string, 0)
+
+	for _, dir := range dirs {
+		list = append(list, listFiles(dir)...)
+	}
+	return removeDuplicateFiles(list)
+}
+
+// see https://zenn.dev/orangekame/articles/dad6d0e9382660
+func removeDuplicateFiles(list []string) []string {
+	slices.Sort(list)
+	return slices.Compact(list)
+}
+
+func listFiles(dir string) []string {
 	filenames := make([]string, 0)
 	filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
@@ -36,16 +50,8 @@ func removeRelativePathFromFilenames(filenames []string, path string) []string {
 	return converted
 }
 
-func ListFilesInDirs(dirs ...string) []string {
-	list := make([]string, 0)
+func ReadStream(path string) *os.File {
+	f, _ := os.Open(path)
 
-	for _, dir := range dirs {
-		list = append(list, ListFilesRecursively(dir)...)
-	}
-
-	// remove duplicates.
-	// see https://zenn.dev/orangekame/articles/dad6d0e9382660
-	slices.Sort(list)
-	list = slices.Compact(list)
-	return list
+	return f
 }

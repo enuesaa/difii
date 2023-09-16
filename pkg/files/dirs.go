@@ -19,11 +19,10 @@ func ListDirs(path string) []string {
 	return dirs
 }
 
-func IsDirExist(path string) bool {
+func IsDirOrFileExist(path string) bool {
 	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
 		return true
 	}
-
 	return false
 }

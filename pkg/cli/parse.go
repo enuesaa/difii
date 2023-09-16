@@ -36,10 +36,10 @@ func (cli *CliInput) Validate() error {
 	if !cli.IsCompareDirSelected() {
 		return errors.New("required option --compare is missing")
 	}
-	if !files.IsDirExist(cli.CompareDir) {
+	if !files.IsDirOrFileExist(cli.CompareDir) {
 		return errors.New("invalid file path specified in --compare")
 	}
-	if !files.IsDirExist(cli.WorkDir) {
+	if !files.IsDirOrFileExist(cli.WorkDir) {
 		return errors.New("invalid file path specified in --workdir")
 	}
 	return nil

@@ -15,7 +15,7 @@ func SelectCompareDir() string {
 	saveState()
 	for {
 		dir := prompt.Input("Compare dir (--compare): ", selectDir, comparedirPromptOptions()...)
-		if files.IsDirExist(dir) {
+		if files.IsDirOrFileExist(dir) {
 			restoreState()
 			return dir
 		}
@@ -52,7 +52,7 @@ func isDirNamedLikeTextExist(text string) bool {
 	if text == "." || strings.HasSuffix(text, "/") {
 		return false
 	}
-	return files.IsDirExist(text)
+	return files.IsDirOrFileExist(text)
 }
 
 func appendSuggest(suggests []prompt.Suggest, path string) []prompt.Suggest {
