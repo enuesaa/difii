@@ -21,23 +21,46 @@ Global Flags:
       --version          version
 ```
 
-### `--summary` flag shows diffs summary.
+### `--summary` flag shows summary
 ```bash
-$ difii --compare ../another-styles --summary
+$ difii --compare ../random-b --summary
 
 Comparing..
 
 - .
-- ../another-styles
+- ../random-b
 
-I'll show you any additions or deletions in [.] when compared to [../another-styles].
+I'll show you any additions or deletions in [.] when compared to [../random-b].
 
 -----------
 
 Summary
 
--4 +0 diffs in emotion.d.ts
--2 +5 diffs in global.ts
--4 +2 diffs in theme.ts
--0 +0 diffs in use.ts
+-5 +4 diffs in main.md
+```
+
+### `--inspect` flag shows diff detail
+```bash
+$ difii --compare ../random-b --inspect
+
+Comparing..
+
+- .
+- ../random-b
+
+I'll show you any additions or deletions in [.] when compared to [../random-b].
+
+-----------
+
+Inspect
+
+main.md:2	- KLMNOPQRST
+main.md:5	- QRSTUVWXYZA
+main.md:4	+ QRSTUVWXYY
+main.md:7	- MNOPQRSTUVWXYZ
+main.md:8	- ABCDEFGHIJ
+main.md:6	+ MNOOPQRSTUVWXYZ
+main.md:7	+ ABCDEFGHJI
+main.md:10	- UVWXYZABCD
+main.md:9	+ UVWXYZABCC
 ```
