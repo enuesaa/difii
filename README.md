@@ -24,43 +24,29 @@ Global Flags:
 ### `--summary` flag shows summary
 ```bash
 $ difii --compare ../random-b --summary
-
-Comparing..
-
-- .
-- ../random-b
-
+----- Compare -----
 I'll show you any additions or deletions in [.] when compared to [../random-b].
 
------------
-
-Summary
-
+----- Summary -----
 -5 +4 diffs in main.md
+
 ```
 
 ### `--inspect` flag shows diff detail
 ```bash
 $ difii --compare ../random-b --inspect
-
-Comparing..
-
-- .
-- ../random-b
-
+----- Compare -----
 I'll show you any additions or deletions in [.] when compared to [../random-b].
 
------------
-
-Inspect
-
-main.md:2	- KLMNOPQRST
+----- Inspect -----
+main.md:2	- KLMNOPQRST  // diff
 main.md:5	- QRSTUVWXYZA
-main.md:4	+ QRSTUVWXYY
+main.md:4	+ QRSTUVWXYY   // diff
 main.md:7	- MNOPQRSTUVWXYZ
 main.md:8	- ABCDEFGHIJ
-main.md:6	+ MNOOPQRSTUVWXYZ
-main.md:7	+ ABCDEFGHJI
+main.md:6	+ MNOOPQRSTUVWXYZ  // diff
+main.md:7	+ ABCDEFGHJI  // diff
 main.md:10	- UVWXYZABCD
-main.md:9	+ UVWXYZABCC
+main.md:9	+ UVWXYZABCC  // diff
+
 ```
