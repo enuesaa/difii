@@ -16,10 +16,7 @@ func (srv *InspectService) Confirm() bool {
 }
 
 func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
-	ren.Printf("-----------\n")
-	ren.Printf("\n")
-	ren.Printf("Inspect\n")
-	ren.Printf("\n")
+	ren.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
@@ -42,9 +39,9 @@ func (srv *InspectService) renderHunks(ren RendererInterface, filename string, d
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				ren.Printf("%s\t%s\n", color.HiWhiteString(filename+":"+line), color.GreenString("+ "+item.Text()))
+				ren.Printf("%s\t%s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
 			} else {
-				ren.Printf("%s\t%s\n", color.HiWhiteString(filename+":"+line), color.RedString("- "+item.Text()))
+				ren.Printf("%s\t%s\n", filename+":"+line, color.RedString("- "+item.Text()))
 			}
 		}
 	}

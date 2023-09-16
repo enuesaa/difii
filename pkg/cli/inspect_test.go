@@ -55,10 +55,6 @@ nested/main.md:2	+
 		inspectSrv := InspectService{}
 		renderer := NewMockRenderer()
 		inspectSrv.Render(renderer, input)
-		assert.Equal(t, fmt.Sprintf(`-----------
-
-Inspect
-%s
-`, tc.diff), renderer.Out)
+		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), renderer.Out)
 	}
 }

@@ -14,10 +14,7 @@ func (srv *SummaryService) Confirm() bool {
 }
 
 func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
-	ren.Printf("-----------\n")
-	ren.Printf("\n")
-	ren.Printf("Summary\n")
-	ren.Printf("\n")
+	ren.Printf(color.HiWhiteString("----- Summary -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 

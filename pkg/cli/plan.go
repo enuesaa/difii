@@ -1,14 +1,9 @@
 package cli
 
-func Plan(ren RendererInterface, input CliInput) {
-	ren.Printf("\n")
-	ren.Printf("Comparing..\n")
-	ren.Printf("\n")
-	ren.Printf("- %s\n", input.WorkDir)
-	ren.Printf("- %s\n", input.CompareDir)
-	ren.Printf("\n")
+import "github.com/fatih/color"
 
-	ren.Printf("I'll show you any additions or deletions in [%s] when compared to [%s].", input.WorkDir, input.CompareDir)
-	ren.Printf("\n")
+func Plan(ren RendererInterface, input CliInput) {
+	ren.Printf(color.HiWhiteString("----- Compare -----\n"))
+	ren.Printf("I'll show you any additions or deletions in [%s] when compared to [%s].\n", input.WorkDir, input.CompareDir)
 	ren.Printf("\n")
 }
