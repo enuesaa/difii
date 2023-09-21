@@ -57,7 +57,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-filename-changed",
-			diff:       `
+			diff: `
 -0 +8 diffs in changed.md 
 -8 +0 diffs in main.md 
 `,
@@ -65,7 +65,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-sub-files",
-			diff:       `
+			diff: `
 -0 +0 diffs in main.md 
 -0 +2 diffs in sub.md 
 -0 +2 diffs in subsub.md 

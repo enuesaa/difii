@@ -2,8 +2,8 @@ package diff
 
 import (
 	"bufio"
-	"io"
 	"golang.org/x/exp/slices"
+	"io"
 )
 
 type Analyzer struct {
@@ -45,7 +45,7 @@ func (anly *Analyzer) next(line int) (Value, Value) {
 }
 
 func (anly *Analyzer) Analyze() *Diffs {
-	destVals   := make([]Value, 0)
+	destVals := make([]Value, 0)
 	sourceVals := make([]Value, 0)
 
 	line := 1

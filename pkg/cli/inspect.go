@@ -3,9 +3,9 @@ package cli
 import (
 	"fmt"
 
-	"github.com/enuesaa/difii/pkg/prompt"
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
+	"github.com/enuesaa/difii/pkg/prompt"
 	"github.com/fatih/color"
 )
 

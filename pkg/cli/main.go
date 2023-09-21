@@ -12,7 +12,7 @@ func CreateCli() *cobra.Command {
 		Use:     "difii",
 		Short:   "A CLI tool to inspect diffs interactively.",
 		Args:    cobra.MinimumNArgs(0),
-		Version: "0.0.5",
+		Version: "0.0.6",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd)
 			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {
