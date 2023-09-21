@@ -18,6 +18,7 @@ func (v *Value) Line() int {
 	return v.line
 }
 
+// to recognize empty string or null.
 func (v *Value) Has() bool {
 	return v.has
 }

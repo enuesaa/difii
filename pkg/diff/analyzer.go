@@ -30,12 +30,12 @@ func (anly *Analyzer) next(line int) (Value, Value) {
 
 	anly.sourceReading = anly.source.Scan()
 	if anly.sourceReading {
-		sourceValue = *NewValue(line, anly.sourceReading, anly.source.Text())
+		sourceValue = *NewValue(line, true, anly.source.Text())
 	}
 
 	anly.destReading = anly.dest.Scan()
 	if anly.destReading {
-		destValue = *NewValue(line, anly.destReading, anly.dest.Text())
+		destValue = *NewValue(line, true, anly.dest.Text())
 	}
 
 	return sourceValue, destValue

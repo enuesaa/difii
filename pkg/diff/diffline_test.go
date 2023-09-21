@@ -7,9 +7,9 @@ import (
 )
 
 func TestDiffline(t *testing.T) {
-	diffline := NewDiffline(*NewValue(1, true, "aaa"), Added)
+	diffline := NewDiffline(*NewValue(2, true, "aaa"), Added)
 
-	assert.Equal(t, diffline.Added(), true)
-	assert.Equal(t, diffline.Line(), 1)
-	assert.Equal(t, diffline.Text(), "aaa")
+	assert.Equal(t, true, diffline.Added())
+	assert.Equal(t, 2, diffline.Line())
+	assert.Equal(t, "aaa", diffline.Text())
 }
