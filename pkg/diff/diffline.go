@@ -13,10 +13,10 @@ type Diffline struct {
 	differ Differ
 }
 
-func NewDiffline(value Value, differ Differ) *Diffline {
+func NewDiffline(line int, text string, differ Differ) *Diffline {
 	return &Diffline{
-		line:   value.Line(),
-		text:   value.Text(),
+		line:   line,
+		text:   text,
 		differ: differ,
 	}
 }

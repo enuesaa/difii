@@ -87,10 +87,10 @@ func (anly *Analyzer) flush(destVals []Value, sourceVals []Value) ([]Value, []Va
 
 func (anly *Analyzer) flushRest(destVals []Value, sourceVals []Value) {
 	for _, value := range destVals {
-		anly.diffs.Remove(value)
+		anly.diffs.MarkRemove(value)
 	}
 	for _, value := range sourceVals {
-		anly.diffs.Add(value)
+		anly.diffs.MarkAdd(value)
 	}
 }
 
@@ -99,7 +99,7 @@ func (anly *Analyzer) rebaseDestVals(destVals []Value, baseIndex int) []Value {
 	for i, value := range destVals {
 		if i < baseIndex {
 			// dest text does not exist in source. so mark this text as remove-diff
-			anly.diffs.Remove(value)
+			anly.diffs.MarkRemove(value)
 			continue
 		}
 		if i == baseIndex {
@@ -116,7 +116,7 @@ func (anly *Analyzer) rebaseSourceVals(sourceVals []Value, baseIndex int) []Valu
 	for i, value := range sourceVals {
 		if i < baseIndex {
 			// source text does not exist in dest. so mark this text as add-diff
-			anly.diffs.Add(value)
+			anly.diffs.MarkAdd(value)
 			continue
 		}
 		if i == baseIndex {

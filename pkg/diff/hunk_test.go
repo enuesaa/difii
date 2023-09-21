@@ -8,11 +8,11 @@ import (
 
 func TestHunk(t *testing.T) {
 	hunk := NewHunk()
-	hunk.Push(*NewDiffline(*NewValue(2, true, "aaa"), Added))
-	hunk.Push(*NewDiffline(*NewValue(3, true, "bbb"), Removed))
+	hunk.Push(*NewDiffline(2, "aaa", Added))
+	hunk.Push(*NewDiffline(3, "bbb", Removed))
 
 	assert.Equal(t, []Diffline{
-		*NewDiffline(*NewValue(2, true, "aaa"), Added),
-		*NewDiffline(*NewValue(3, true, "bbb"), Removed),
+		*NewDiffline(2, "aaa", Added),
+		*NewDiffline(3, "bbb", Removed),
 	}, hunk.ListItems())
 }

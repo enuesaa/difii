@@ -14,12 +14,12 @@ func NewDiffs() *Diffs {
 	}
 }
 
-func (diffs *Diffs) Add(value Value) {
-	diffs.items = append(diffs.items, *NewDiffline(value, Added))
+func (diffs *Diffs) MarkAdd(value Value) {
+	diffs.items = append(diffs.items, *NewDiffline(value.Line(), value.Text(), Added))
 }
 
-func (diffs *Diffs) Remove(value Value) {
-	diffs.items = append(diffs.items, *NewDiffline(value, Removed))
+func (diffs *Diffs) MarkRemove(value Value) {
+	diffs.items = append(diffs.items, *NewDiffline(value.Line(), value.Text(), Removed))
 }
 
 func (diffs *Diffs) ListItems() []Diffline {
