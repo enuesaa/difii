@@ -3,6 +3,7 @@ package diff
 import (
 	"bufio"
 	"io"
+	"golang.org/x/exp/slices"
 )
 
 type Analyzer struct {
@@ -10,6 +11,9 @@ type Analyzer struct {
 	dest          bufio.Scanner
 	sourceReading bool
 	destReading   bool
+	sourceValues  []Value // tmp store
+	destValues    []Value // tmp store
+	diffs         Diffs
 }
 
 func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
@@ -18,6 +22,9 @@ func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 		dest:          *bufio.NewScanner(dest),
 		sourceReading: false,
 		destReading:   false,
+		sourceValues:  make([]Value, 0),
+		destValues:    make([]Value, 0),
+		diffs:         *NewDiffs(),
 	}
 }
 
@@ -42,26 +49,102 @@ func (anly *Analyzer) next(line int) (Value, Value) {
 }
 
 func (anly *Analyzer) Analyze() *Diffs {
-	holder := NewHolder()
-
 	line := 1
 	for {
 		sourceValue, destValue := anly.next(line)
 		if destValue.Has() {
-			holder.HoldDest(destValue)
+			anly.holdDest(destValue)
 		}
 		if sourceValue.Has() {
-			holder.HoldSource(sourceValue)
+			anly.holdSource(sourceValue)
 		}
-		holder.Flush()
+		anly.flush()
 
 		if !destValue.Has() && !sourceValue.Has() {
-			holder.FlushRest()
+			anly.flushRest()
 			break
 		}
 
 		line++
 	}
 
-	return holder.GetDiffs()
+	return &anly.diffs
+}
+
+func (anly *Analyzer) holdDest(value Value) {
+	anly.destValues = append(anly.destValues, value)
+}
+
+func (anly *Analyzer) holdSource(value Value) {
+	anly.sourceValues = append(anly.sourceValues, value)
+}
+
+func (anly *Analyzer) getHoldDestIndex(source Value) int {
+	// see https://stackoverflow.com/questions/38654383/how-to-search-for-an-element-in-a-golang-slice
+	i := slices.IndexFunc(anly.destValues, func(value Value) bool {
+		return value.Text() == source.Text()
+	})
+	return i
+}
+
+func (anly *Analyzer) flush() {
+	for i, sourceValue := range anly.sourceValues {
+		matched := anly.getHoldDestIndex(sourceValue)
+		if matched == -1 {
+			continue
+		}
+
+		anly.rebaseDest(matched)
+		anly.rebaseSource(i)
+	}
+}
+
+func (anly *Analyzer) flushRest() {
+	for _, value := range anly.destValues {
+		anly.markRemove(value)
+	}
+	for _, value := range anly.sourceValues {
+		anly.markAdd(value)
+	}
+}
+
+func (anly *Analyzer) rebaseSource(baseIndex int) {
+	nextHolds := make([]Value, 0)
+	for i, value := range anly.sourceValues {
+		if i < baseIndex {
+			// source text does not exist in dest. so mark this text as add-diff
+			anly.markAdd(value)
+			continue
+		}
+		if i == baseIndex {
+			continue
+		}
+		nextHolds = append(nextHolds, value)
+	}
+	anly.sourceValues = nextHolds
+}
+
+func (anly *Analyzer) rebaseDest(baseIndex int) {
+	nextHolds := make([]Value, 0)
+	for i, value := range anly.destValues {
+		if i < baseIndex {
+			// dest text does not exist in source. so mark this text as remove-diff
+			anly.markRemove(value)
+			continue
+		}
+		if i == baseIndex {
+			// source text exists in dest. so do nothing.
+			continue
+		}
+		nextHolds = append(nextHolds, value)
+	}
+	anly.destValues = nextHolds
+}
+
+func (anly *Analyzer) markAdd(value Value) {
+	anly.diffs.Add(value)
+}
+
+func (anly *Analyzer) markRemove(value Value) {
+	anly.diffs.Remove(value)
 }
