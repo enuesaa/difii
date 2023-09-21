@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNormal(t *testing.T) {
+func TestAnalyzer(t *testing.T) {
 	source := strings.NewReader("aaaa")
 	dest := strings.NewReader("bbbb")
 
@@ -19,7 +19,7 @@ func TestNormal(t *testing.T) {
 	}, diff)
 }
 
-func TestHunked(t *testing.T) {
+func TestAnalyzerWithHunked(t *testing.T) {
 	source := strings.NewReader(`aaaa
 bbbb
 cccccc
@@ -43,7 +43,7 @@ gggg
 	}, diff)
 }
 
-func TestHunkedWithEmptyLine(t *testing.T) {
+func TestAnalyzerWithEmptyLine(t *testing.T) {
 	source := strings.NewReader(`aaaa
 bbbb
 cccccc
