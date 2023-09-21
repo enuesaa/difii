@@ -3,7 +3,7 @@
 A CLI tool to diff 2 directories.
 
 ## Usage
-```bash
+```console
 $ difii --help
 Usage:
   difii [flags]
@@ -22,7 +22,7 @@ Global Flags:
 ```
 
 ### `--summary` flag shows summary
-```bash
+```console
 $ difii --compare ../random-b --summary
 ----- Compare -----
 I'll show you any additions or deletions in [.] when compared to [../random-b].
@@ -33,7 +33,7 @@ I'll show you any additions or deletions in [.] when compared to [../random-b].
 ```
 
 ### `--inspect` flag shows diff detail
-```bash
+```console
 $ difii --compare ../random-b --inspect
 ----- Compare -----
 I'll show you any additions or deletions in [.] when compared to [../random-b].
