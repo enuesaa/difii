@@ -11,8 +11,6 @@ type Analyzer struct {
 	dest          bufio.Scanner
 	sourceReading bool
 	destReading   bool
-	sourceValues  []Value // tmp store
-	destValues    []Value // tmp store
 	diffs         Diffs
 }
 
@@ -22,8 +20,6 @@ func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
 		dest:          *bufio.NewScanner(dest),
 		sourceReading: false,
 		destReading:   false,
-		sourceValues:  make([]Value, 0),
-		destValues:    make([]Value, 0),
 		diffs:         *NewDiffs(),
 	}
 }
@@ -49,19 +45,22 @@ func (anly *Analyzer) next(line int) (Value, Value) {
 }
 
 func (anly *Analyzer) Analyze() *Diffs {
+	destVals   := make([]Value, 0)
+	sourceVals := make([]Value, 0)
+
 	line := 1
 	for {
-		sourceValue, destValue := anly.next(line)
-		if destValue.Has() {
-			anly.holdDest(destValue)
+		sourceVal, destVal := anly.next(line)
+		if destVal.Has() {
+			destVals = append(destVals, destVal)
 		}
-		if sourceValue.Has() {
-			anly.holdSource(sourceValue)
+		if sourceVal.Has() {
+			sourceVals = append(sourceVals, sourceVal)
 		}
-		anly.flush()
+		destVals, sourceVals = anly.flush(destVals, sourceVals)
 
-		if !destValue.Has() && !sourceValue.Has() {
-			anly.flushRest()
+		if !destVal.Has() && !sourceVal.Has() {
+			anly.flushRest(destVals, sourceVals)
 			break
 		}
 
@@ -71,65 +70,36 @@ func (anly *Analyzer) Analyze() *Diffs {
 	return &anly.diffs
 }
 
-func (anly *Analyzer) holdDest(value Value) {
-	anly.destValues = append(anly.destValues, value)
-}
-
-func (anly *Analyzer) holdSource(value Value) {
-	anly.sourceValues = append(anly.sourceValues, value)
-}
-
-func (anly *Analyzer) getHoldDestIndex(source Value) int {
-	// see https://stackoverflow.com/questions/38654383/how-to-search-for-an-element-in-a-golang-slice
-	i := slices.IndexFunc(anly.destValues, func(value Value) bool {
-		return value.Text() == source.Text()
-	})
-	return i
-}
-
-func (anly *Analyzer) flush() {
-	for i, sourceValue := range anly.sourceValues {
-		matched := anly.getHoldDestIndex(sourceValue)
-		if matched == -1 {
+func (anly *Analyzer) flush(destVals []Value, sourceVals []Value) ([]Value, []Value) {
+	for sourceIndex, sourceValue := range sourceVals {
+		destIndex := slices.IndexFunc(destVals, func(value Value) bool {
+			return value.Text() == sourceValue.Text()
+		})
+		if destIndex == -1 {
 			continue
 		}
 
-		anly.rebaseDest(matched)
-		anly.rebaseSource(i)
+		destVals = anly.rebaseDestVals(destVals, destIndex)
+		sourceVals = anly.rebaseSourceVals(sourceVals, sourceIndex)
+	}
+	return destVals, sourceVals
+}
+
+func (anly *Analyzer) flushRest(destVals []Value, sourceVals []Value) {
+	for _, value := range destVals {
+		anly.diffs.Remove(value)
+	}
+	for _, value := range sourceVals {
+		anly.diffs.Add(value)
 	}
 }
 
-func (anly *Analyzer) flushRest() {
-	for _, value := range anly.destValues {
-		anly.markRemove(value)
-	}
-	for _, value := range anly.sourceValues {
-		anly.markAdd(value)
-	}
-}
-
-func (anly *Analyzer) rebaseSource(baseIndex int) {
+func (anly *Analyzer) rebaseDestVals(destVals []Value, baseIndex int) []Value {
 	nextHolds := make([]Value, 0)
-	for i, value := range anly.sourceValues {
-		if i < baseIndex {
-			// source text does not exist in dest. so mark this text as add-diff
-			anly.markAdd(value)
-			continue
-		}
-		if i == baseIndex {
-			continue
-		}
-		nextHolds = append(nextHolds, value)
-	}
-	anly.sourceValues = nextHolds
-}
-
-func (anly *Analyzer) rebaseDest(baseIndex int) {
-	nextHolds := make([]Value, 0)
-	for i, value := range anly.destValues {
+	for i, value := range destVals {
 		if i < baseIndex {
 			// dest text does not exist in source. so mark this text as remove-diff
-			anly.markRemove(value)
+			anly.diffs.Remove(value)
 			continue
 		}
 		if i == baseIndex {
@@ -138,13 +108,21 @@ func (anly *Analyzer) rebaseDest(baseIndex int) {
 		}
 		nextHolds = append(nextHolds, value)
 	}
-	anly.destValues = nextHolds
+	return nextHolds
 }
 
-func (anly *Analyzer) markAdd(value Value) {
-	anly.diffs.Add(value)
-}
-
-func (anly *Analyzer) markRemove(value Value) {
-	anly.diffs.Remove(value)
+func (anly *Analyzer) rebaseSourceVals(sourceVals []Value, baseIndex int) []Value {
+	nextHolds := make([]Value, 0)
+	for i, value := range sourceVals {
+		if i < baseIndex {
+			// source text does not exist in dest. so mark this text as add-diff
+			anly.diffs.Add(value)
+			continue
+		}
+		if i == baseIndex {
+			continue
+		}
+		nextHolds = append(nextHolds, value)
+	}
+	return nextHolds
 }
