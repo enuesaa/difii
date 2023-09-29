@@ -18,13 +18,15 @@ jobs:
         run: echo "TAG_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - run: |
-          echo "# difii ${TAG_NAME}" > release.md;
-          echo "## Installation" >> release.md;
-          echo "~~~bash" >> release.md;
-          echo "git clone https://github.com/enuesaa/difii.git -b ${TAG_NAME} --depth 1" >> release.md;
-          echo "cd difii" >> release.md;
-          echo "go build" >> release.md;
-          echo "~~~" >> release.md;
+          cat <<'EOF' | envsubst > release.md
+          # difii ${TAG_NAME}
+          ## Installation
+          ```bash
+          git clone https://github.com/enuesaa/difii.git -b ${TAG_NAME} --depth 1
+          cd difii
+          go build
+          ```
+          EOF
 
       - uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
