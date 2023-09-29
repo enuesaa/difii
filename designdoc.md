@@ -1,8 +1,8 @@
 # designdoc
 ## Usage
 ```bash
-difii --compare <dir> --apply
-difii --compare <dir> --report --report-file report.html
+difii --compare <dir> --apply # Overwrite working files with comparison.
+difii --compare <dir> --report --report-file report.html --auto-approve
 ```
 
 ## dev command

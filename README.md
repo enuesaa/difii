@@ -21,7 +21,8 @@ Global Flags:
       --version          version
 ```
 
-### `--summary` flag shows summary
+### diff summary
+`--summary` flag shows diff summary.
 ```console
 $ difii --compare ../random-b --summary
 ----- Compare -----
@@ -32,7 +33,8 @@ I'll show you any additions or deletions in [.] when compared to [../random-b].
 
 ```
 
-### `--inspect` flag shows diff detail
+### diff detail
+`--inspect` flag shows diff detail.
 ```console
 $ difii --compare ../random-b --inspect
 ----- Compare -----

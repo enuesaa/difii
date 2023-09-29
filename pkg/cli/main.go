@@ -55,15 +55,12 @@ func CreateCli() *cobra.Command {
 	// operations
 	cli.Flags().Bool("summary", false, "Show diffs summary.")
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
-	// cli.Flags().Bool("apply", false, "Overwrite working files with comparison.")
 
 	// options
 	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
-	// cli.PersistentFlags().BoolP("auto-approve", "", false, "Auto approve.")
-	// cli.PersistentFlags().String("report-file", "", "report filename.")
 
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
