@@ -15,7 +15,7 @@ type FilesInterface interface {
 	FilterFiles(files []string, includes []string) []string
 }
 
-type Files struct {}
+type Files struct{}
 
 func NewFiles() *Files {
 	return &Files{}

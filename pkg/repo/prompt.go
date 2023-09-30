@@ -19,6 +19,7 @@ type PromptInterface interface {
 type Prompt struct {
 	termState *term.State
 }
+
 func NewPrompt() *Prompt {
 	return &Prompt{}
 }
@@ -43,7 +44,7 @@ func (prompt *Prompt) restoreState() {
 func (prompt *Prompt) Confirm(message string) bool {
 	prompt.saveState()
 
-	suggestion := func (in goprompt.Document) []goprompt.Suggest {
+	suggestion := func(in goprompt.Document) []goprompt.Suggest {
 		return make([]goprompt.Suggest, 0)
 	}
 	options := make([]goprompt.Option, 0)

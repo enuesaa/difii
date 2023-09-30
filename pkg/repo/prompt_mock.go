@@ -7,6 +7,7 @@ import (
 type PromptMock struct {
 	Out string
 }
+
 func NewPromptMock() *PromptMock {
 	return &PromptMock{}
 }
