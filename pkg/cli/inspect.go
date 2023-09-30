@@ -5,15 +5,14 @@ import (
 
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
-	"github.com/enuesaa/difii/pkg/repo/util"
 	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/fatih/color"
 )
 
 type InspectService struct{}
 
-func (srv *InspectService) Confirm() bool {
-	return util.Confirm("Would you like to inspect diffs?")
+func (srv *InspectService) Confirm(prompt repo.PromptInterface) bool {
+	return prompt.Confirm("Would you like to inspect diffs?")
 }
 
 func (srv *InspectService) Render(prompt repo.PromptInterface, input CliInput) {

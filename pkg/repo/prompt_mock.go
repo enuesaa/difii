@@ -13,3 +13,6 @@ func NewMockPrompt() *MockPrompt {
 func (prompt *MockPrompt) Printf(format string, a ...any) {
 	prompt.Out += fmt.Sprintf(format, a...)
 }
+func (prompt *MockPrompt) Confirm(message string) bool {
+	return true
+}

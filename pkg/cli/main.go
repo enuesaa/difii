@@ -37,7 +37,7 @@ func CreateCli() *cobra.Command {
 
 			summarySrv := SummaryService{}
 			if input.Interactive {
-				input.Summary = summarySrv.Confirm()
+				input.Summary = summarySrv.Confirm(prompt)
 			}
 			if input.Summary {
 				summarySrv.Render(prompt, input)
@@ -45,7 +45,7 @@ func CreateCli() *cobra.Command {
 
 			inspectSrv := InspectService{}
 			if input.Interactive {
-				input.Inspect = inspectSrv.Confirm()
+				input.Inspect = inspectSrv.Confirm(prompt)
 			}
 			if input.Inspect {
 				inspectSrv.Render(prompt, input)
