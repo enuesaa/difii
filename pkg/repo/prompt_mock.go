@@ -16,3 +16,6 @@ func (prompt *MockPrompt) Printf(format string, a ...any) {
 func (prompt *MockPrompt) Confirm(message string) bool {
 	return true
 }
+func (Prompt *MockPrompt) SelectCompareDir() string {
+	return "./"
+}

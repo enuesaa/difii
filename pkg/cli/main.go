@@ -3,7 +3,6 @@ package cli
 import (
 	"fmt"
 
-	"github.com/enuesaa/difii/pkg/repo/util"
 	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/spf13/cobra"
 )
@@ -21,9 +20,11 @@ func CreateCli() *cobra.Command {
 				return
 			}
 
+			prompt := repo.NewPrompt()
+
 			// options
 			if input.Interactive && !input.IsCompareDirSelected() {
-				input.CompareDir = util.SelectCompareDir()
+				input.CompareDir = prompt.SelectCompareDir()
 			}
 			if !input.IsWorkDirSelected() {
 				input.WorkDir = "."
@@ -32,7 +33,6 @@ func CreateCli() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			prompt := repo.NewPrompt()
 			Plan(prompt, input)
 
 			summarySrv := SummaryService{}
