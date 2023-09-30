@@ -2,7 +2,6 @@ package cli
 
 import (
 	"github.com/enuesaa/difii/pkg/diff"
-	"github.com/enuesaa/difii/pkg/files"
 	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/fatih/color"
 )
@@ -16,6 +15,7 @@ func (srv *SummaryService) Confirm(prompt repo.PromptInterface) bool {
 func (srv *SummaryService) Render(prompt repo.PromptInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Summary -----\n"))
 
+	files := repo.NewFiles() // TODO: refactor
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {

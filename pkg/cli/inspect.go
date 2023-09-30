@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/difii/pkg/diff"
-	"github.com/enuesaa/difii/pkg/files"
 	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/fatih/color"
 )
@@ -18,6 +17,7 @@ func (srv *InspectService) Confirm(prompt repo.PromptInterface) bool {
 func (srv *InspectService) Render(prompt repo.PromptInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
+	files := repo.NewFiles() // TODO: refactor
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {

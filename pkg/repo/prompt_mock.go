@@ -4,18 +4,18 @@ import (
 	"fmt"
 )
 
-type MockPrompt struct {
+type PromptMock struct {
 	Out string
 }
-func NewMockPrompt() *MockPrompt {
-	return &MockPrompt{}
+func NewPromptMock() *PromptMock {
+	return &PromptMock{}
 }
-func (prompt *MockPrompt) Printf(format string, a ...any) {
+func (prompt *PromptMock) Printf(format string, a ...any) {
 	prompt.Out += fmt.Sprintf(format, a...)
 }
-func (prompt *MockPrompt) Confirm(message string) bool {
+func (prompt *PromptMock) Confirm(message string) bool {
 	return true
 }
-func (Prompt *MockPrompt) SelectCompareDir() string {
+func (Prompt *PromptMock) SelectCompareDir() string {
 	return "./"
 }

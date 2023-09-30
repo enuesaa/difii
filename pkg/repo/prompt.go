@@ -8,7 +8,6 @@ import (
 
 	goprompt "github.com/c-bata/go-prompt"
 	"golang.org/x/term"
-	"github.com/enuesaa/difii/pkg/files"
 )
 
 type PromptInterface interface {
@@ -98,6 +97,7 @@ func (prompt *Prompt) SelectCompareDir() string {
 
 	for {
 		dir := goprompt.Input("Compare dir (--compare): ", prompt.selectDir, options...)
+		files := NewFiles() // TODO: refactor
 		if files.IsDirOrFileExist(dir) {
 			prompt.restoreState()
 			return dir
@@ -111,6 +111,7 @@ func (prompt *Prompt) isDirNamedLikeTextExist(text string) bool {
 	if text == "." || strings.HasSuffix(text, "/") {
 		return false
 	}
+	files := NewFiles() // TODO: refactor
 	return files.IsDirOrFileExist(text)
 }
 
@@ -159,6 +160,7 @@ func (prompt *Prompt) selectDir(in goprompt.Document) []goprompt.Suggest {
 	searchDir := prompt.getSearchDir(text)
 	basePath := prompt.getBasePath(text)
 
+	files := NewFiles() // TODO: refactor
 	for _, dir := range files.ListDirs(searchDir) {
 		suggests = prompt.appendSuggest(suggests, basePath+dir)
 	}

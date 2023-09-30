@@ -3,7 +3,7 @@ package cli
 import (
 	"errors"
 
-	"github.com/enuesaa/difii/pkg/files"
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/spf13/cobra"
 )
 
@@ -36,6 +36,7 @@ func (cli *CliInput) Validate() error {
 	if !cli.IsCompareDirSelected() {
 		return errors.New("required option --compare is missing")
 	}
+	files := repo.NewFiles() // TODO: refactor
 	if !files.IsDirOrFileExist(cli.CompareDir) {
 		return errors.New("invalid file path specified in --compare")
 	}
