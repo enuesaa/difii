@@ -31,7 +31,7 @@ func CreateCli() *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			renderer := NewRenderer()
+			renderer := prompt.NewPrompt()
 			Plan(renderer, input)
 
 			summarySrv := SummaryService{}

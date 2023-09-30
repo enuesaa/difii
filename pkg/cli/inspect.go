@@ -15,7 +15,7 @@ func (srv *InspectService) Confirm() bool {
 	return prompt.Confirm("Would you like to inspect diffs?")
 }
 
-func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
+func (srv *InspectService) Render(ren prompt.PromptInterface, input CliInput) {
 	ren.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
@@ -34,7 +34,7 @@ func (srv *InspectService) Render(ren RendererInterface, input CliInput) {
 	}
 }
 
-func (srv *InspectService) renderHunks(ren RendererInterface, filename string, diffs diff.Diffs) {
+func (srv *InspectService) renderHunks(ren prompt.PromptInterface, filename string, diffs diff.Diffs) {
 	for _, hunk := range diffs.ListHunks() {
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())

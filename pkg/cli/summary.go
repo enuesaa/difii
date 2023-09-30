@@ -13,7 +13,7 @@ func (srv *SummaryService) Confirm() bool {
 	return prompt.Confirm("Would you like to show diffs summary?")
 }
 
-func (srv *SummaryService) Render(ren RendererInterface, input CliInput) {
+func (srv *SummaryService) Render(ren prompt.PromptInterface, input CliInput) {
 	ren.Printf(color.HiWhiteString("----- Summary -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
