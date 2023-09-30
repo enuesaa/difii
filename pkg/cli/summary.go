@@ -3,18 +3,19 @@ package cli
 import (
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
-	"github.com/enuesaa/difii/pkg/prompt"
+	"github.com/enuesaa/difii/pkg/repo/util"
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/fatih/color"
 )
 
 type SummaryService struct{}
 
 func (srv *SummaryService) Confirm() bool {
-	return prompt.Confirm("Would you like to show diffs summary?")
+	return util.Confirm("Would you like to show diffs summary?")
 }
 
-func (srv *SummaryService) Render(ren prompt.PromptInterface, input CliInput) {
-	ren.Printf(color.HiWhiteString("----- Summary -----\n"))
+func (srv *SummaryService) Render(prompt repo.PromptInterface, input CliInput) {
+	prompt.Printf(color.HiWhiteString("----- Summary -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
@@ -28,12 +29,12 @@ func (srv *SummaryService) Render(ren prompt.PromptInterface, input CliInput) {
 		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
-		ren.Printf(
+		prompt.Printf(
 			"%s %s diffs in %s \n",
 			color.RedString("-%d", diffs.CountRemove()),
 			color.GreenString("+%d", diffs.CountAdd()),
 			filename,
 		)
 	}
-	ren.Printf("\n")
+	prompt.Printf("\n")
 }

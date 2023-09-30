@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/enuesaa/difii/pkg/prompt"
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -43,9 +43,9 @@ func TestSummaryDiffsCount(t *testing.T) {
 		}
 
 		summarySrv := SummaryService{}
-		renderer := prompt.NewMockPrompt()
-		summarySrv.Render(renderer, input)
-		assert.Equal(t, fmt.Sprintf("----- Summary -----\n%s diffs in main.md \n\n", tc.diff), renderer.Out)
+		prompt := repo.NewMockPrompt()
+		summarySrv.Render(prompt, input)
+		assert.Equal(t, fmt.Sprintf("----- Summary -----\n%s diffs in main.md \n\n", tc.diff), prompt.Out)
 	}
 }
 
@@ -86,8 +86,8 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		}
 
 		summarySrv := SummaryService{}
-		renderer := prompt.NewMockPrompt()
-		summarySrv.Render(renderer, input)
-		assert.Equal(t, fmt.Sprintf("----- Summary -----%s\n", tc.diff), renderer.Out)
+		prompt := repo.NewMockPrompt()
+		summarySrv.Render(prompt, input)
+		assert.Equal(t, fmt.Sprintf("----- Summary -----%s\n", tc.diff), prompt.Out)
 	}
 }

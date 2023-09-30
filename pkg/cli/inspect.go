@@ -5,18 +5,19 @@ import (
 
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/files"
-	"github.com/enuesaa/difii/pkg/prompt"
+	"github.com/enuesaa/difii/pkg/repo/util"
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/fatih/color"
 )
 
 type InspectService struct{}
 
 func (srv *InspectService) Confirm() bool {
-	return prompt.Confirm("Would you like to inspect diffs?")
+	return util.Confirm("Would you like to inspect diffs?")
 }
 
-func (srv *InspectService) Render(ren prompt.PromptInterface, input CliInput) {
-	ren.Printf(color.HiWhiteString("----- Inspect -----\n"))
+func (srv *InspectService) Render(prompt repo.PromptInterface, input CliInput) {
+	prompt.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
@@ -30,22 +31,22 @@ func (srv *InspectService) Render(ren prompt.PromptInterface, input CliInput) {
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 
-		srv.renderHunks(ren, filename, *diffs)
+		srv.renderHunks(prompt, filename, *diffs)
 	}
 }
 
-func (srv *InspectService) renderHunks(ren prompt.PromptInterface, filename string, diffs diff.Diffs) {
+func (srv *InspectService) renderHunks(prompt repo.PromptInterface, filename string, diffs diff.Diffs) {
 	for _, hunk := range diffs.ListHunks() {
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				ren.Printf("%s\t%s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
+				prompt.Printf("%s\t%s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
 			} else {
-				ren.Printf("%s\t%s\n", filename+":"+line, color.RedString("- "+item.Text()))
+				prompt.Printf("%s\t%s\n", filename+":"+line, color.RedString("- "+item.Text()))
 			}
 		}
 	}
 	if len(diffs.ListItems()) > 0 {
-		ren.Printf("\n")
+		prompt.Printf("\n")
 	}
 }

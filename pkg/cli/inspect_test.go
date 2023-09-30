@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/enuesaa/difii/pkg/prompt"
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -54,7 +54,7 @@ nested/main.md:2	+
 		}
 
 		inspectSrv := InspectService{}
-		prompt := prompt.NewMockPrompt()
+		prompt := repo.NewMockPrompt()
 		inspectSrv.Render(prompt, input)
 		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), prompt.Out)
 	}
