@@ -32,11 +32,10 @@ func (cli *CliInput) HasNoOperationFlags() bool {
 func (cli *CliInput) HasNoGlobalFlags() bool {
 	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
-func (cli *CliInput) Validate() error {
+func (cli *CliInput) Validate(files repo.FilesInterface) error {
 	if !cli.IsCompareDirSelected() {
 		return errors.New("required option --compare is missing")
 	}
-	files := repo.NewFiles() // TODO: refactor
 	if !files.IsDirOrFileExist(cli.CompareDir) {
 		return errors.New("invalid file path specified in --compare")
 	}

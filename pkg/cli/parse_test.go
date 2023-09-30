@@ -3,10 +3,13 @@ package cli
 import (
 	"testing"
 
+	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestParse(t *testing.T) {
+	files := repo.NewFiles()
+
 	input := CliInput{
 		CompareDir:  "../../testdata/simple-b",
 		WorkDir:     "../../testdata/simple-a",
@@ -22,5 +25,5 @@ func TestParse(t *testing.T) {
 	assert.Equal(t, input.IsFileSpecified(), false)
 	assert.Equal(t, input.HasNoOperationFlags(), false)
 	assert.Equal(t, input.HasNoGlobalFlags(), false)
-	assert.Equal(t, input.Validate(), nil)
+	assert.Equal(t, input.Validate(files), nil)
 }

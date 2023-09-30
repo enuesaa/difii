@@ -12,10 +12,9 @@ func (srv *SummaryService) Confirm(prompt repo.PromptInterface) bool {
 	return prompt.Confirm("Would you like to show diffs summary?")
 }
 
-func (srv *SummaryService) Render(prompt repo.PromptInterface, input CliInput) {
+func (srv *SummaryService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Summary -----\n"))
 
-	files := repo.NewFiles() // TODO: refactor
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {

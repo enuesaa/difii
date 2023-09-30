@@ -55,7 +55,8 @@ nested/main.md:2	+
 
 		inspectSrv := InspectService{}
 		prompt := repo.NewPromptMock()
-		inspectSrv.Render(prompt, input)
+		files := repo.NewFiles()
+		inspectSrv.Render(prompt, files, input)
 		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), prompt.Out)
 	}
 }

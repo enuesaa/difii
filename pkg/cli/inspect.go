@@ -14,10 +14,9 @@ func (srv *InspectService) Confirm(prompt repo.PromptInterface) bool {
 	return prompt.Confirm("Would you like to inspect diffs?")
 }
 
-func (srv *InspectService) Render(prompt repo.PromptInterface, input CliInput) {
+func (srv *InspectService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
-	files := repo.NewFiles() // TODO: refactor
 	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
 
 	if input.IsFileSpecified() {

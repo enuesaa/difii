@@ -44,7 +44,8 @@ func TestSummaryDiffsCount(t *testing.T) {
 
 		summarySrv := SummaryService{}
 		prompt := repo.NewPromptMock()
-		summarySrv.Render(prompt, input)
+		files := repo.NewFiles()
+		summarySrv.Render(prompt, files, input)
 		assert.Equal(t, fmt.Sprintf("----- Summary -----\n%s diffs in main.md \n\n", tc.diff), prompt.Out)
 	}
 }
@@ -87,7 +88,8 @@ func TestSummaryForMultiFiles(t *testing.T) {
 
 		summarySrv := SummaryService{}
 		prompt := repo.NewPromptMock()
-		summarySrv.Render(prompt, input)
+		files := repo.NewFiles()
+		summarySrv.Render(prompt, files, input)
 		assert.Equal(t, fmt.Sprintf("----- Summary -----%s\n", tc.diff), prompt.Out)
 	}
 }
