@@ -1,4 +1,6 @@
-**Work in progress...**
+> **Warning**
+> Work in progress..
+
 # difii
 A CLI tool to diff 2 directories.
 
