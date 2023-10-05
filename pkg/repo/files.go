@@ -8,7 +8,6 @@ import (
 )
 
 type FilesInterface interface {
-	ListDirs(path string) []string
 	IsDirOrFileExist(path string) bool
 	ListFilesInDirs(dirs ...string) []string
 	ReadStream(path string) *os.File
@@ -19,21 +18,6 @@ type Files struct{}
 
 func NewFiles() *Files {
 	return &Files{}
-}
-
-func (repo *Files) ListDirs(path string) []string {
-	dirs := make([]string, 0)
-	files, err := os.ReadDir(path)
-	if err != nil {
-		return dirs
-	}
-	for _, f := range files {
-		if f.IsDir() {
-			dirs = append(dirs, f.Name())
-		}
-	}
-
-	return dirs
 }
 
 func (repo *Files) IsDirOrFileExist(path string) bool {

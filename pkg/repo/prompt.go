@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"slices"
 
 	goprompt "github.com/c-bata/go-prompt"
 	"golang.org/x/term"
@@ -98,8 +99,7 @@ func (prompt *Prompt) SelectCompareDir() string {
 
 	for {
 		dir := goprompt.Input("Compare dir (--compare): ", prompt.selectDir, options...)
-		files := NewFiles() // TODO: refactor
-		if files.IsDirOrFileExist(dir) {
+		if prompt.isDirOrFileExist(dir) {
 			prompt.restoreState()
 			return dir
 		}
@@ -107,23 +107,48 @@ func (prompt *Prompt) SelectCompareDir() string {
 	}
 }
 
-// TODO: move to files interface
-func (prompt *Prompt) isDirNamedLikeTextExist(text string) bool {
-	if text == "." || strings.HasSuffix(text, "/") {
-		return false
+func (prompt *Prompt) selectDir(in goprompt.Document) []goprompt.Suggest {
+	suggests := make([]goprompt.Suggest, 0)
+	suggests = append(suggests, goprompt.Suggest{ Text: "./" })
+	suggests = append(suggests, goprompt.Suggest{ Text: "../" })
+
+	text := in.Text
+	searchDir := prompt.getSearchDir(text)
+	basePath := prompt.getBasePath(text)
+
+	for _, dir := range prompt.listDirs(searchDir) {
+		suggests = append(suggests, goprompt.Suggest{ Text: basePath+dir })
 	}
-	files := NewFiles() // TODO: refactor
-	return files.IsDirOrFileExist(text)
-}
 
-func (prompt *Prompt) appendSuggest(suggests []goprompt.Suggest, path string) []goprompt.Suggest {
-	suggests = append(suggests, goprompt.Suggest{
-		Text: path,
+	if prompt.isDirNamedLikeTextExist(text) {
+		for _, dir := range prompt.listDirs(text) {
+			suggests = append(suggests, goprompt.Suggest{ Text: text+"/"+dir })
+		}
+	}
+
+	// filter .git
+	suggests = slices.DeleteFunc(suggests, func(suggest goprompt.Suggest) bool {
+		return strings.HasSuffix(suggest.Text, ".git")
 	})
-	return suggests
+
+	return goprompt.FilterHasPrefix(suggests, text, false)
 }
 
-// TODO: move to files interface
+func (prompt *Prompt) listDirs(path string) []string {
+	dirs := make([]string, 0)
+	files, err := os.ReadDir(path)
+	if err != nil {
+		return dirs
+	}
+	for _, f := range files {
+		if f.IsDir() {
+			dirs = append(dirs, f.Name())
+		}
+	}
+
+	return dirs
+}
+
 func (prompt *Prompt) getSearchDir(text string) string {
 	if strings.HasSuffix(text, "/") {
 		return text
@@ -131,7 +156,6 @@ func (prompt *Prompt) getSearchDir(text string) string {
 	return filepath.Dir(text)
 }
 
-// TODO: move to files interface
 func (prompt *Prompt) getBasePath(text string) string {
 	base := ""
 	if strings.Contains(text, "/") {
@@ -140,39 +164,17 @@ func (prompt *Prompt) getBasePath(text string) string {
 	return base
 }
 
-// TODO: move to files interface
-func (prompt *Prompt) filterGit(suggests []goprompt.Suggest) []goprompt.Suggest {
-	ret := make([]goprompt.Suggest, 0)
-	for _, suggest := range suggests {
-		if !strings.HasSuffix(suggest.Text, ".git") {
-			ret = append(ret, suggest)
-		}
+func (prompt *Prompt) isDirNamedLikeTextExist(text string) bool {
+	if text == "." || strings.HasSuffix(text, "/") {
+		return false
 	}
-	return ret
+	return prompt.isDirOrFileExist(text)
 }
 
-// TODO: move to files interface around suggestion
-func (prompt *Prompt) selectDir(in goprompt.Document) []goprompt.Suggest {
-	suggests := make([]goprompt.Suggest, 0)
-	suggests = prompt.appendSuggest(suggests, "./")
-	suggests = prompt.appendSuggest(suggests, "../")
-
-	text := in.Text
-	searchDir := prompt.getSearchDir(text)
-	basePath := prompt.getBasePath(text)
-
-	files := NewFiles() // TODO: refactor
-	for _, dir := range files.ListDirs(searchDir) {
-		suggests = prompt.appendSuggest(suggests, basePath+dir)
+func (prompt *Prompt) isDirOrFileExist(path string) bool {
+	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		return true
 	}
-
-	if prompt.isDirNamedLikeTextExist(text) {
-		for _, dir := range files.ListDirs(text) {
-			suggests = prompt.appendSuggest(suggests, text+"/"+dir)
-		}
-	}
-
-	suggests = prompt.filterGit(suggests)
-
-	return goprompt.FilterHasPrefix(suggests, text, false)
+	return false
 }
