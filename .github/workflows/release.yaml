@@ -24,7 +24,7 @@ jobs:
           ```bash
           git clone https://github.com/enuesaa/difii.git -b ${TAG_NAME} --depth 1
           cd difii
-          go build
+          go install
           ```
           EOF
 

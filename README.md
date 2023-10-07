@@ -4,6 +4,13 @@ A CLI tool to diff 2 directories.
 > **Note**
 > Work in progress.. `difii` is currently under development.
 
+## Install
+```bash
+git clone https://github.com/enuesaa/difii.git --depth 1
+cd difii
+go install
+```
+
 ## Usage
 ```console
 $ difii --help
