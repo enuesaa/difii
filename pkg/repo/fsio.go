@@ -16,7 +16,8 @@ type FsioInterface interface {
 	Confirm(message string) bool
 	SelectCompareDir() string
 	IsDirOrFileExist(path string) bool
-	ListFiles(dir string) []string
+	ListDirs(path string) []string
+	ListFilesRecursively(path string) []string
 	ReadStream(path string) *os.File
 }
 
@@ -126,12 +127,12 @@ func (fsio *Fsio) suggestDirs(in prompt.Document) []prompt.Suggest {
 		basePath = filepath.Dir(text) + "/"
 	}
 
-	for _, dir := range fsio.listDirs(searchDir) {
+	for _, dir := range fsio.ListDirs(searchDir) {
 		suggests = append(suggests, prompt.Suggest{Text: basePath + dir})
 	}
 
 	if text != "." && !strings.HasSuffix(text, "/") && fsio.IsDirOrFileExist(text) {
-		for _, dir := range fsio.listDirs(text) {
+		for _, dir := range fsio.ListDirs(text) {
 			suggests = append(suggests, prompt.Suggest{Text: text + "/" + dir})
 		}
 	}
@@ -144,8 +145,15 @@ func (fsio *Fsio) suggestDirs(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(suggests, text, false)
 }
 
-//TODO: refactor
-func (fsio *Fsio) listDirs(path string) []string {
+func (fsio *Fsio) IsDirOrFileExist(path string) bool {
+	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		return true
+	}
+	return false
+}
+
+func (fsio *Fsio) ListDirs(path string) []string {
 	dirs := make([]string, 0)
 	files, err := os.ReadDir(path)
 	if err != nil {
@@ -160,33 +168,20 @@ func (fsio *Fsio) listDirs(path string) []string {
 	return dirs
 }
 
-func (fsio *Fsio) IsDirOrFileExist(path string) bool {
-	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
-	if _, err := os.Stat(path); !os.IsNotExist(err) {
-		return true
-	}
-	return false
-}
-
-func (fsio *Fsio) ListFiles(dir string) []string {
+func (fsio *Fsio) ListFilesRecursively(path string) []string {
 	filenames := make([]string, 0)
-	filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
+	filepath.Walk(path, func(fpath string, file os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		// TODO: move 
-		if strings.HasPrefix(path, ".git/") {
-			return nil
-		}
 		if file.IsDir() {
 			return nil
-		} else {
-			filenames = append(filenames, path)
 		}
+		filenames = append(filenames, fpath)
 		return nil
 	})
 
-	return fsio.removeRelativePathFromFilenames(filenames, dir+"/")
+	return fsio.removeRelativePathFromFilenames(filenames, path+"/")
 }
 
 func (fsio *Fsio) removeRelativePathFromFilenames(filenames []string, path string) []string {
