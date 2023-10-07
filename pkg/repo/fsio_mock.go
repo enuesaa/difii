@@ -6,7 +6,7 @@ import (
 
 type FsioMock struct {
 	Fsio // test cases depend on real filesystem now, so extends this struct.
-	Out string
+	Out  string
 }
 
 func NewFsioMock() *FsioMock {

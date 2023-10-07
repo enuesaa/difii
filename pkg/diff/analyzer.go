@@ -2,7 +2,7 @@ package diff
 
 import (
 	"bufio"
-	"golang.org/x/exp/slices"
+	"slices"
 	"io"
 )
 

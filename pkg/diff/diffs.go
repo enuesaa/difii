@@ -1,7 +1,7 @@
 package diff
 
 import (
-	"golang.org/x/exp/slices"
+	"slices"
 )
 
 type Diffs struct {

@@ -7,7 +7,6 @@ require (
 	github.com/fatih/color v1.15.0
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/exp v0.0.0-20230810033253-352e893a4cad
 	golang.org/x/term v0.11.0
 )
 
