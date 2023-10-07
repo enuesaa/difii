@@ -8,30 +8,30 @@ import (
 
 type SummaryService struct{}
 
-func (srv *SummaryService) Confirm(prompt repo.PromptInterface) bool {
-	return prompt.Confirm("Would you like to show diffs summary?")
+func (srv *SummaryService) Confirm(fsio repo.FsioInterface) bool {
+	return fsio.Confirm("Would you like to show diffs summary?")
 }
 
-func (srv *SummaryService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
-	prompt.Printf(color.HiWhiteString("----- Summary -----\n"))
+func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
+	fsio.Printf(color.HiWhiteString("----- Summary -----\n"))
 
-	targetfiles := listTargetFiles(files, input.WorkDir, input.CompareDir)
+	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
 		targetfiles = filterIncludeFiles(targetfiles, input.Includes)
 	}
 
 	for _, filename := range targetfiles {
-		workDir := files.ReadStream(input.WorkDir + "/" + filename)
-		compareDir := files.ReadStream(input.CompareDir + "/" + filename)
+		workDir := fsio.ReadStream(input.WorkDir + "/" + filename)
+		compareDir := fsio.ReadStream(input.CompareDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
-		prompt.Printf(
+		fsio.Printf(
 			"%s %s diffs in %s \n",
 			color.RedString("-%d", diffs.CountRemove()),
 			color.GreenString("+%d", diffs.CountAdd()),
 			filename,
 		)
 	}
-	prompt.Printf("\n")
+	fsio.Printf("\n")
 }

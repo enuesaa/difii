@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateCli(prompt repo.PromptInterface, files repo.FilesInterface) *cobra.Command {
+func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	var cli = &cobra.Command{
 		Use:     "difii",
 		Short:   "A CLI tool to inspect diffs interactively.",
@@ -22,31 +22,31 @@ func CreateCli(prompt repo.PromptInterface, files repo.FilesInterface) *cobra.Co
 
 			// options
 			if input.Interactive && !input.IsCompareDirSelected() {
-				input.CompareDir = prompt.SelectCompareDir()
+				input.CompareDir = fsio.SelectCompareDir()
 			}
 			if !input.IsWorkDirSelected() {
 				input.WorkDir = "."
 			}
-			if err := input.Validate(files); err != nil {
+			if err := input.Validate(fsio); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			Plan(prompt, input)
+			Plan(fsio, input)
 
 			summarySrv := SummaryService{}
 			if input.Interactive {
-				input.Summary = summarySrv.Confirm(prompt)
+				input.Summary = summarySrv.Confirm(fsio)
 			}
 			if input.Summary {
-				summarySrv.Render(prompt, files, input)
+				summarySrv.Render(fsio, input)
 			}
 
 			inspectSrv := InspectService{}
 			if input.Interactive {
-				input.Inspect = inspectSrv.Confirm(prompt)
+				input.Inspect = inspectSrv.Confirm(fsio)
 			}
 			if input.Inspect {
-				inspectSrv.Render(prompt, files, input)
+				inspectSrv.Render(fsio, input)
 			}
 		},
 	}

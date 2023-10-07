@@ -6,9 +6,7 @@ import (
 )
 
 func main() {
-	prompt := repo.NewPrompt()
-	files := repo.NewFiles()
-
-	app := cli.CreateCli(prompt, files)
+	fsio := repo.NewFsio()
+	app := cli.CreateCli(fsio)
 	app.Execute()
 }
