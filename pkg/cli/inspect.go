@@ -17,10 +17,9 @@ func (srv *InspectService) Confirm(prompt repo.PromptInterface) bool {
 func (srv *InspectService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
-	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
-
+	targetfiles := listTargetFiles(files, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
-		targetfiles = files.FilterFiles(targetfiles, input.Includes)
+		targetfiles = filterIncludeFiles(targetfiles, input.Includes)
 	}
 
 	for _, filename := range targetfiles {

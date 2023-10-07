@@ -3,15 +3,13 @@ package repo
 import (
 	"os"
 	"path/filepath"
-	"slices"
 	"strings"
 )
 
 type FilesInterface interface {
 	IsDirOrFileExist(path string) bool
-	ListFilesInDirs(dirs ...string) []string
+	ListFiles(dir string) []string
 	ReadStream(path string) *os.File
-	FilterFiles(files []string, includes []string) []string
 }
 
 type Files struct{}
@@ -28,27 +26,13 @@ func (repo *Files) IsDirOrFileExist(path string) bool {
 	return false
 }
 
-func (repo *Files) ListFilesInDirs(dirs ...string) []string {
-	list := make([]string, 0)
-
-	for _, dir := range dirs {
-		list = append(list, repo.listFiles(dir)...)
-	}
-	return repo.removeDuplicateFiles(list)
-}
-
-// see https://zenn.dev/orangekame/articles/dad6d0e9382660
-func (repo *Files) removeDuplicateFiles(list []string) []string {
-	slices.Sort(list)
-	return slices.Compact(list)
-}
-
-func (repo *Files) listFiles(dir string) []string {
+func (repo *Files) ListFiles(dir string) []string {
 	filenames := make([]string, 0)
 	filepath.Walk(dir, func(path string, file os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
+		// TODO: move 
 		if strings.HasPrefix(path, ".git/") {
 			return nil
 		}
@@ -75,15 +59,4 @@ func (repo *Files) ReadStream(path string) *os.File {
 	f, _ := os.Open(path)
 
 	return f
-}
-
-func (repo *Files) FilterFiles(files []string, includes []string) []string {
-	list := make([]string, 0)
-	for _, filename := range files {
-		if slices.Contains(includes, filename) {
-			list = append(list, filename)
-		}
-	}
-
-	return list
 }

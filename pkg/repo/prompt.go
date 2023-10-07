@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"slices"
+	"strings"
 
 	goprompt "github.com/c-bata/go-prompt"
 	"golang.org/x/term"
@@ -109,8 +109,8 @@ func (prompt *Prompt) SelectCompareDir() string {
 
 func (prompt *Prompt) suggestDirs(in goprompt.Document) []goprompt.Suggest {
 	suggests := make([]goprompt.Suggest, 0)
-	suggests = append(suggests, goprompt.Suggest{ Text: "./" })
-	suggests = append(suggests, goprompt.Suggest{ Text: "../" })
+	suggests = append(suggests, goprompt.Suggest{Text: "./"})
+	suggests = append(suggests, goprompt.Suggest{Text: "../"})
 
 	text := in.Text
 
@@ -124,12 +124,12 @@ func (prompt *Prompt) suggestDirs(in goprompt.Document) []goprompt.Suggest {
 	}
 
 	for _, dir := range prompt.listDirs(searchDir) {
-		suggests = append(suggests, goprompt.Suggest{ Text: basePath+dir })
+		suggests = append(suggests, goprompt.Suggest{Text: basePath + dir})
 	}
 
 	if text != "." && !strings.HasSuffix(text, "/") && prompt.isDirOrFileExist(text) {
 		for _, dir := range prompt.listDirs(text) {
-			suggests = append(suggests, goprompt.Suggest{ Text: text+"/"+dir })
+			suggests = append(suggests, goprompt.Suggest{Text: text + "/" + dir})
 		}
 	}
 

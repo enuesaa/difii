@@ -15,10 +15,9 @@ func (srv *SummaryService) Confirm(prompt repo.PromptInterface) bool {
 func (srv *SummaryService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
 	prompt.Printf(color.HiWhiteString("----- Summary -----\n"))
 
-	targetfiles := files.ListFilesInDirs(input.WorkDir, input.CompareDir)
-
+	targetfiles := listTargetFiles(files, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
-		targetfiles = files.FilterFiles(targetfiles, input.Includes)
+		targetfiles = filterIncludeFiles(targetfiles, input.Includes)
 	}
 
 	for _, filename := range targetfiles {
