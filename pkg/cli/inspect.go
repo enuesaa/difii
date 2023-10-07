@@ -10,40 +10,40 @@ import (
 
 type InspectService struct{}
 
-func (srv *InspectService) Confirm(prompt repo.PromptInterface) bool {
-	return prompt.Confirm("Would you like to inspect diffs?")
+func (srv *InspectService) Confirm(fsio repo.FsioInterface) bool {
+	return fsio.Confirm("Would you like to inspect diffs?")
 }
 
-func (srv *InspectService) Render(prompt repo.PromptInterface, files repo.FilesInterface, input CliInput) {
-	prompt.Printf(color.HiWhiteString("----- Inspect -----\n"))
+func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
+	fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
 
-	targetfiles := listTargetFiles(files, input.WorkDir, input.CompareDir)
+	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
 		targetfiles = filterIncludeFiles(targetfiles, input.Includes)
 	}
 
 	for _, filename := range targetfiles {
-		source := files.ReadStream(input.CompareDir + "/" + filename)
-		dest := files.ReadStream(input.WorkDir + "/" + filename)
+		source := fsio.ReadStream(input.CompareDir + "/" + filename)
+		dest := fsio.ReadStream(input.WorkDir + "/" + filename)
 		analyzer := diff.NewAnalyzer(source, dest)
 		diffs := analyzer.Analyze()
 
-		srv.renderHunks(prompt, filename, *diffs)
+		srv.renderHunks(fsio, filename, *diffs)
 	}
 }
 
-func (srv *InspectService) renderHunks(prompt repo.PromptInterface, filename string, diffs diff.Diffs) {
+func (srv *InspectService) renderHunks(fsio repo.FsioInterface, filename string, diffs diff.Diffs) {
 	for _, hunk := range diffs.ListHunks() {
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				prompt.Printf("%s\t%s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
+				fsio.Printf("%s\t%s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
 			} else {
-				prompt.Printf("%s\t%s\n", filename+":"+line, color.RedString("- "+item.Text()))
+				fsio.Printf("%s\t%s\n", filename+":"+line, color.RedString("- "+item.Text()))
 			}
 		}
 	}
 	if len(diffs.ListItems()) > 0 {
-		prompt.Printf("\n")
+		fsio.Printf("\n")
 	}
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	files := repo.NewFiles()
+	fsio := repo.NewFsioMock()
 
 	input := CliInput{
 		CompareDir:  "../../testdata/simple-b",
@@ -25,5 +25,5 @@ func TestParse(t *testing.T) {
 	assert.Equal(t, input.IsFileSpecified(), false)
 	assert.Equal(t, input.HasNoOperationFlags(), false)
 	assert.Equal(t, input.HasNoGlobalFlags(), false)
-	assert.Equal(t, input.Validate(files), nil)
+	assert.Equal(t, input.Validate(fsio), nil)
 }

@@ -32,14 +32,14 @@ func (cli *CliInput) HasNoOperationFlags() bool {
 func (cli *CliInput) HasNoGlobalFlags() bool {
 	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
-func (cli *CliInput) Validate(files repo.FilesInterface) error {
+func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 	if !cli.IsCompareDirSelected() {
 		return errors.New("required option --compare is missing")
 	}
-	if !files.IsDirOrFileExist(cli.CompareDir) {
+	if !fsio.IsDirOrFileExist(cli.CompareDir) {
 		return errors.New("invalid file path specified in --compare")
 	}
-	if !files.IsDirOrFileExist(cli.WorkDir) {
+	if !fsio.IsDirOrFileExist(cli.WorkDir) {
 		return errors.New("invalid file path specified in --workdir")
 	}
 	return nil

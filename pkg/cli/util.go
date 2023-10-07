@@ -6,10 +6,10 @@ import (
 	"github.com/enuesaa/difii/pkg/repo"
 )
 
-func listTargetFiles(files repo.FilesInterface, workDir string, compareDir string) []string {
+func listTargetFiles(fsio repo.FsioInterface, workDir string, compareDir string) []string {
 	list := make([]string, 0)
-	list = append(list, files.ListFiles(workDir)...)
-	list = append(list, files.ListFiles(compareDir)...)
+	list = append(list, fsio.ListFiles(workDir)...)
+	list = append(list, fsio.ListFiles(compareDir)...)
 
 	return removeDuplicateFiles(list)
 }
