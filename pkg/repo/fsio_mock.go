@@ -2,10 +2,10 @@ package repo
 
 import (
 	"fmt"
-	"os"
 )
 
 type FsioMock struct {
+	Fsio // test cases depend on real filesystem now, so extends this struct.
 	Out string
 }
 
@@ -20,13 +20,4 @@ func (fsio *FsioMock) Confirm(message string) bool {
 }
 func (fsio *FsioMock) SelectCompareDir() string {
 	return "./"
-}
-func (fsio *FsioMock) IsDirOrFileExist(path string) bool {
-	return true
-}
-func (fsio *FsioMock) ListFiles(dir string) []string {
-	return make([]string, 0)
-}
-func (fsio *FsioMock) ReadStream(path string) *os.File {
-	return nil
 }
