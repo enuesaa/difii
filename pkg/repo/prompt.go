@@ -98,7 +98,7 @@ func (prompt *Prompt) SelectCompareDir() string {
 	options = append(options, goprompt.OptionCompletionOnDown())
 
 	for {
-		dir := goprompt.Input("Compare dir (--compare): ", prompt.selectDir, options...)
+		dir := goprompt.Input("Compare dir (--compare): ", prompt.suggestDirs, options...)
 		if prompt.isDirOrFileExist(dir) {
 			prompt.restoreState()
 			return dir
@@ -107,20 +107,27 @@ func (prompt *Prompt) SelectCompareDir() string {
 	}
 }
 
-func (prompt *Prompt) selectDir(in goprompt.Document) []goprompt.Suggest {
+func (prompt *Prompt) suggestDirs(in goprompt.Document) []goprompt.Suggest {
 	suggests := make([]goprompt.Suggest, 0)
 	suggests = append(suggests, goprompt.Suggest{ Text: "./" })
 	suggests = append(suggests, goprompt.Suggest{ Text: "../" })
 
 	text := in.Text
-	searchDir := prompt.getSearchDir(text)
-	basePath := prompt.getBasePath(text)
+
+	searchDir := text
+	if !strings.HasSuffix(text, "/") {
+		searchDir = filepath.Dir(text)
+	}
+	basePath := ""
+	if strings.Contains(text, "/") {
+		basePath = filepath.Dir(text) + "/"
+	}
 
 	for _, dir := range prompt.listDirs(searchDir) {
 		suggests = append(suggests, goprompt.Suggest{ Text: basePath+dir })
 	}
 
-	if prompt.isDirNamedLikeTextExist(text) {
+	if text != "." && !strings.HasSuffix(text, "/") && prompt.isDirOrFileExist(text) {
 		for _, dir := range prompt.listDirs(text) {
 			suggests = append(suggests, goprompt.Suggest{ Text: text+"/"+dir })
 		}
@@ -147,28 +154,6 @@ func (prompt *Prompt) listDirs(path string) []string {
 	}
 
 	return dirs
-}
-
-func (prompt *Prompt) getSearchDir(text string) string {
-	if strings.HasSuffix(text, "/") {
-		return text
-	}
-	return filepath.Dir(text)
-}
-
-func (prompt *Prompt) getBasePath(text string) string {
-	base := ""
-	if strings.Contains(text, "/") {
-		base = filepath.Dir(text) + "/"
-	}
-	return base
-}
-
-func (prompt *Prompt) isDirNamedLikeTextExist(text string) bool {
-	if text == "." || strings.HasSuffix(text, "/") {
-		return false
-	}
-	return prompt.isDirOrFileExist(text)
 }
 
 func (prompt *Prompt) isDirOrFileExist(path string) bool {
