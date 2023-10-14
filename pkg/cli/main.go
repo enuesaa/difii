@@ -9,12 +9,12 @@ import (
 
 func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	var cli = &cobra.Command{
-		Use:     "difii",
+		Use:     "difii <compare-dir>",
 		Short:   "A CLI tool to inspect diffs interactively.",
 		Args:    cobra.MinimumNArgs(0),
 		Version: "0.0.8",
 		Run: func(cmd *cobra.Command, args []string) {
-			input := ParseArgs(cmd)
+			input := ParseArgs(cmd, args)
 			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {
 				cmd.Help()
 				return
@@ -56,7 +56,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 
 	// options
-	cli.PersistentFlags().String("compare", "", "Compare dir.")
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")

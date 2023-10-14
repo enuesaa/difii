@@ -45,8 +45,11 @@ func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 	return nil
 }
 
-func ParseArgs(cmd *cobra.Command) CliInput {
-	compareDir, _ := cmd.Flags().GetString("compare")
+func ParseArgs(cmd *cobra.Command, args []string) CliInput {
+	compareDir := ""
+	if len(args) > 0 {
+		compareDir = args[0]
+	}
 	workDir, _ := cmd.Flags().GetString("workdir")
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")
