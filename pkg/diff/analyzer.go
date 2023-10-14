@@ -14,10 +14,10 @@ type Analyzer struct {
 	diffs         Diffs
 }
 
-func NewAnalyzer(source io.Reader, dest io.Reader) *Analyzer {
+func NewAnalyzer(workdir io.Reader, truthdir io.Reader) *Analyzer {
 	return &Analyzer{
-		source:        *bufio.NewScanner(source),
-		dest:          *bufio.NewScanner(dest),
+		source:        *bufio.NewScanner(workdir),
+		dest:          *bufio.NewScanner(truthdir),
 		sourceReading: false,
 		destReading:   false,
 		diffs:         *NewDiffs(),

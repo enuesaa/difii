@@ -23,9 +23,9 @@ func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
 	}
 
 	for _, filename := range targetfiles {
-		source := fsio.ReadStream(input.CompareDir + "/" + filename)
-		dest := fsio.ReadStream(input.WorkDir + "/" + filename)
-		analyzer := diff.NewAnalyzer(source, dest)
+		comparedir := fsio.ReadStream(input.CompareDir + "/" + filename)
+		workdir := fsio.ReadStream(input.WorkDir + "/" + filename)
+		analyzer := diff.NewAnalyzer(workdir, comparedir)
 		diffs := analyzer.Analyze()
 
 		srv.renderHunks(fsio, filename, *diffs)

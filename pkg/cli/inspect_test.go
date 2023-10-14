@@ -18,26 +18,26 @@ func TestInspect(t *testing.T) {
 			workDir:    "../../testdata/simple-a",
 			compareDir: "../../testdata/simple-b",
 			diff: `
-main.md:2  + b
+main.md:2  - b
 `,
 		},
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-sub-files",
 			diff: `
-sub.md:1   + sub file
-sub.md:2   + 
+sub.md:1   - sub file
+sub.md:2   - 
 
-subsub.md:1 + subsub
-subsub.md:2 + 
+subsub.md:1 - subsub
+subsub.md:2 - 
 `,
 		},
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-nested-files",
 			diff: `
-nested/main.md:1 + this is nested file.
-nested/main.md:2 + 
+nested/main.md:1 - this is nested file.
+nested/main.md:2 - 
 `,
 		},
 	}
