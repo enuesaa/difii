@@ -186,6 +186,9 @@ func (fsio *Fsio) ListFilesRecursively(path string) []string {
 
 func (fsio *Fsio) removeRelativePathFromFilenames(filenames []string, path string) []string {
 	converted := make([]string, 0)
+	if strings.HasPrefix(path, "./") {
+		path = strings.TrimPrefix(path, "./")
+	}
 	for _, filename := range filenames {
 		converted = append(converted, strings.TrimPrefix(filename, path))
 	}
