@@ -34,10 +34,10 @@ func (cli *CliInput) HasNoGlobalFlags() bool {
 }
 func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 	if !cli.IsCompareDirSelected() {
-		return errors.New("required option --compare is missing")
+		return errors.New("required argument <compare-dir> is missing")
 	}
 	if !fsio.IsDirOrFileExist(cli.CompareDir) {
-		return errors.New("invalid file path specified in --compare")
+		return errors.New("invalid file path specified in <compare-dir>")
 	}
 	if !fsio.IsDirOrFileExist(cli.WorkDir) {
 		return errors.New("invalid file path specified in --workdir")

@@ -1,11 +1,11 @@
 # designdoc
-## Usage
+## planning usage
 ```bash
-difii --compare <dir> --apply # Overwrite working files with comparison.
-difii --compare <dir> --report --report-file report.html --auto-approve
+difii <dir> --reset # Reset workdir changes and overwrite files with comparison.
+difii <url> --reset # Reset workdir changes and overwrite files with comparison.
 ```
 
 ## dev command
 ```bash
-go run . --inspect --compare testdata/tourism-a --workdir testdata/tourism-b --summary
+go run . testdata/tourism-a --inspect --workdir testdata/tourism-b --summary
 ```
