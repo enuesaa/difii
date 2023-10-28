@@ -31,9 +31,9 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 				fmt.Printf("Error: %s\n", err.Error())
 				return
 			}
-			Plan(fsio, input)
 
 			summarySrv := SummaryService{}
+			summarySrv.Plan(fsio, input)
 			summarySrv.Render(fsio, input)
 
 			inspectSrv := InspectService{}
@@ -43,6 +43,11 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 			if input.Inspect {
 				inspectSrv.Render(fsio, input)
 			}
+
+			// importSrv := ImportService{}
+			// if input.Interactive && importSrv.Confirm(fsio) {
+			// 	importSrv.Render(fsio, input)
+			// }
 		},
 	}
 

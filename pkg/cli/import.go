@@ -42,8 +42,12 @@ func (srv *ImportService) renderHunks(fsio repo.FsioInterface, filename string, 
 				fsio.Printf("%-10s %s\n", filename+":"+line, color.RedString("- "+item.Text()))
 			}
 		}
+		if fsio.Confirm("Would you like to import this hunk?") {
+			srv.importHunk(fsio, filename, hunk)
+		}
 	}
-	if len(diffs.ListItems()) > 0 {
-		fsio.Printf("Do you import this hunk?\n")
-	}
+}
+
+func (srv *ImportService) importHunk(fsio repo.FsioInterface, filename string, hunk diff.Hunk) {
+	fsio.Printf("%+v\n", hunk)
 }

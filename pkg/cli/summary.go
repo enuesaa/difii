@@ -12,9 +12,13 @@ func (srv *SummaryService) Confirm(fsio repo.FsioInterface) bool {
 	return fsio.Confirm("Would you like to show diffs summary?")
 }
 
-func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
+func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
 	fsio.Printf(color.HiWhiteString("----- Summary -----\n"))
+	fsio.Printf(color.HiWhiteString("Any additions or deletions to [%s] are shown. [%s] is considered the truth.\n", input.WorkDir, input.CompareDir))
+	fsio.Printf("\n")
+}
 
+func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
 	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
 		targetfiles = filterIncludeFiles(targetfiles, input.Includes)
