@@ -34,12 +34,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 			Plan(fsio, input)
 
 			summarySrv := SummaryService{}
-			if input.Interactive {
-				input.Summary = summarySrv.Confirm(fsio)
-			}
-			if input.Summary {
-				summarySrv.Render(fsio, input)
-			}
+			summarySrv.Render(fsio, input)
 
 			inspectSrv := InspectService{}
 			if input.Interactive {
@@ -52,7 +47,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	}
 
 	// operations
-	cli.Flags().Bool("summary", false, "Show diffs summary.")
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 
 	// options

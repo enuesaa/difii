@@ -48,7 +48,6 @@ nested/main.md:2 -
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
 			Interactive: false,
-			Summary:     true,
 			Inspect:     false,
 			Apply:       false,
 		}

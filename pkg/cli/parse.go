@@ -12,7 +12,6 @@ type CliInput struct {
 	WorkDir     string
 	Includes    []string
 	Interactive bool
-	Summary     bool
 	Inspect     bool
 	Apply       bool
 }
@@ -27,7 +26,7 @@ func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
 func (cli *CliInput) HasNoOperationFlags() bool {
-	return !cli.Summary && !cli.Inspect && !cli.Apply
+	return !cli.Inspect && !cli.Apply
 }
 func (cli *CliInput) HasNoGlobalFlags() bool {
 	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
@@ -54,7 +53,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
-	summary, _ := cmd.Flags().GetBool("summary")
 	inspect, _ := cmd.Flags().GetBool("inspect")
 	apply, _ := cmd.Flags().GetBool("apply")
 
@@ -63,7 +61,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		WorkDir:     workDir,
 		Includes:    includes,
 		Interactive: interactive,
-		Summary:     summary,
 		Inspect:     inspect,
 		Apply:       apply,
 	}

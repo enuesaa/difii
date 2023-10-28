@@ -15,7 +15,6 @@ func TestParse(t *testing.T) {
 		WorkDir:     "../../testdata/simple-a",
 		Includes:    make([]string, 0),
 		Interactive: false,
-		Summary:     true,
 		Inspect:     true,
 		Apply:       false,
 	}

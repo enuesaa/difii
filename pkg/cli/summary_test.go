@@ -37,7 +37,6 @@ func TestSummaryDiffsCount(t *testing.T) {
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
 			Interactive: false,
-			Summary:     true,
 			Inspect:     false,
 			Apply:       false,
 		}
@@ -80,7 +79,6 @@ func TestSummaryForMultiFiles(t *testing.T) {
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
 			Interactive: false,
-			Summary:     true,
 			Inspect:     false,
 			Apply:       false,
 		}
