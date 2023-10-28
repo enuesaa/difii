@@ -34,9 +34,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 			Plan(fsio, input)
 
 			summarySrv := SummaryService{}
-			if !input.Interactive || summarySrv.Confirm(fsio) {
-				summarySrv.Render(fsio, input)
-			}
+			summarySrv.Render(fsio, input)
 
 			inspectSrv := InspectService{}
 			if input.Interactive {
@@ -54,7 +52,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	// options
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
-	cli.PersistentFlags().BoolP("no-interactive", "", false, "Do not use interactive prompt.")
+	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
 
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})

@@ -28,7 +28,7 @@ func (cli *CliInput) HasNoOperationFlags() bool {
 	return !cli.Inspect
 }
 func (cli *CliInput) HasNoGlobalFlags() bool {
-	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified()
+	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
 func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 	if !cli.IsCompareDirSelected() {
@@ -50,7 +50,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	}
 	workDir, _ := cmd.Flags().GetString("workdir")
 	includes, _ := cmd.Flags().GetStringSlice("only")
-	noInteractive, _ := cmd.Flags().GetBool("no-interactive")
+	interactive, _ := cmd.Flags().GetBool("interactive")
 
 	inspect, _ := cmd.Flags().GetBool("inspect")
 
@@ -58,7 +58,7 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		CompareDir:  compareDir,
 		WorkDir:     workDir,
 		Includes:    includes,
-		Interactive: !noInteractive,
+		Interactive: interactive,
 		Inspect:     inspect,
 	}
 

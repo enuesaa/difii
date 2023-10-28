@@ -23,7 +23,7 @@ Flags:
 Global Flags:
       --workdir string   Working dir. Default value is current dir.
       --only strings     Filename to compare
-      --no-interactive   Do not use interactive prompt.
+  -i, --interactive      Start interactive prompt.
       --help             help
       --version          version
 ```
