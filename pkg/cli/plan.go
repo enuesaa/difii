@@ -5,6 +5,6 @@ import (
 )
 
 func Plan(fsio repo.FsioInterface, input CliInput) {
-	fsio.Printf("I'll show you any additions or deletions of [%s] when compared to [%s].\n", input.WorkDir, input.CompareDir)
+	fsio.Printf("Any additions or deletions are shown below. [%s] is considered the truth.\n", input.CompareDir)
 	fsio.Printf("\n")
 }

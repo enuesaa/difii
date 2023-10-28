@@ -23,7 +23,7 @@ func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
 	for _, filename := range targetfiles {
 		workDir := fsio.ReadStream(input.WorkDir + "/" + filename)
 		compareDir := fsio.ReadStream(input.CompareDir + "/" + filename)
-		analyzer := diff.NewAnalyzer(workDir, compareDir)
+		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
 		fsio.Printf(

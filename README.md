@@ -31,10 +31,10 @@ Global Flags:
 ### summary
 ```console
 $ difii ./testdata/random-b --workdir ./testdata/random-a
-I'll show you any additions or deletions of [./testdata/random-a] when compared to [./testdata/random-b].
+Any additions or deletions are shown below. [./testdata/random-b] is considered the truth.
 
 ----- Summary -----
--4 +5 diffs in main.md
+-5 +4 diffs in main.md
 
 ```
 
@@ -42,20 +42,20 @@ I'll show you any additions or deletions of [./testdata/random-a] when compared 
 `--inspect` flag shows diff detail.
 ```console
 $ difii ./testdata/random-b --inspect --workdir ./testdata/random-a
-I'll show you any additions or deletions of [./testdata/random-a] when compared to [./testdata/random-b].
+Any additions or deletions are shown below. [./testdata/random-b] is considered the truth.
 
 ----- Summary -----
--4 +5 diffs in main.md
+-5 +4 diffs in main.md
 
 ----- Inspect -----
-main.md:2  + KLMNOPQRST
-main.md:4  - QRSTUVWXYY
-main.md:5  + QRSTUVWXYZA
-main.md:6  - MNOOPQRSTUVWXYZ
-main.md:7  - ABCDEFGHJI
-main.md:7  + MNOPQRSTUVWXYZ
-main.md:8  + ABCDEFGHIJ
-main.md:9  - UVWXYZABCC
-main.md:10 + UVWXYZABCD
+main.md:2  - KLMNOPQRST
+main.md:5  - QRSTUVWXYZA
+main.md:4  + QRSTUVWXYY
+main.md:7  - MNOPQRSTUVWXYZ
+main.md:8  - ABCDEFGHIJ
+main.md:6  + MNOOPQRSTUVWXYZ
+main.md:7  + ABCDEFGHJI
+main.md:10 - UVWXYZABCD
+main.md:9  + UVWXYZABCC
 
 ```
