@@ -49,7 +49,6 @@ nested/main.md:2 +
 			Includes:    make([]string, 0),
 			Interactive: false,
 			Inspect:     false,
-			Apply:       false,
 		}
 
 		inspectSrv := InspectService{}

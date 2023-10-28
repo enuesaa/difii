@@ -11,11 +11,11 @@ import (
 type ImportService struct{}
 
 func (srv *ImportService) Confirm(fsio repo.FsioInterface) bool {
-	return fsio.Confirm("Would you like to inspect diffs?")
+	return fsio.Confirm("Would you like to import diffs?")
 }
 
 func (srv *ImportService) Render(fsio repo.FsioInterface, input CliInput) {
-	fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
+	fsio.Printf(color.HiWhiteString("----- Import -----\n"))
 
 	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
@@ -44,6 +44,6 @@ func (srv *ImportService) renderHunks(fsio repo.FsioInterface, filename string, 
 		}
 	}
 	if len(diffs.ListItems()) > 0 {
-		fsio.Printf("\n")
+		fsio.Printf("Do you import this hunk?\n")
 	}
 }

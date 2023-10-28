@@ -16,7 +16,6 @@ func TestParse(t *testing.T) {
 		Includes:    make([]string, 0),
 		Interactive: false,
 		Inspect:     true,
-		Apply:       false,
 	}
 
 	assert.Equal(t, input.IsCompareDirSelected(), true)
