@@ -19,7 +19,6 @@ Usage:
 
 Flags:
       --inspect   Inspect diffs.
-      --summary   Show diffs summary.
 
 Global Flags:
       --workdir string   Working dir. Default value is current dir.
@@ -29,11 +28,9 @@ Global Flags:
       --version          version
 ```
 
-### diff summary
-`--summary` flag shows diff summary.
+### summary
 ```console
-$ difii ./testdata/random-b --summary --workdir ./testdata/random-a
------ Compare -----
+$ difii ./testdata/random-b --workdir ./testdata/random-a
 I'll show you any additions or deletions of [./testdata/random-a] when compared to [./testdata/random-b].
 
 ----- Summary -----
@@ -45,8 +42,10 @@ I'll show you any additions or deletions of [./testdata/random-a] when compared 
 `--inspect` flag shows diff detail.
 ```console
 $ difii ./testdata/random-b --inspect --workdir ./testdata/random-a
------ Compare -----
 I'll show you any additions or deletions of [./testdata/random-a] when compared to [./testdata/random-b].
+
+----- Summary -----
+-4 +5 diffs in main.md
 
 ----- Inspect -----
 main.md:2  + KLMNOPQRST
