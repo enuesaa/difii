@@ -32,22 +32,24 @@ func (srv *ImportService) Render(fsio repo.FsioInterface, input CliInput) {
 		analyzer := diff.NewAnalyzer(comparedir, workdir)
 		diffs := analyzer.Analyze()
 
-		srv.renderHunks(fsio, filename, *diffs, input)
+		for _, hunk := range diffs.ListHunks() {
+			srv.renderHunk(fsio, filename, hunk)
+			if fsio.Confirm("Would you like to import this hunk?") {
+				// todo change. import per file. not hunk.
+				srv.importHunk(fsio, filename, hunk, input)
+			}
+			fsio.Printf("\n")
+		}
 	}
 }
 
-func (srv *ImportService) renderHunks(fsio repo.FsioInterface, filename string, diffs diff.Diffs, input CliInput) {
-	for _, hunk := range diffs.ListHunks() {
-		for _, item := range hunk.ListItems() {
-			line := fmt.Sprint(item.Line())
-			if item.Added() {
-				fsio.Printf("%-10s %s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
-			} else {
-				fsio.Printf("%-10s %s\n", filename+":"+line, color.RedString("- "+item.Text()))
-			}
-		}
-		if fsio.Confirm("Would you like to import this hunk?") {
-			srv.importHunk(fsio, filename, hunk, input)
+func (srv *ImportService) renderHunk(fsio repo.FsioInterface, filename string, hunk diff.Hunk) {
+	for _, item := range hunk.ListItems() {
+		line := fmt.Sprint(item.Line())
+		if item.Added() {
+			fsio.Printf("%-10s %s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
+		} else {
+			fsio.Printf("%-10s %s\n", filename+":"+line, color.RedString("- "+item.Text()))
 		}
 	}
 }
@@ -55,7 +57,7 @@ func (srv *ImportService) renderHunks(fsio repo.FsioInterface, filename string, 
 func (srv *ImportService) importHunk(fsio repo.FsioInterface, filename string, hunk diff.Hunk, input CliInput) {
 	path := fmt.Sprintf("%s/%s", input.WorkDir, filename)
 
-	// create file if not exist
+	// create file if not exist // todo check next line is needed.
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		f, _ := os.Create(path)
 		defer f.Close()
