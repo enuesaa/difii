@@ -2,10 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"io"
-	"os"
-	"slices"
-	"strings"
+	"path/filepath"
 
 	"github.com/enuesaa/difii/pkg/diff"
 	"github.com/enuesaa/difii/pkg/repo"
@@ -34,12 +31,13 @@ func (srv *ImportService) Render(fsio repo.FsioInterface, input CliInput) {
 
 		for _, hunk := range diffs.ListHunks() {
 			srv.renderHunk(fsio, filename, hunk)
-			if fsio.Confirm("Would you like to import this hunk?") {
-				// todo change. import per file. not hunk.
-				srv.importHunk(fsio, filename, hunk, input)
-			}
-			fsio.Printf("\n")
 		}
+		workfilePath := filepath.Join(input.WorkDir, filename)
+		fsio.Printf("[%s] has diffs. \n", workfilePath)
+		if fsio.Confirm("Would you like to overwrite this file?") {
+			srv.importFile(fsio, filename, input)
+		}
+		fsio.Printf("\n")
 	}
 }
 
@@ -54,34 +52,15 @@ func (srv *ImportService) renderHunk(fsio repo.FsioInterface, filename string, h
 	}
 }
 
-func (srv *ImportService) importHunk(fsio repo.FsioInterface, filename string, hunk diff.Hunk, input CliInput) {
-	path := fmt.Sprintf("%s/%s", input.WorkDir, filename)
+func (srv *ImportService) importFile(fsio repo.FsioInterface, filename string, input CliInput) error {
+	workfilePath := filepath.Join(input.WorkDir, filename)
+	comparefilePath := filepath.Join(input.CompareDir, filename)
 
-	// create file if not exist // todo check next line is needed.
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		f, _ := os.Create(path)
-		defer f.Close()
+	if err := fsio.RemoveFile(workfilePath); err != nil {
+		return err
 	}
-
-	f, _ := os.Open(path)
-	defer f.Close()
-	contentbyte, _ := io.ReadAll(f)
-	lines := strings.Split(string(contentbyte), "\n")
-
-	for _, item := range hunk.ListItems() {
-		if item.Added() {
-			lines = slices.Insert(lines, item.Line(), item.Text())
-		} else {
-			lines = slices.Delete(lines, item.Line() - 1, item.Line())
-		}
+	if err := fsio.CopyFile(comparefilePath, workfilePath); err != nil {
+		return err
 	}
-
-	if len(lines) == 0 {
-		os.Remove(path)
-	} else {
-		content := strings.Join(lines, "\n")
-		f, _ := os.Create(path)
-		defer f.Close()
-		f.Write([]byte(content))
-	}
+	return nil
 }

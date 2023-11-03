@@ -3,6 +3,7 @@ package repo
 import (
 	"fmt"
 	"os"
+	"io"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -19,6 +20,8 @@ type FsioInterface interface {
 	ListDirs(path string) []string
 	ListFilesRecursively(path string) []string
 	ReadStream(path string) *os.File
+	RemoveFile(path string) error
+	CopyFile(srcPath string, dstPath string) error
 }
 
 type Fsio struct {
@@ -199,4 +202,25 @@ func (fsio *Fsio) ReadStream(path string) *os.File {
 	f, _ := os.Open(path)
 
 	return f
+}
+
+func (fsio *Fsio) RemoveFile(path string) error {
+	return os.RemoveAll(path)
+}
+
+func (fsio *Fsio) CopyFile(srcPath string, dstPath string) error {
+	srcF, err := os.Open(srcPath)
+	if err != nil {
+		return err
+	}
+	defer srcF.Close()
+
+	dstF, err := os.Create(dstPath)
+	if err != nil {
+		return err
+	}
+	defer dstF.Close()
+
+	_, err = io.Copy(dstF, srcF)
+	return err
 }
