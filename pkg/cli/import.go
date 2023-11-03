@@ -33,8 +33,8 @@ func (srv *ImportService) Render(fsio repo.FsioInterface, input CliInput) {
 			srv.renderHunk(fsio, filename, hunk)
 		}
 		workfilePath := filepath.Join(input.WorkDir, filename)
-		fsio.Printf("[%s] has diffs. \n", workfilePath)
-		if fsio.Confirm("Would you like to overwrite this file?") {
+		message := fmt.Sprintf("Would you like to overwrite [%s]?", workfilePath)
+		if fsio.Confirm(message) {
 			srv.importFile(fsio, filename, input)
 		}
 		fsio.Printf("\n")
