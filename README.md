@@ -21,11 +21,12 @@ Flags:
       --inspect   Inspect diffs.
 
 Global Flags:
-      --workdir string   Working dir. Default value is current dir.
-      --only strings     Filename to compare
-  -i, --interactive      Start interactive prompt.
-      --help             help
-      --version          version
+      --workdir string        Working dir. Default value is current dir.
+      --only strings          Filename to compare
+  -i, --interactive           Start interactive prompt.
+      --experimental-import   [Experimental] Enable import operation.
+      --help                  Show help
+      --version               Show version
 ```
 
 ### summary
