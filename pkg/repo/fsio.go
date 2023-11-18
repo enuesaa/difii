@@ -2,8 +2,8 @@ package repo
 
 import (
 	"fmt"
-	"os"
 	"io"
+	"os"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -121,22 +121,15 @@ func (fsio *Fsio) suggestDirs(in prompt.Document) []prompt.Suggest {
 
 	text := in.Text
 
-	searchDir := text
-	if !strings.HasSuffix(text, "/") {
-		searchDir = filepath.Dir(text)
-	}
-	basePath := ""
-	if strings.Contains(text, "/") {
-		basePath = filepath.Dir(text) + "/"
-	}
-
+	searchDir := filepath.Dir(text)
 	for _, dir := range fsio.ListDirs(searchDir) {
-		suggests = append(suggests, prompt.Suggest{Text: basePath + dir})
+		path := filepath.Join(searchDir, dir)
+		suggests = append(suggests, prompt.Suggest{Text: path})
 	}
-
-	if text != "." && !strings.HasSuffix(text, "/") && fsio.IsDirOrFileExist(text) {
+	if fsio.IsDirOrFileExist(text) {
 		for _, dir := range fsio.ListDirs(text) {
-			suggests = append(suggests, prompt.Suggest{Text: text + "/" + dir})
+			path := filepath.Join(text, dir)
+			suggests = append(suggests, prompt.Suggest{Text: path})
 		}
 	}
 
