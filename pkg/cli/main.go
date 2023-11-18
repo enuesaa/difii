@@ -12,7 +12,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 		Use:     "difii <compare-dir>",
 		Short:   "A CLI tool to inspect diffs interactively.",
 		Args:    cobra.MinimumNArgs(0),
-		Version: "0.0.10",
+		Version: "0.0.11",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
 			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {

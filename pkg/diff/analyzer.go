@@ -2,8 +2,8 @@ package diff
 
 import (
 	"bufio"
-	"slices"
 	"io"
+	"slices"
 )
 
 type Analyzer struct {
