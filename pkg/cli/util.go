@@ -18,7 +18,6 @@ func listTargetFiles(fsio repo.FsioInterface, workDir string, compareDir string)
 	return list
 }
 
-// see https://zenn.dev/orangekame/articles/dad6d0e9382660
 func removeDuplicateFiles(list []string) []string {
 	slices.Sort(list)
 	return slices.Compact(list)

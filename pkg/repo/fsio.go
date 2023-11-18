@@ -74,19 +74,14 @@ func (fsio *Fsio) Confirm(message string) bool {
 	answer = strings.TrimSpace(answer)
 	answer = strings.ToLower(answer)
 
-	if answer == "y" || answer == "Y" {
-		fsio.restoreState()
-		return true
-	}
 	fsio.restoreState()
-	return false
+	return answer == "y" || answer == "Y"
 }
 
 func (fsio *Fsio) SelectCompareDir() string {
 	fsio.saveState()
 
 	options := make([]prompt.Option, 0)
-	// TODO: 選んでenterを押すと入力途中なのに完了してしまうのをなんとかしたい
 	options = append(options, prompt.OptionAddKeyBind(prompt.KeyBind{
 		Key: prompt.ControlC,
 		Fn: func(*prompt.Buffer) {
@@ -110,7 +105,7 @@ func (fsio *Fsio) SelectCompareDir() string {
 			fsio.restoreState()
 			return dir
 		}
-		fmt.Printf("Dir %s does not exist. \n", dir)
+		fsio.Printf("Dir %s does not exist. \n", dir)
 	}
 }
 
@@ -142,7 +137,6 @@ func (fsio *Fsio) suggestDirs(in prompt.Document) []prompt.Suggest {
 }
 
 func (fsio *Fsio) IsDirOrFileExist(path string) bool {
-	// see https://gist.github.com/mattes/d13e273314c3b3ade33f
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
 		return true
 	}

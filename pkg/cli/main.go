@@ -20,7 +20,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 				return
 			}
 
-			// options
 			if input.Interactive && !input.IsCompareDirSelected() {
 				input.CompareDir = fsio.SelectCompareDir()
 			}
