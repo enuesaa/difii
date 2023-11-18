@@ -1,5 +1,5 @@
 # difii
-A CLI tool to diff 2 directories.
+A CLI tool to diff 2 folders.
 
 > **Note**
 > Work in progress.. `difii` is currently under development.
