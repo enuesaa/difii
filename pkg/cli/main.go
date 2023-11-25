@@ -69,7 +69,9 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.PersistentFlags().SortFlags = false
 	cli.PersistentFlags().BoolP("help", "", false, "Show help")
 	cli.PersistentFlags().BoolP("version", "", false, "Show version")
-	cli.SetHelpTemplate(`Usage:{{if .Runnable}}
+	cli.SetHelpTemplate(`{{.Short}}
+
+Usage:{{if .Runnable}}
   {{.UseLine}}{{end}}{{if .HasAvailableSubCommands}}
   {{.CommandPath}} [command]{{end}}{{if .HasAvailableFlags}}
 
