@@ -45,12 +45,12 @@ func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 
 func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	compareDir := ""
-	if len(args) > 0 {
-		compareDir = args[0]
-	}
 	workDir := ""
+	if len(args) > 0 {
+		workDir = args[0]
+	}
 	if len(args) > 1 {
-		workDir = args[1]
+		compareDir = args[1]
 	}
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")

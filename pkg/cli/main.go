@@ -12,7 +12,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 		Use:     "difii <dir1> <dir2>",
 		Short:   "A CLI tool to inspect diffs interactively.",
 		Args:    cobra.MinimumNArgs(0),
-		Version: "0.0.11",
+		Version: "0.0.12",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
 			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {
@@ -47,15 +47,12 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 
 	// operations
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
+	cli.Flags().StringSlice("only", make([]string, 0), "Specify filename to compare.")
+	cli.Flags().BoolP("interactive", "i", false, "Use interactive prompt.")
 
-	// options
-	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
-	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
-
-	// disable default behavior
+	// disable default
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
 	cli.CompletionOptions.DisableDefaultCmd = true
-	// see https://github.com/spf13/cobra/issues/340
 	cli.SilenceUsage = true
 	cli.PersistentFlags().SortFlags = false
 	cli.PersistentFlags().BoolP("help", "", false, "Show help")
@@ -67,10 +64,7 @@ Usage:{{if .Runnable}}
   {{.CommandPath}} [command]{{end}}{{if .HasAvailableFlags}}
 
 Flags:
-{{.LocalNonPersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}{{if .HasAvailablePersistentFlags}}
-
-Global Flags:
-{{.PersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}
+{{.LocalNonPersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}
 `)
 
 	return cli

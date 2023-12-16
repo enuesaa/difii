@@ -14,27 +14,23 @@ go install
 ## Usage
 ```console
 $ difii --help
+A CLI tool to inspect diffs interactively.
+
 Usage:
-  difii <compare-dir> [flags]
+  difii <dir1> <dir2> [flags]
 
 Flags:
-      --inspect   Inspect diffs.
-
-Global Flags:
-      --workdir string        Working dir. Default value is current dir.
-      --only strings          Filename to compare
-  -i, --interactive           Start interactive prompt.
-      --experimental-import   [Experimental] Enable import operation.
-      --help                  Show help
-      --version               Show version
+      --inspect        Inspect diffs.
+  -i, --interactive    Use interactive prompt.
+      --only strings   Specify filename to compare.
 ```
 
 ### summary
 ```console
-$ difii ./testdata/random-b --workdir ./testdata/random-a
-Any additions or deletions are shown below. [./testdata/random-b] is considered the truth.
-
+$ difii ./testdata/random-a ./testdata/random-b
 ----- Summary -----
+Any additions or deletions to [./testdata/random-a] are shown.
+
 -5 +4 diffs in main.md
 
 ```
@@ -42,10 +38,10 @@ Any additions or deletions are shown below. [./testdata/random-b] is considered 
 ### diff detail
 `--inspect` flag shows diff detail.
 ```console
-$ difii ./testdata/random-b --inspect --workdir ./testdata/random-a
-Any additions or deletions are shown below. [./testdata/random-b] is considered the truth.
-
+$ difii ./testdata/random-a ./testdata/random-b --inspect
 ----- Summary -----
+Any additions or deletions to [./testdata/random-a] are shown.
+
 -5 +4 diffs in main.md
 
 ----- Inspect -----
