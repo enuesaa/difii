@@ -13,7 +13,6 @@ type CliInput struct {
 	Includes    []string
 	Interactive bool
 	Inspect     bool
-	ExpImport   bool
 }
 
 func (cli *CliInput) IsCompareDirSelected() bool {
@@ -54,7 +53,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
 	inspect, _ := cmd.Flags().GetBool("inspect")
-	expImport, _ := cmd.Flags().GetBool("experimental-import")
 
 	input := CliInput{
 		CompareDir:  compareDir,
@@ -62,7 +60,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		Includes:    includes,
 		Interactive: interactive,
 		Inspect:     inspect,
-		ExpImport:   expImport,
 	}
 
 	return input

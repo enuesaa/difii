@@ -42,13 +42,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 			if input.Inspect {
 				inspectSrv.Render(fsio, input)
 			}
-
-			if input.ExpImport {
-				importSrv := ImportService{}
-				if importSrv.Confirm(fsio) {
-					importSrv.Render(fsio, input)
-				}
-			}
 		},
 	}
 
@@ -59,7 +52,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.PersistentFlags().String("workdir", "", "Working dir. Default value is current dir.")
 	cli.PersistentFlags().StringSlice("only", make([]string, 0), "Filename to compare")
 	cli.PersistentFlags().BoolP("interactive", "i", false, "Start interactive prompt.")
-	cli.PersistentFlags().Bool("experimental-import", false, "[Experimental] Enable import operation.")
 
 	// disable default behavior
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
