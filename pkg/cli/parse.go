@@ -48,7 +48,10 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	if len(args) > 0 {
 		compareDir = args[0]
 	}
-	workDir, _ := cmd.Flags().GetString("workdir")
+	workDir := ""
+	if len(args) > 1 {
+		workDir = args[1]
+	}
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")
 
