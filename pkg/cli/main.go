@@ -20,11 +20,11 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 				return
 			}
 
+			if input.Interactive && !input.IsWorkDirSelected() {
+				input.WorkDir = fsio.SelectCompareDir()
+			}
 			if input.Interactive && !input.IsCompareDirSelected() {
 				input.CompareDir = fsio.SelectCompareDir()
-			}
-			if !input.IsWorkDirSelected() {
-				input.WorkDir = "."
 			}
 			if err := input.Validate(fsio); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
