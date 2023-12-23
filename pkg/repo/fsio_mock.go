@@ -18,6 +18,6 @@ func (fsio *FsioMock) Printf(format string, a ...any) {
 func (fsio *FsioMock) Confirm(message string) bool {
 	return true
 }
-func (fsio *FsioMock) SelectCompareDir() string {
+func (fsio *FsioMock) SelectDir(message string) string {
 	return "./"
 }

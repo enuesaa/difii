@@ -15,7 +15,7 @@ import (
 type FsioInterface interface {
 	Printf(format string, a ...any)
 	Confirm(message string) bool
-	SelectCompareDir() string
+	SelectDir(message string) string
 	IsDirOrFileExist(path string) bool
 	ListDirs(path string) []string
 	ListFilesRecursively(path string) []string
@@ -78,7 +78,7 @@ func (fsio *Fsio) Confirm(message string) bool {
 	return answer == "y" || answer == "Y"
 }
 
-func (fsio *Fsio) SelectCompareDir() string {
+func (fsio *Fsio) SelectDir(message string) string {
 	fsio.saveState()
 
 	options := make([]prompt.Option, 0)
@@ -100,7 +100,7 @@ func (fsio *Fsio) SelectCompareDir() string {
 	options = append(options, prompt.OptionCompletionOnDown())
 
 	for {
-		dir := prompt.Input("Compare dir (--compare): ", fsio.suggestDirs, options...)
+		dir := prompt.Input(message, fsio.suggestDirs, options...)
 		if fsio.IsDirOrFileExist(dir) {
 			fsio.restoreState()
 			return dir
@@ -111,8 +111,8 @@ func (fsio *Fsio) SelectCompareDir() string {
 
 func (fsio *Fsio) suggestDirs(in prompt.Document) []prompt.Suggest {
 	suggests := make([]prompt.Suggest, 0)
-	suggests = append(suggests, prompt.Suggest{Text: "./"})
 	suggests = append(suggests, prompt.Suggest{Text: "../"})
+	suggests = append(suggests, prompt.Suggest{Text: "./"})
 
 	text := in.Text
 

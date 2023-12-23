@@ -8,10 +8,6 @@ import (
 
 type SummaryService struct{}
 
-func (srv *SummaryService) Confirm(fsio repo.FsioInterface) bool {
-	return fsio.Confirm("Would you like to show diffs summary?")
-}
-
 func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
 	if !input.Verbose {
 		return

@@ -21,10 +21,10 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 			}
 
 			if input.Interactive && !input.IsWorkDirSelected() {
-				input.WorkDir = fsio.SelectCompareDir()
+				input.WorkDir = fsio.SelectDir("dir1: ")
 			}
 			if input.Interactive && !input.IsCompareDirSelected() {
-				input.CompareDir = fsio.SelectCompareDir()
+				input.CompareDir = fsio.SelectDir("dir2: ")
 			}
 			if err := input.Validate(fsio); err != nil {
 				fmt.Printf("Error: %s\n", err.Error())
@@ -47,7 +47,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 	cli.Flags().StringSlice("only", make([]string, 0), "Specify filename to compare.")
 	cli.Flags().BoolP("interactive", "i", false, "Use interactive prompt.")
-	cli.Flags().Bool("verbose", false, "[Experimental] show information.")
+	cli.Flags().Bool("verbose", false, "Show additional messages.")
 
 	// disable default
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
