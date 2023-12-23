@@ -1,5 +1,5 @@
 # difii
-A CLI tool to diff 2 folders.
+A CLI tool to diff 2 folders interactively.
 
 > [!Note]
 > Work in progress.. `difii` is currently under development.
@@ -14,7 +14,7 @@ go install
 ## Usage
 ```console
 $ difii --help
-A CLI tool to diff 2 folders.
+A CLI tool to diff 2 folders interactively.
 
 Usage:
   difii <dir1> <dir2> [flags]
