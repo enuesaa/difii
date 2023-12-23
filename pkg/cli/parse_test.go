@@ -15,13 +15,12 @@ func TestParse(t *testing.T) {
 		WorkDir:     "../../testdata/simple-a",
 		Includes:    make([]string, 0),
 		Interactive: false,
-		Inspect:     true,
+		Task:        TaskInspect,
 	}
 
 	assert.Equal(t, input.IsCompareDirSelected(), true)
 	assert.Equal(t, input.IsWorkDirSelected(), true)
 	assert.Equal(t, input.IsFileSpecified(), false)
-	assert.Equal(t, input.HasNoOperationFlags(), false)
-	assert.Equal(t, input.HasNoGlobalFlags(), false)
+	assert.Equal(t, input.HasNoFlags(), false)
 	assert.Equal(t, input.Validate(fsio), nil)
 }

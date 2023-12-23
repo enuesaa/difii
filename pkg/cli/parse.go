@@ -7,13 +7,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Task int // defined type
+const (
+	TaskInspect Task = iota
+	TaskSummary
+)
+
 type CliInput struct {
 	CompareDir  string
 	WorkDir     string
 	Includes    []string
 	Interactive bool
 	Verbose     bool
-	Inspect     bool
+	Task        Task
 }
 
 func (cli *CliInput) IsCompareDirSelected() bool {
@@ -25,11 +31,8 @@ func (cli *CliInput) IsWorkDirSelected() bool {
 func (cli *CliInput) IsFileSpecified() bool {
 	return len(cli.Includes) > 0
 }
-func (cli *CliInput) HasNoOperationFlags() bool {
-	return !cli.Inspect
-}
-func (cli *CliInput) HasNoGlobalFlags() bool {
-	return !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
+func (cli *CliInput) HasNoFlags() bool {
+	return cli.Task == TaskSummary && !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
 func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
 	if !cli.IsCompareDirSelected() {
@@ -58,13 +61,18 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	verbose, _ := cmd.Flags().GetBool("verbose")
 	inspect, _ := cmd.Flags().GetBool("inspect")
 
+	task := TaskSummary
+	if inspect {
+		task = TaskInspect
+	}
+
 	input := CliInput{
 		CompareDir:  compareDir,
 		WorkDir:     workDir,
 		Includes:    includes,
 		Interactive: interactive,
 		Verbose:     verbose,
-		Inspect:     inspect,
+		Task:        task,
 	}
 
 	return input

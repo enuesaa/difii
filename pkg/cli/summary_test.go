@@ -37,7 +37,7 @@ func TestSummaryDiffsCount(t *testing.T) {
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
 			Interactive: false,
-			Inspect:     false,
+			Task:        TaskSummary,
 		}
 
 		summarySrv := SummaryService{}
@@ -75,7 +75,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
 			Includes:    make([]string, 0),
 			Interactive: false,
 			Verbose:     true,
-			Inspect:     false,
+			Task:        TaskSummary,
 		}
 
 		summarySrv := SummaryService{}

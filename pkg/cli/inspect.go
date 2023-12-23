@@ -10,10 +10,6 @@ import (
 
 type InspectService struct{}
 
-func (srv *InspectService) Confirm(fsio repo.FsioInterface) bool {
-	return fsio.Confirm("Would you like to inspect diffs?")
-}
-
 func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
 	if input.Verbose {
 		fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))

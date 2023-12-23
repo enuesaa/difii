@@ -15,7 +15,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 		Version: "0.0.12",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
-			if input.HasNoOperationFlags() && input.HasNoGlobalFlags() {
+			if input.HasNoFlags() {
 				cmd.Help()
 				return
 			}
@@ -31,16 +31,14 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 				return
 			}
 
-			summarySrv := SummaryService{}
-			summarySrv.Plan(fsio, input)
-			summarySrv.Render(fsio, input)
-
-			inspectSrv := InspectService{}
-			if input.Interactive {
-				input.Inspect = inspectSrv.Confirm(fsio)
-			}
-			if input.Inspect {
+			switch input.Task {
+			case TaskInspect:
+				inspectSrv := InspectService{}
 				inspectSrv.Render(fsio, input)
+			case TaskSummary:
+				summarySrv := SummaryService{}
+				summarySrv.Plan(fsio, input)
+				summarySrv.Render(fsio, input)
 			}
 		},
 	}
