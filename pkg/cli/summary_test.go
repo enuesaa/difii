@@ -43,7 +43,7 @@ func TestSummaryDiffsCount(t *testing.T) {
 		summarySrv := SummaryService{}
 		fsio := repo.NewFsioMock()
 		summarySrv.Render(fsio, input)
-		assert.Equal(t, fmt.Sprintf("%s diffs in main.md \n\n", tc.diff), fsio.Out)
+		assert.Equal(t, fmt.Sprintf("%s diffs in main.md \n", tc.diff), fsio.Out)
 	}
 }
 
@@ -57,16 +57,14 @@ func TestSummaryForMultiFiles(t *testing.T) {
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-filename-changed",
 			diff: `-0 +8 diffs in changed.md 
--8 +0 diffs in main.md 
-`,
+-8 +0 diffs in main.md `,
 		},
 		{
 			workDir:    "../../testdata/tourism-a",
 			compareDir: "../../testdata/tourism-sub-files",
 			diff: `-0 +0 diffs in main.md 
 -0 +2 diffs in sub.md 
--0 +2 diffs in subsub.md 
-`,
+-0 +2 diffs in subsub.md `,
 		},
 	}
 

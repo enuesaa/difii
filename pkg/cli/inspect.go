@@ -45,7 +45,4 @@ func (srv *InspectService) renderHunks(fsio repo.FsioInterface, filename string,
 			}
 		}
 	}
-	if len(diffs.ListItems()) > 0 {
-		fsio.Printf("\n")
-	}
 }

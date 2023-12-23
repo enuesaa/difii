@@ -40,5 +40,4 @@ func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
 			filename,
 		)
 	}
-	fsio.Printf("\n")
 }
