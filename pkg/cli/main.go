@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/enuesaa/difii/pkg/repo"
 	"github.com/spf13/cobra"
@@ -27,8 +27,7 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 				input.CompareDir = fsio.SelectDir("dir2: ")
 			}
 			if err := input.Validate(fsio); err != nil {
-				fmt.Printf("Error: %s\n", err.Error())
-				return
+				log.Fatalf("Error: %s\n", err.Error())
 			}
 
 			switch input.Task {
