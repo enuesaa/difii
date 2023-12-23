@@ -25,24 +25,22 @@ Flags:
       --only strings   Specify filename to compare.
       --verbose        Show additional messages.
 ```
-
-### summary
 ```console
 $ difii ./testdata/random-a ./testdata/random-b
 -5 +4 diffs in main.md
 ```
 
-### diff detail
+### `--inspect`
 `--inspect` flag shows diff detail.
 ```console
 $ difii ./testdata/random-a ./testdata/random-b --inspect
-main.md:2  - KLMNOPQRST
-main.md:5  - QRSTUVWXYZA
-main.md:4  + QRSTUVWXYY
-main.md:7  - MNOPQRSTUVWXYZ
-main.md:8  - ABCDEFGHIJ
-main.md:6  + MNOOPQRSTUVWXYZ
-main.md:7  + ABCDEFGHJI
-main.md:10 - UVWXYZABCD
-main.md:9  + UVWXYZABCC
+main.md:2   - KLMNOPQRST
+main.md:5   - QRSTUVWXYZA
+main.md:4   + QRSTUVWXYY
+main.md:7   - MNOPQRSTUVWXYZ
+main.md:8   - ABCDEFGHIJ
+main.md:6   + MNOOPQRSTUVWXYZ
+main.md:7   + ABCDEFGHJI
+main.md:10  - UVWXYZABCD
+main.md:9   + UVWXYZABCC
 ```

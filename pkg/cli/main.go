@@ -53,9 +53,8 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})
 	cli.CompletionOptions.DisableDefaultCmd = true
 	cli.SilenceUsage = true
-	cli.PersistentFlags().SortFlags = false
-	cli.PersistentFlags().BoolP("help", "", false, "Show help")
-	cli.PersistentFlags().BoolP("version", "", false, "Show version")
+	cli.Flags().BoolP("help", "", false, "Show help messages.")
+	cli.Flags().BoolP("version", "", false, "Show version information.")
 	cli.SetHelpTemplate(`{{.Short}}
 
 Usage:{{if .Runnable}}

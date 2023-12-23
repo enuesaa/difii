@@ -35,9 +35,9 @@ func (srv *InspectService) renderHunks(fsio repo.FsioInterface, filename string,
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				fsio.Printf("%-10s %s\n", filename+":"+line, color.GreenString("+ "+item.Text()))
+				fsio.Printf("%s:%-3s %s\n", filename, line, color.GreenString("+ "+item.Text()))
 			} else {
-				fsio.Printf("%-10s %s\n", filename+":"+line, color.RedString("- "+item.Text()))
+				fsio.Printf("%s:%-3s %s\n", filename, line, color.RedString("- "+item.Text()))
 			}
 		}
 	}
