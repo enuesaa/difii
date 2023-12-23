@@ -10,7 +10,7 @@ import (
 func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	var cli = &cobra.Command{
 		Use:     "difii <dir1> <dir2>",
-		Short:   "A CLI tool to inspect diffs interactively.",
+		Short:   "A CLI tool to diff 2 folders.",
 		Args:    cobra.MinimumNArgs(0),
 		Version: "0.0.12",
 		Run: func(cmd *cobra.Command, args []string) {
