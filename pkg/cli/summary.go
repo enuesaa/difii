@@ -13,6 +13,9 @@ func (srv *SummaryService) Confirm(fsio repo.FsioInterface) bool {
 }
 
 func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
+	if !input.Verbose {
+		return
+	}
 	fsio.Printf(color.HiWhiteString("----- Summary -----\n"))
 	fsio.Printf(color.HiWhiteString("Any additions or deletions to [%s] are shown.\n", input.WorkDir))
 	fsio.Printf("\n")

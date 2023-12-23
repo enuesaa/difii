@@ -15,7 +15,9 @@ func (srv *InspectService) Confirm(fsio repo.FsioInterface) bool {
 }
 
 func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
-	fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
+	if input.Verbose {
+		fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
+	}
 
 	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {

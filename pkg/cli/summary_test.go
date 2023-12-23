@@ -76,6 +76,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
 			Interactive: false,
+			Verbose:     true,
 			Inspect:     false,
 		}
 
