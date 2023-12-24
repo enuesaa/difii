@@ -9,7 +9,7 @@ import (
 type SummaryService struct{}
 
 func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
-	if !input.Verbose {
+	if !input.Interactive {
 		return
 	}
 	fsio.Printf(color.HiWhiteString("----- Summary -----\n"))

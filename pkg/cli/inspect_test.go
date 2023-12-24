@@ -43,8 +43,7 @@ nested/main.md:2   + `,
 			CompareDir:  tc.compareDir,
 			WorkDir:     tc.workDir,
 			Includes:    make([]string, 0),
-			Interactive: false,
-			Verbose:     true,
+			Interactive: true,
 			Task:        TaskInspect,
 		}
 

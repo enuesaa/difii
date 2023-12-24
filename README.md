@@ -20,10 +20,11 @@ Usage:
   difii <dir1> <dir2> [flags]
 
 Flags:
+      --help           Show help messages.
       --inspect        Inspect diffs.
   -i, --interactive    Use interactive prompt.
       --only strings   Specify filename to compare.
-      --verbose        Show additional messages.
+      --version        Show version information.
 ```
 ```console
 $ difii ./testdata/random-a ./testdata/random-b

@@ -46,7 +46,6 @@ func CreateCli(fsio repo.FsioInterface) *cobra.Command {
 	cli.Flags().Bool("inspect", false, "Inspect diffs.")
 	cli.Flags().StringSlice("only", make([]string, 0), "Specify filename to compare.")
 	cli.Flags().BoolP("interactive", "i", false, "Use interactive prompt.")
-	cli.Flags().Bool("verbose", false, "Show additional messages.")
 
 	// disable default
 	cli.SetHelpCommand(&cobra.Command{Hidden: true})

@@ -18,7 +18,6 @@ type CliInput struct {
 	WorkDir     string
 	Includes    []string
 	Interactive bool
-	Verbose     bool
 	Task        Task
 }
 
@@ -58,7 +57,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 	}
 	includes, _ := cmd.Flags().GetStringSlice("only")
 	interactive, _ := cmd.Flags().GetBool("interactive")
-	verbose, _ := cmd.Flags().GetBool("verbose")
 	inspect, _ := cmd.Flags().GetBool("inspect")
 
 	task := TaskSummary
@@ -71,7 +69,6 @@ func ParseArgs(cmd *cobra.Command, args []string) CliInput {
 		WorkDir:     workDir,
 		Includes:    includes,
 		Interactive: interactive,
-		Verbose:     verbose,
 		Task:        task,
 	}
 

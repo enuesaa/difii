@@ -11,7 +11,7 @@ import (
 type InspectService struct{}
 
 func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
-	if input.Verbose {
+	if input.Interactive {
 		fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
 	}
 
