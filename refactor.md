@@ -6,7 +6,8 @@ $ difii <dir-a> <dir-b> --inspect // this shows detail and also summary.
 ```
 
 ## Development Plan
-- [internal] refactor all
+- [internal] add log repository
+- [internal] rename fsio repository to fs repository
 - [cli] filter files interactively
 - [cli] fix diff item order to show.
 - [cli] inspect per files to enhance interactive flag.
