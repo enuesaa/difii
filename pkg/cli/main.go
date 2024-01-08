@@ -3,11 +3,11 @@ package cli
 import (
 	"log"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
-func CreateCli(fsio repo.FsioInterface) *cobra.Command {
+func CreateCli(fsio repository.FsioInterface) *cobra.Command {
 	var cli = &cobra.Command{
 		Use:     "difii <dir1> <dir2>",
 		Short:   "A CLI tool to diff 2 folders interactively.",

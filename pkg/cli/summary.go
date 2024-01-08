@@ -2,13 +2,13 @@ package cli
 
 import (
 	"github.com/enuesaa/difii/pkg/diff"
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/fatih/color"
 )
 
 type SummaryService struct{}
 
-func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
+func (srv *SummaryService) Plan(fsio repository.FsioInterface, input CliInput) {
 	if !input.Interactive {
 		return
 	}
@@ -17,7 +17,7 @@ func (srv *SummaryService) Plan(fsio repo.FsioInterface, input CliInput) {
 	fsio.Printf("\n")
 }
 
-func (srv *SummaryService) Render(fsio repo.FsioInterface, input CliInput) {
+func (srv *SummaryService) Render(fsio repository.FsioInterface, input CliInput) {
 	targetfiles := listTargetFiles(fsio, input.WorkDir, input.CompareDir)
 	if input.IsFileSpecified() {
 		targetfiles = filterIncludeFiles(targetfiles, input.Includes)

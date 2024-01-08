@@ -4,10 +4,10 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 )
 
-func listTargetFiles(fsio repo.FsioInterface, workDir string, compareDir string) []string {
+func listTargetFiles(fsio repository.FsioInterface, workDir string, compareDir string) []string {
 	list := make([]string, 0)
 	list = append(list, fsio.ListFilesRecursively(workDir)...)
 	list = append(list, fsio.ListFilesRecursively(compareDir)...)

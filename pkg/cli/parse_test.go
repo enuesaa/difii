@@ -3,12 +3,12 @@ package cli
 import (
 	"testing"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestParse(t *testing.T) {
-	fsio := repo.NewFsioMock()
+	fsio := repository.NewFsioMock()
 
 	input := CliInput{
 		CompareDir:  "../../testdata/simple-b",

@@ -3,7 +3,7 @@ package cli
 import (
 	"errors"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/spf13/cobra"
 )
 
@@ -33,7 +33,7 @@ func (cli *CliInput) IsFileSpecified() bool {
 func (cli *CliInput) HasNoFlags() bool {
 	return cli.Task == TaskSummary && !cli.IsCompareDirSelected() && !cli.IsWorkDirSelected() && !cli.IsFileSpecified() && !cli.Interactive
 }
-func (cli *CliInput) Validate(fsio repo.FsioInterface) error {
+func (cli *CliInput) Validate(fsio repository.FsioInterface) error {
 	if !cli.IsCompareDirSelected() {
 		return errors.New("required argument <dir2> is missing")
 	}

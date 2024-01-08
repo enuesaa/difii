@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -48,7 +48,7 @@ nested/main.md:2   + `,
 		}
 
 		inspectSrv := InspectService{}
-		fsio := repo.NewFsioMock()
+		fsio := repository.NewFsioMock()
 		inspectSrv.Render(fsio, input)
 		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), fsio.Out)
 	}

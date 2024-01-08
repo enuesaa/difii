@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/enuesaa/difii/pkg/cli"
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 func main() {
-	fsio := repo.NewFsio()
+	fsio := repository.NewFsio()
 	app := cli.CreateCli(fsio)
 	app.Execute()
 }

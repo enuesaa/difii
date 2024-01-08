@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -41,7 +41,7 @@ func TestSummaryDiffsCount(t *testing.T) {
 		}
 
 		summarySrv := SummaryService{}
-		fsio := repo.NewFsioMock()
+		fsio := repository.NewFsioMock()
 		summarySrv.Render(fsio, input)
 		assert.Equal(t, fmt.Sprintf("%s diffs in main.md \n", tc.diff), fsio.Out)
 	}
@@ -78,7 +78,7 @@ func TestSummaryForMultiFiles(t *testing.T) {
 		}
 
 		summarySrv := SummaryService{}
-		fsio := repo.NewFsioMock()
+		fsio := repository.NewFsioMock()
 		summarySrv.Render(fsio, input)
 		assert.Equal(t, fmt.Sprintf("%s\n", tc.diff), fsio.Out)
 	}

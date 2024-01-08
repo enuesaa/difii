@@ -4,13 +4,13 @@ import (
 	"fmt"
 
 	"github.com/enuesaa/difii/pkg/diff"
-	"github.com/enuesaa/difii/pkg/repo"
+	"github.com/enuesaa/difii/pkg/repository"
 	"github.com/fatih/color"
 )
 
 type InspectService struct{}
 
-func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
+func (srv *InspectService) Render(fsio repository.FsioInterface, input CliInput) {
 	if input.Interactive {
 		fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
 	}
@@ -30,7 +30,7 @@ func (srv *InspectService) Render(fsio repo.FsioInterface, input CliInput) {
 	}
 }
 
-func (srv *InspectService) renderHunks(fsio repo.FsioInterface, filename string, diffs diff.Diffs) {
+func (srv *InspectService) renderHunks(fsio repository.FsioInterface, filename string, diffs diff.Diffs) {
 	for _, hunk := range diffs.ListHunks() {
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
