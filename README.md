@@ -26,12 +26,20 @@ Flags:
       --only strings   Specify filename to compare.
       --version        Show version information.
 ```
+
+### Commands
+```console
+$ difii <dir-a> <dir-b> # this prints diffs per file
+$ difii <dir-a> <dir-b> --inspect # this prints diffs detail
+```
+
+### Print diffs per file
 ```console
 $ difii ./testdata/random-a ./testdata/random-b
 -5 +4 diffs in main.md
 ```
 
-### `--inspect`
+### Print diffs detail
 `--inspect` flag shows diff detail.
 ```console
 $ difii ./testdata/random-a ./testdata/random-b --inspect
