@@ -9,13 +9,13 @@ import (
 func NewSummaryService(repos repository.Repos) SummaryService {
 	return SummaryService{
 		fsio: repos.Fsio,
-		log: repos.Log,
+		log:  repos.Log,
 	}
 }
 
-type SummaryService struct{
+type SummaryService struct {
 	fsio repository.FsioInterface
-	log repository.LogInterface
+	log  repository.LogInterface
 }
 
 func (srv *SummaryService) Plan(input CliInput) {

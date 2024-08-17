@@ -51,3 +51,7 @@ main.md:7   + ABCDEFGHJI
 main.md:10  - UVWXYZABCD
 main.md:9   + UVWXYZABCC
 ```
+
+## Development Plan
+- [cli] filter files interactively.
+- [cli] print diffs like tree command.

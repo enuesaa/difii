@@ -11,13 +11,13 @@ import (
 func NewInspectService(repos repository.Repos) InspectService {
 	return InspectService{
 		fsio: repos.Fsio,
-		log: repos.Log,
+		log:  repos.Log,
 	}
 }
 
-type InspectService struct{
+type InspectService struct {
 	fsio repository.FsioInterface
-	log repository.LogInterface
+	log  repository.LogInterface
 }
 
 func (srv *InspectService) Render(input CliInput) {

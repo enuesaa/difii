@@ -8,7 +8,7 @@ type LogInterface interface {
 	Printf(format string, a ...any)
 }
 
-type Log struct {}
+type Log struct{}
 
 func (repo *Log) Printf(format string, a ...any) {
 	fmt.Printf(format, a...)

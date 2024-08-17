@@ -1,13 +1,13 @@
 package repository
 
 type Repos struct {
-	Log LogInterface
+	Log  LogInterface
 	Fsio FsioInterface
 }
 
 func New() Repos {
 	return Repos{
-		Log: &Log{},
+		Log:  &Log{},
 		Fsio: &Fsio{},
 	}
 }

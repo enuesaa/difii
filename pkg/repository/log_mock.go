@@ -4,9 +4,8 @@ import (
 	"fmt"
 )
 
-//TODO how to access this out field ?
 type LogMock struct {
-	Out  string
+	Out string
 }
 
 func (repo *LogMock) Printf(format string, a ...any) {
