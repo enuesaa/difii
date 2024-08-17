@@ -47,9 +47,9 @@ nested/main.md:2   + `,
 			Task:        TaskInspect,
 		}
 
-		inspectSrv := InspectService{}
 		fsio := repository.NewFsioMock()
-		inspectSrv.Render(fsio, input)
+		inspectSrv := NewInspectService(fsio)
+		inspectSrv.Render(input)
 		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), fsio.Out)
 	}
 }

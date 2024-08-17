@@ -32,12 +32,12 @@ func CreateCli(fsio repository.FsioInterface) *cobra.Command {
 
 			switch input.Task {
 			case TaskInspect:
-				inspectSrv := InspectService{}
-				inspectSrv.Render(fsio, input)
+				inspectSrv := NewInspectService(fsio)
+				inspectSrv.Render(input)
 			case TaskSummary:
-				summarySrv := SummaryService{}
-				summarySrv.Plan(fsio, input)
-				summarySrv.Render(fsio, input)
+				summarySrv := NewSummaryService(fsio)
+				summarySrv.Plan(input)
+				summarySrv.Render(input)
 			}
 		},
 	}

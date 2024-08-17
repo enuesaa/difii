@@ -40,9 +40,9 @@ func TestSummaryDiffsCount(t *testing.T) {
 			Task:        TaskSummary,
 		}
 
-		summarySrv := SummaryService{}
 		fsio := repository.NewFsioMock()
-		summarySrv.Render(fsio, input)
+		summarySrv := NewSummaryService(fsio)
+		summarySrv.Render(input)
 		assert.Equal(t, fmt.Sprintf("%s diffs in main.md \n", tc.diff), fsio.Out)
 	}
 }
@@ -77,9 +77,9 @@ func TestSummaryForMultiFiles(t *testing.T) {
 			Task:        TaskSummary,
 		}
 
-		summarySrv := SummaryService{}
 		fsio := repository.NewFsioMock()
-		summarySrv.Render(fsio, input)
+		summarySrv := NewSummaryService(fsio)
+		summarySrv.Render(input)
 		assert.Equal(t, fmt.Sprintf("%s\n", tc.diff), fsio.Out)
 	}
 }
