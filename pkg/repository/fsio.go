@@ -28,9 +28,6 @@ type Fsio struct {
 	termState *term.State
 }
 
-func NewFsio() *Fsio {
-	return &Fsio{}
-}
 func (fsio *Fsio) Printf(format string, a ...any) {
 	fmt.Printf(format, a...)
 }

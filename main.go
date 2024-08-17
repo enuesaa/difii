@@ -12,7 +12,7 @@ func init() {
 }
 
 func main() {
-	fsio := repository.NewFsio()
-	app := cli.CreateCli(fsio)
+	repos := repository.New()
+	app := cli.CreateCli(repos.Fsio)
 	app.Execute()
 }
