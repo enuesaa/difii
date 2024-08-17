@@ -6,7 +6,7 @@ A CLI tool to diff 2 folders interactively.
 
 ## Install
 ```bash
-go install github.com/enuesaa/difii@v0.0.13
+go install github.com/enuesaa/difii@v0.0.14
 ```
 
 ## Usage
