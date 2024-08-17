@@ -27,11 +27,6 @@ type Fsio struct {
 	termState *term.State
 }
 
-//TODO: remove
-func (fsio *Fsio) Printf(format string, a ...any) {
-	fmt.Printf(format, a...)
-}
-
 // see https://github.com/c-bata/go-prompt/issues/8
 // see https://github.com/c-bata/go-prompt/issues/233
 func (fsio *Fsio) saveState() {
@@ -102,7 +97,7 @@ func (fsio *Fsio) SelectDir(message string) string {
 			fsio.restoreState()
 			return dir
 		}
-		fsio.Printf("Dir %s does not exist. \n", dir)
+		fmt.Printf("Dir %s does not exist. \n", dir)
 	}
 }
 
