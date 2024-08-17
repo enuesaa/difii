@@ -13,7 +13,6 @@ import (
 )
 
 type FsioInterface interface {
-	Printf(format string, a ...any)
 	Confirm(message string) bool
 	SelectDir(message string) string
 	IsDirOrFileExist(path string) bool
@@ -28,6 +27,7 @@ type Fsio struct {
 	termState *term.State
 }
 
+//TODO: remove
 func (fsio *Fsio) Printf(format string, a ...any) {
 	fmt.Printf(format, a...)
 }

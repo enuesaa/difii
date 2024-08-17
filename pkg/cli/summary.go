@@ -6,23 +6,25 @@ import (
 	"github.com/fatih/color"
 )
 
-func NewSummaryService(fsio repository.FsioInterface) SummaryService {
+func NewSummaryService(repos repository.Repos) SummaryService {
 	return SummaryService{
-		fsio: fsio,
+		fsio: repos.Fsio,
+		log: repos.Log,
 	}
 }
 
 type SummaryService struct{
 	fsio repository.FsioInterface
+	log repository.LogInterface
 }
 
 func (srv *SummaryService) Plan(input CliInput) {
 	if !input.Interactive {
 		return
 	}
-	srv.fsio.Printf(color.HiWhiteString("----- Summary -----\n"))
-	srv.fsio.Printf(color.HiWhiteString("Any additions or deletions to [%s] are shown.\n", input.WorkDir))
-	srv.fsio.Printf("\n")
+	srv.log.Printf(color.HiWhiteString("----- Summary -----\n"))
+	srv.log.Printf(color.HiWhiteString("Any additions or deletions to [%s] are shown.\n", input.WorkDir))
+	srv.log.Printf("\n")
 }
 
 func (srv *SummaryService) Render(input CliInput) {
@@ -37,7 +39,7 @@ func (srv *SummaryService) Render(input CliInput) {
 		analyzer := diff.NewAnalyzer(compareDir, workDir)
 		diffs := analyzer.Analyze()
 
-		srv.fsio.Printf(
+		srv.log.Printf(
 			"%s %s diffs in %s \n",
 			color.RedString("-%d", diffs.CountRemove()),
 			color.GreenString("+%d", diffs.CountAdd()),

@@ -47,9 +47,9 @@ nested/main.md:2   + `,
 			Task:        TaskInspect,
 		}
 
-		fsio := repository.NewFsioMock()
-		inspectSrv := NewInspectService(fsio)
+		repos := repository.NewMock()
+		inspectSrv := NewInspectService(repos)
 		inspectSrv.Render(input)
-		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), fsio.Out)
+		assert.Equal(t, fmt.Sprintf("----- Inspect -----%s\n", tc.diff), repos.Log.(*repository.LogMock).Out)
 	}
 }

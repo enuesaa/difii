@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateCli(fsio repository.FsioInterface) *cobra.Command {
+func CreateCli(repos repository.Repos) *cobra.Command {
 	var cli = &cobra.Command{
 		Use:     "difii <dir1> <dir2>",
 		Short:   "A CLI tool to diff 2 folders interactively.",
@@ -21,21 +21,21 @@ func CreateCli(fsio repository.FsioInterface) *cobra.Command {
 			}
 
 			if input.Interactive && !input.IsWorkDirSelected() {
-				input.WorkDir = fsio.SelectDir("dir1: ")
+				input.WorkDir = repos.Fsio.SelectDir("dir1: ")
 			}
 			if input.Interactive && !input.IsCompareDirSelected() {
-				input.CompareDir = fsio.SelectDir("dir2: ")
+				input.CompareDir = repos.Fsio.SelectDir("dir2: ")
 			}
-			if err := input.Validate(fsio); err != nil {
+			if err := input.Validate(repos.Fsio); err != nil {
 				log.Fatalf("Error: %s\n", err.Error())
 			}
 
 			switch input.Task {
 			case TaskInspect:
-				inspectSrv := NewInspectService(fsio)
+				inspectSrv := NewInspectService(repos)
 				inspectSrv.Render(input)
 			case TaskSummary:
-				summarySrv := NewSummaryService(fsio)
+				summarySrv := NewSummaryService(repos)
 				summarySrv.Plan(input)
 				summarySrv.Render(input)
 			}

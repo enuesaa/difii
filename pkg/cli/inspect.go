@@ -8,19 +8,21 @@ import (
 	"github.com/fatih/color"
 )
 
-func NewInspectService(fsio repository.FsioInterface) InspectService {
+func NewInspectService(repos repository.Repos) InspectService {
 	return InspectService{
-		fsio: fsio,
+		fsio: repos.Fsio,
+		log: repos.Log,
 	}
 }
 
 type InspectService struct{
 	fsio repository.FsioInterface
+	log repository.LogInterface
 }
 
 func (srv *InspectService) Render(input CliInput) {
 	if input.Interactive {
-		srv.fsio.Printf(color.HiWhiteString("----- Inspect -----\n"))
+		srv.log.Printf(color.HiWhiteString("----- Inspect -----\n"))
 	}
 
 	targetfiles := listTargetFiles(srv.fsio, input.WorkDir, input.CompareDir)
@@ -43,9 +45,9 @@ func (srv *InspectService) renderHunks(filename string, diffs diff.Diffs) {
 		for _, item := range hunk.ListItems() {
 			line := fmt.Sprint(item.Line())
 			if item.Added() {
-				srv.fsio.Printf("%s:%-3s %s\n", filename, line, color.GreenString("+ "+item.Text()))
+				srv.log.Printf("%s:%-3s %s\n", filename, line, color.GreenString("+ "+item.Text()))
 			} else {
-				srv.fsio.Printf("%s:%-3s %s\n", filename, line, color.RedString("- "+item.Text()))
+				srv.log.Printf("%s:%-3s %s\n", filename, line, color.RedString("- "+item.Text()))
 			}
 		}
 	}

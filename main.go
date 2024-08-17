@@ -13,6 +13,6 @@ func init() {
 
 func main() {
 	repos := repository.New()
-	app := cli.CreateCli(repos.Fsio)
+	app := cli.CreateCli(repos)
 	app.Execute()
 }
