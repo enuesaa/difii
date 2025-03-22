@@ -23,13 +23,13 @@ Flags:
 ```
 
 ## Commands
-```console
-$ difii <dir-a> <dir-b>
-$ difii <dir-a> <dir-b> --inspect
-```
+```bash
+# By default, `difii` counts the number of changed lines for each file. 
+difii <dir-a> <dir-b>
 
-By default, `difii` counts the number of changed lines for each file. 
-Use the `--inspect` flag to look up more details.
+# Use the `--inspect` flag to look up more details.
+difii <dir-a> <dir-b> --inspect
+```
 
 ### Example
 ```console
