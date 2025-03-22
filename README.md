@@ -1,9 +1,6 @@
 # difii
 A CLI tool to diff 2 folders interactively.
 
-> [!Note]
-> Work in progress.. `difii` is currently under development.
-
 ## Install
 ```bash
 go install github.com/enuesaa/difii@v0.0.14
@@ -25,21 +22,20 @@ Flags:
       --version        Show version information.
 ```
 
-### Commands
+## Commands
 ```console
-$ difii <dir-a> <dir-b> # this prints diffs per file
-$ difii <dir-a> <dir-b> --inspect # this prints diffs detail
+$ difii <dir-a> <dir-b>
+$ difii <dir-a> <dir-b> --inspect
 ```
 
-### Print diffs per file
+By default, `difii` counts the number of changed lines for each file. 
+Use the `--inspect` flag to look up more details.
+
+### Example
 ```console
 $ difii ./testdata/random-a ./testdata/random-b
 -5 +4 diffs in main.md
-```
 
-### Print diffs detail
-`--inspect` flag shows diff detail.
-```console
 $ difii ./testdata/random-a ./testdata/random-b --inspect
 main.md:2   - KLMNOPQRST
 main.md:5   - QRSTUVWXYZA
@@ -51,7 +47,3 @@ main.md:7   + ABCDEFGHJI
 main.md:10  - UVWXYZABCD
 main.md:9   + UVWXYZABCC
 ```
-
-## Development Plan
-- [cli] filter files interactively.
-- [cli] print diffs like tree command.
