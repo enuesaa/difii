@@ -12,7 +12,7 @@ func New(repos *repository.Repos) *cobra.Command {
 		Use:     "difii <dir1> <dir2>",
 		Short:   "A CLI tool to diff 2 folders interactively.",
 		Args:    cobra.MinimumNArgs(0),
-		Version: "0.0.15",
+		Version: "0.0.16",
 		Run: func(cmd *cobra.Command, args []string) {
 			input := ParseArgs(cmd, args)
 			if input.HasNoFlags() {
