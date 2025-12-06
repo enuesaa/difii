@@ -5,15 +5,15 @@ type Repos struct {
 	Fsio FsioInterface
 }
 
-func New() Repos {
-	return Repos{
+func New() *Repos {
+	return &Repos{
 		Log:  &Log{},
 		Fsio: &Fsio{},
 	}
 }
 
-func NewMock() Repos {
-	return Repos{
+func NewMock() *Repos {
+	return &Repos{
 		Log: &LogMock{
 			Out: "",
 		},

@@ -7,6 +7,6 @@ import (
 
 func main() {
 	repos := repository.New()
-	app := cli.CreateCli(repos)
+	app := cli.New(repos)
 	app.Execute()
 }

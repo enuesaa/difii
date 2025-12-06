@@ -8,7 +8,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func NewInspectService(repos repository.Repos) InspectService {
+func NewInspectService(repos *repository.Repos) InspectService {
 	return InspectService{
 		fsio: repos.Fsio,
 		log:  repos.Log,

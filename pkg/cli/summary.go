@@ -6,7 +6,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func NewSummaryService(repos repository.Repos) SummaryService {
+func NewSummaryService(repos *repository.Repos) SummaryService {
 	return SummaryService{
 		fsio: repos.Fsio,
 		log:  repos.Log,

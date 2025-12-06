@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CreateCli(repos repository.Repos) *cobra.Command {
-	var cli = &cobra.Command{
+func New(repos *repository.Repos) *cobra.Command {
+	app := &cobra.Command{
 		Use:     "difii <dir1> <dir2>",
 		Short:   "A CLI tool to diff 2 folders interactively.",
 		Args:    cobra.MinimumNArgs(0),
@@ -43,17 +43,17 @@ func CreateCli(repos repository.Repos) *cobra.Command {
 	}
 
 	// operations
-	cli.Flags().Bool("inspect", false, "Inspect diffs.")
-	cli.Flags().StringSlice("only", make([]string, 0), "Specify filename to compare.")
-	cli.Flags().BoolP("interactive", "i", false, "Use interactive prompt.")
+	app.Flags().Bool("inspect", false, "Inspect diffs.")
+	app.Flags().StringSlice("only", make([]string, 0), "Specify filename to compare.")
+	app.Flags().BoolP("interactive", "i", false, "Use interactive prompt.")
 
 	// disable default
-	cli.SetHelpCommand(&cobra.Command{Hidden: true})
-	cli.CompletionOptions.DisableDefaultCmd = true
-	cli.SilenceUsage = true
-	cli.Flags().BoolP("help", "", false, "Show help messages.")
-	cli.Flags().BoolP("version", "", false, "Show version information.")
-	cli.SetHelpTemplate(`{{.Short}}
+	app.SetHelpCommand(&cobra.Command{Hidden: true})
+	app.CompletionOptions.DisableDefaultCmd = true
+	app.SilenceUsage = true
+	app.Flags().BoolP("help", "", false, "Show help messages.")
+	app.Flags().BoolP("version", "", false, "Show version information.")
+	app.SetHelpTemplate(`{{.Short}}
 
 Usage:{{if .Runnable}}
   {{.UseLine}}{{end}}{{if .HasAvailableSubCommands}}
@@ -63,5 +63,5 @@ Flags:
 {{.LocalNonPersistentFlags.FlagUsages | trimTrailingWhitespaces}}{{end}}
 `)
 
-	return cli
+	return app
 }
