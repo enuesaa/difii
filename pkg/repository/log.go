@@ -1,8 +1,12 @@
 package repository
 
 import (
-	"fmt"
+	"log"
 )
+
+func init() {
+	log.SetFlags(0)
+}
 
 type LogInterface interface {
 	Printf(format string, a ...any)
@@ -11,5 +15,5 @@ type LogInterface interface {
 type Log struct{}
 
 func (repo *Log) Printf(format string, a ...any) {
-	fmt.Printf(format, a...)
+	log.Printf(format, a...)
 }
